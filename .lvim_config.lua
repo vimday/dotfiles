@@ -83,7 +83,8 @@ lvim.keys.normal_mode = {
 	["g."] = "<cmd>lua vim.lsp.buf.code_action()<CR>",
 	["[l"] = "<cmd>:lNext<CR>",
 	["]l"] = "<cmd>:lnext<CR>",
-	["<C-w>z"] = "<cmd>:res | :vertical res<CR>",
+	["<C-w>z"] = "<cmd>:res | :vertical res<CR>", -- zoom in
+	["<C-w><Space>"] = "<cmd>set ead=ver ea noea | set ead=hor ea noea<CR>", -- window equal
 }
 
 -- TODO: User Config for predefined plugins
