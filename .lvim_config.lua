@@ -12,6 +12,12 @@ an executable
 lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "dracula"
+
+-- vim config
+vim.cmd([[
+  packadd cfilter
+  let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+]])
 vim.opt.cmdheight = 1 -- more space in the neovim command line for displaying messages
 vim.opt.confirm = true
 vim.opt.foldmethod = "syntax"
@@ -20,10 +26,17 @@ vim.opt.foldmethod = "syntax"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
+
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = false
+lvim.keys.insert_mode["jj"] = false
+lvim.keys.insert_mode["jk"] = false
+lvim.keys.insert_mode["kj"] = false
+lvim.keys.insert_mode["kk"] = false
+
 -- edit a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 
@@ -172,6 +185,7 @@ formatters.setup({
 	{ command = "black", filetypes = { "python" } },
 	{ command = "isort", filetypes = { "python" } },
 	{ command = "stylua", filetypes = { "lua" } },
+	{ command = "shfmt", filetypes = { "sh" } },
 	{
 		-- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
 		command = "prettier",
@@ -203,8 +217,6 @@ formatters.setup({
 -- })
 
 -- Additional Plugins
-vim.cmd("packadd cfilter")
-
 lvim.plugins = {
 	{ "folke/tokyonight.nvim" },
 	{
@@ -228,9 +240,7 @@ lvim.plugins = {
 			vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", { silent = true })
 		end,
 	},
-	{
-		"tpope/vim-surround",
-	},
+	{ "tpope/vim-surround" },
 	{
 		"simrat39/rust-tools.nvim",
 		config = function()
@@ -321,6 +331,7 @@ lvim.plugins = {
 		end,
 	},
 	{ "kevinhwang91/nvim-bqf", ft = "qf" },
+	{ "editorconfig/editorconfig-vim" },
 	-- {
 	-- 	"Pocco81/AutoSave.nvim",
 	-- 	config = function()

@@ -170,6 +170,6 @@ export PATH="$GOROOT/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin"
 
 # display when login
-echo "Happy everyday!!!" | fsays
+~/Script/quote_every_day.sh | fsays
 
 
