@@ -65,6 +65,9 @@ ZSH_THEME="refined"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+# Preload
+source $HOME/zsh-plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.sh
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
@@ -74,7 +77,7 @@ plugins=(
     history
     git
     gitignore
-    rand-quote
+    # rand-quote
     # vi-mode
     safe-paste
     colored-man-pages
@@ -82,11 +85,15 @@ plugins=(
     git-open
     zsh-autosuggestions
     history-substring-search
+    macos
+    # man
     # zsh-autocomplete
     zsh-syntax-highlighting
     autojump
     tmux
     rust
+    nvm
+    command-not-found
 )
 
 # custom completion
@@ -103,7 +110,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
+  export EDITOR='lvim'
 else
   export EDITOR='vim'
 fi
@@ -119,13 +126,6 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-export PATH=~/clt/protoc-3/bin:$PATH
-export PATH=~/clt/bin:$PATH
 
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 export PATH="/Users/hrli/Downloads/protoc-3.13.0-osx-x86_64/bin:$PATH"
@@ -170,6 +170,6 @@ export PATH="$GOROOT/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin"
 
 # display when login
-~/Script/quote_every_day.sh | fsays
+echo "\e[32mHave a Nice Day!!!\e[0m" | fsays
 
 

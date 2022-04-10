@@ -11,17 +11,40 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
+
+-- colorscheme
 lvim.colorscheme = "dracula"
+local color_conf = {
+	"hi DraculaBgDark guibg=#282A36",
+	"hi DraculaWinSeparator ctermfg=61 ctermbg=235 guifg=#6272A4 guibg=#282A36",
+	"hi LspCodeLens guifg=grey",
+	"hi CursorLine guibg=#33354F",
+	"hi HopNextKey guifg=yellow gui=bold",
+	"hi! link typescriptDestructureVariable TSVariable",
+	"hi! link GitSignsAdd DraculaGreen",
+	"hi! link GitSignsChange DraculaOrange",
+	"hi! link GitSignsDelete DraculaRed",
+	"hi DiffAdd guibg=#2d4543",
+	"hi DiffChange guibg=#33354F",
+	"hi DiffDelete guifg=grey guibg=#6b3742 gui=NONE",
+	"hi DiffText guibg=#554738 gui=NONE",
+	"hi DraculaErrorLine guifg=NONE gui=undercurl guisp=#FF5555",
+	"hi DraculaWarnLine guifg=NONE gui=undercurl guisp=#FFB86C",
+	"hi DraculaInfoLine guifg=NONE gui=undercurl guisp==#8BE9FD",
+}
 
 -- vim config
 vim.cmd([[
-  packadd cfilter
-  let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+  tnoremap <Esc> <C-\><C-n>
+  command! DiffOrig w !diff % -
+  command! VimdiffOrig diffthis | vnew | read ++edit # | 0d_ | diffthis
+  autocmd InsertEnter * :set norelativenumber
+  autocmd InsertLeave * :set relativenumber
 ]])
 vim.opt.cmdheight = 1 -- more space in the neovim command line for displaying messages
 vim.opt.confirm = true
 vim.opt.foldmethod = "syntax"
--- vim.opt.foldlevelstart = 1
+vim.opt.foldlevelstart = 99
 -- vim.opt.spell = true
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -61,6 +84,7 @@ lvim.keys.insert_mode["kk"] = false
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["w"] = { "<cmd>w<CR>", "Save" }
+lvim.builtin.which_key.mappings["C"] = { "<cmd>:tabclose<CR>", "Close Tab" }
 lvim.builtin.which_key.mappings["q"] = { "<cmd>q<CR>", "Quit" }
 lvim.builtin.which_key.mappings["Q"] = { "<cmd>qa<CR>", "QuitAll" }
 
@@ -69,15 +93,12 @@ lvim.builtin.which_key.mappings["f"] = { "<cmd>Telescope find_files<cr>", "File"
 lvim.builtin.which_key.mappings["m"] = { "<cmd>MarksListAll<cr>", "Marks" }
 lvim.builtin.which_key.mappings["ss"] = { "<cmd>SessionManager load_session<cr>", "Session" }
 lvim.builtin.which_key.mappings["sT"] = { "<cmd>TodoTelescope<cr>", "Tag" }
-lvim.builtin.which_key.mappings["sm"] = { "<cmd>Telescope harpoon marks<cr>", "Bookmark" }
 
 lvim.builtin.which_key.mappings["gg"] = { "<cmd>G<cr>", "Status" }
 lvim.builtin.which_key.mappings["gv"] = { "<cmd>DiffviewOpen<cr>", "Diffview" }
+lvim.builtin.which_key.mappings["gf"] = { "<cmd>DiffviewFileHistory<cr>", "DiffviewFileHistory" }
 lvim.builtin.which_key.mappings["gl"] = { "<cmd>G blame --date=short<cr>", "File Blame" }
 
-lvim.builtin.which_key.mappings["bc"] = { "<cmd>lcd %:p:h<cr>", "LCD" }
-lvim.builtin.which_key.mappings["bc"] = { "<cmd>lua vim.api.nvim_input(':'..'lcd %:p:h')<cr>", "LCD" }
-lvim.builtin.which_key.mappings["bC"] = { "<cmd>lua vim.api.nvim_input(':'..'cd %:p:h')<cr>", "CD" }
 lvim.builtin.which_key.mappings["bp"] = { "<cmd>verbose pwd<cr>", "PWD" }
 
 lvim.keys.normal_mode = {
@@ -92,29 +113,20 @@ lvim.keys.normal_mode = {
 	["gr"] = "<cmd>lua vim.lsp.buf.references()<CR>",
 	["gd"] = "<cmd>lua vim.lsp.buf.definition()<CR>",
 	["K"] = "<cmd>lua vim.lsp.buf.hover()<CR>",
-	["M"] = "<cmd>lua require('harpoon.mark').add_file()<CR>",
 	["g."] = "<cmd>lua vim.lsp.buf.code_action()<CR>",
 	["[l"] = "<cmd>:lNext<CR>",
 	["]l"] = "<cmd>:lnext<CR>",
 	["<C-w>z"] = "<cmd>:res | :vertical res<CR>", -- zoom in
-	["<C-w><Space>"] = "<cmd>set ead=ver ea noea | set ead=hor ea noea<CR>", -- window equal
 }
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.alpha.dashboard.section.buttons.entries = {
-	{ "SPC f", "  Find File", "<CMD>Telescope find_files<CR>" },
-	{ "SPC n", "  New File", "<CMD>ene!<CR>" },
-	{ "SPC s s", "  Recent Session", "<CMD>SessionManager load_session<CR>" },
-	{ "SPC s r", "  Recently Used Files", "<CMD>Telescope oldfiles<CR>" },
-	{ "SPC s t", "  Find Word", "<CMD>Telescope live_grep<CR>" },
-	{
-		"SPC L c",
-		"  Configuration",
-		"<CMD>edit " .. require("lvim.config").get_user_config_path() .. " <CR>",
-	},
+lvim.builtin.alpha.dashboard.section.buttons.entries[3] = {
+	"SPC s s",
+	"  Recent Session",
+	"<CMD>SessionManager load_session<CR>",
 }
 
 lvim.builtin.notify.active = true
@@ -122,10 +134,11 @@ lvim.builtin.terminal.active = true
 
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
+lvim.builtin.nvimtree.setup.update_cwd = true -- if project active, this option will be ture implicitly.
 lvim.builtin.nvimtree.setup.update_focused_file.update_cwd = false -- if project active, this option will be ture implicitly.
 
 lvim.builtin.project.active = false
-lvim.builtin.dap.active = true
+-- lvim.builtin.dap.active = true
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -139,6 +152,7 @@ lvim.builtin.treesitter.ensure_installed = {
 	"tsx",
 	"css",
 	"rust",
+	"go",
 	"java",
 	"yaml",
 }
@@ -148,7 +162,7 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 lvim.builtin.lualine.sections.lualine_a = { "mode" }
 lvim.builtin.lualine.options = {
-	component_separators = { left = "" },
+	component_separators = { left = "" }, -- , right = "│" },
 	section_separators = { left = "" },
 }
 
@@ -183,7 +197,7 @@ lvim.builtin.project.patterns = { ".git", "Makefile", "package.json", "go.mod", 
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
 	{ command = "black", filetypes = { "python" } },
-	{ command = "isort", filetypes = { "python" } },
+	-- { command = "isort", filetypes = { "python" } },
 	{ command = "stylua", filetypes = { "lua" } },
 	{ command = "shfmt", filetypes = { "sh" } },
 	{
@@ -198,31 +212,35 @@ formatters.setup({
 })
 
 -- -- set additional linters
--- local linters = require("lvim.lsp.null-ls.linters")
--- linters.setup({
--- { command = "flake8", filetypes = { "python" } },
--- {
---   -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
---   command = "shellcheck",
---   ---@usage arguments to pass to the formatter
---   -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---   extra_args = { "--severity", "warning" },
--- },
--- {
--- 	command = "codespell",
----@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
--- filetypes = { "javascript", "python" },
--- 	extra_args = { "-I", "/Users/hrli/.config/lvim/spell/en.utf-8.add" },
--- },
--- })
+local linters = require("lvim.lsp.null-ls.linters")
+linters.setup({
+	-- { command = "flake8", filetypes = { "python" } },
+	-- {
+	--   -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+	--   command = "shellcheck",
+	--   ---@usage arguments to pass to the formatter
+	--   -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+	--   extra_args = { "--severity", "warning" },
+	-- },
+	{ command = "eslint", filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } },
+})
+
+local lspconfig = require("lspconfig")
+if lspconfig.emmet_ls then
+	local capabilities = vim.lsp.protocol.make_client_capabilities()
+	capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+	lspconfig.emmet_ls.setup({
+		-- on_attach = on_attach,
+		capabilities = capabilities,
+		filetypes = { "html", "css", "typescriptreact", "javascriptreact" },
+	})
+end
 
 -- Additional Plugins
 lvim.plugins = {
-	{ "folke/tokyonight.nvim" },
-	{
-		"folke/trouble.nvim",
-		cmd = "TroubleToggle",
-	},
+	{ "folke/trouble.nvim" },
+	{ "folke/lsp-colors.nvim" },
 	{
 		"f-person/git-blame.nvim",
 		event = "BufRead",
@@ -235,7 +253,7 @@ lvim.plugins = {
 		branch = "v1", -- optional but strongly recommended
 		config = function()
 			-- you can configure Hop the way you like here; see :h hop-config
-			require("hop").setup({ keys = "etovxqpdygfblzhckisuran;" })
+			require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
 			vim.api.nvim_set_keymap("n", "s", ":HopChar2<cr>", { silent = true })
 			vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", { silent = true })
 		end,
@@ -244,6 +262,16 @@ lvim.plugins = {
 	{
 		"simrat39/rust-tools.nvim",
 		config = function()
+			-- -- debug setting
+			-- local extension_path = require("dap-install.config.settings").options["installation_path"]
+			-- 	.. "codelldb/extension/"
+			-- local codelldb_path = extension_path .. "adapter/codelldb"
+			-- local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+			-- require("rust-tools").setup({
+			-- 	dap = {
+			-- 		adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
+			-- 	},
+			-- })
 			require("rust-tools").setup({})
 		end,
 	},
@@ -267,7 +295,11 @@ lvim.plugins = {
 			require("colorizer").setup()
 		end,
 	},
-	{ "Crescent617/dracula.nvim" },
+	-- { "Crescent617/dracula.nvim" },
+	{
+		"dracula/vim",
+		as = "dracula",
+	},
 	{
 		"windwp/nvim-ts-autotag",
 		event = "InsertEnter",
@@ -291,18 +323,6 @@ lvim.plugins = {
 		end,
 	},
 	{
-		"gelguy/wilder.nvim",
-		config = function()
-			require("wilder").setup({ modes = { ":" } })
-			vim.cmd([[call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_border_theme({
-			   \ 'highlights': {
-			   \   'border': 'Normal',
-			   \ },
-			   \ 'border': 'rounded',
-			   \ })))]])
-		end,
-	},
-	{
 		"Shatur/neovim-session-manager",
 		requires = "nvim-lua/plenary.nvim",
 		config = function()
@@ -319,28 +339,32 @@ lvim.plugins = {
 				mappings = {
 					toggle = "mm",
 					prev = false,
+					delete_buf = "dm<space>",
 				},
+				default_mappings = false,
 			})
 		end,
 	},
+	{ "kevinhwang91/nvim-bqf", ft = "qf" },
 	{
-		"ThePrimeagen/harpoon",
+		"editorconfig/editorconfig-vim",
 		config = function()
-			require("harpoon").setup({})
-			require("telescope").load_extension("harpoon")
+			vim.g.EditorConfig_exclude_patterns = { "fugitive://.*", "scp://.*" }
 		end,
 	},
-	{ "kevinhwang91/nvim-bqf", ft = "qf" },
-	{ "editorconfig/editorconfig-vim" },
-	-- {
-	-- 	"Pocco81/AutoSave.nvim",
-	-- 	config = function()
-	-- 		require("autosave").setup({ events = { "InsertLeave" } })
-	-- 	end,
-	-- },
+	{ "jremmen/vim-ripgrep" },
+	{
+		"booperlv/nvim-gomove",
+		config = function()
+			require("gomove").setup({})
+		end,
+	},
+	{ "nvim-treesitter/playground" },
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
--- lvim.autocommands.custom_groups = {
--- 	{ "BufEnter", "*", "verbose pwd" },
--- }
+lvim.autocommands.custom_groups = {
+	-- { "ColorScheme", "dracula", table.concat(color_conf, " | ") },
+	{ "VimEnter", "*", table.concat(color_conf, " | ") },
+	{ "VimEnter", "*", "lua vim.diagnostic.config({ virtual_text = { prefix = '●' } })" },
+}

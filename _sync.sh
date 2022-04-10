@@ -3,5 +3,9 @@
 cp "$HOME/.tmux.conf" .
 cp "$HOME/.zshrc" .
 cp "$HOME/.editorconfig" .
-cp "$HOME/.config/lvim/config.lua" .lvim_config.lua
-cp "$HOME/.config/nvim/init.vim" .nvim_init.vim
+
+mkdir -p .config/lvim
+cp -r "$HOME/.config/lvim" .config
+
+mkdir -p .config/nvim
+cp -r "$HOME/.config/nvim" .config
