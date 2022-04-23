@@ -2,6 +2,7 @@
 
 cp "$HOME/.tmux.conf" .
 cp "$HOME/.zshrc" .
+cp "$HOME/.zshenv" .
 cp "$HOME/.editorconfig" .
 
 mkdir -p .config/lvim

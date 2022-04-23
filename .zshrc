@@ -74,17 +74,17 @@ source $HOME/zsh-plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.sh
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    history
+    # history
     git
     gitignore
     # rand-quote
     # vi-mode
-    safe-paste
+    # safe-paste
     colored-man-pages
     sudo
     git-open
     zsh-autosuggestions
-    history-substring-search
+    # history-substring-search
     macos
     # man
     # zsh-autocomplete
@@ -93,7 +93,7 @@ plugins=(
     tmux
     rust
     nvm
-    command-not-found
+    # command-not-found
 )
 
 # custom completion
@@ -127,18 +127,18 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
-export PATH="/Users/hrli/Downloads/protoc-3.13.0-osx-x86_64/bin:$PATH"
-export PATH="$HOME/.local/bin/:$PATH"
-
 # my alias
 alias add-newline="sed 's/$/\n/'"
-alias x=xplr
+alias x=ranger
 alias lg='lazygit'
 alias lf='lazyfw'
-alias hfzf='history | fzf'
+alias hfzf='history -f | fzf'
 alias rm=trash
-alias each-line='xargs -I @line@'
+
+# display when login
+if [[ -e ~/Script/hello.sh ]]; then
+  source ~/Script/hello.sh | fsays
+fi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -154,22 +154,4 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-# init mcfly
-eval "$(mcfly init zsh)"
-export MCFLY_RESULTS=50
-
-export GO111MODULE=on
-export GOPROXY=https://arti.freewheel.tv/api/go/go
-export GOSUMDB=off
-
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
-eval "$(goenv init -)"
-export PATH="$GOROOT/bin:$PATH"
-export PATH="$PATH:$GOPATH/bin"
-
-# display when login
-echo "\e[32mHave a Nice Day!!!\e[0m" | fsays
-
 

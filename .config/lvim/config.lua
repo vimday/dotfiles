@@ -14,23 +14,27 @@ lvim.format_on_save = true
 
 -- colorscheme
 lvim.colorscheme = "dracula"
-local color_conf = {
-	"hi DraculaBgDark guibg=#282A36",
+local dracula_customize = {
+	-- "hi DraculaBgDark guibg=#282A36",
 	"hi DraculaWinSeparator ctermfg=61 ctermbg=235 guifg=#6272A4 guibg=#282A36",
-	"hi LspCodeLens guifg=grey",
 	"hi CursorLine guibg=#33354F",
-	"hi HopNextKey guifg=yellow gui=bold",
-	"hi! link typescriptDestructureVariable TSVariable",
-	"hi! link GitSignsAdd DraculaGreen",
-	"hi! link GitSignsChange DraculaOrange",
-	"hi! link GitSignsDelete DraculaRed",
+	-- "hi HopNextKey guifg=yellow gui=bold,reverse",
 	"hi DiffAdd guibg=#2d4543",
 	"hi DiffChange guibg=#33354F",
-	"hi DiffDelete guifg=grey guibg=#6b3742 gui=NONE",
+	"hi DiffDelete guifg=#f8f8f2 guibg=#6b3742 gui=NONE",
 	"hi DiffText guibg=#554738 gui=NONE",
 	"hi DraculaErrorLine guifg=NONE gui=undercurl guisp=#FF5555",
 	"hi DraculaWarnLine guifg=NONE gui=undercurl guisp=#FFB86C",
 	"hi DraculaInfoLine guifg=NONE gui=undercurl guisp==#8BE9FD",
+	-- link
+	"hi! link DraculaSearch DraculaSelection",
+	"hi! link typescriptDestructureVariable TSVariable",
+	"hi! link GitSignsAdd DraculaGreen",
+	"hi! link GitSignsChange DraculaOrange",
+	"hi! link GitSignsDelete DraculaRed",
+	"hi! link Keyword DraculaPinkItalic",
+	"hi! link Include DraculaPinkItalic",
+	"hi! link TSNamespace Identifier",
 }
 
 -- vim config
@@ -38,20 +42,31 @@ vim.cmd([[
   tnoremap <Esc> <C-\><C-n>
   command! DiffOrig w !diff % -
   command! VimdiffOrig diffthis | vnew | read ++edit # | 0d_ | diffthis
-  autocmd InsertEnter * :set norelativenumber
-  autocmd InsertLeave * :set relativenumber
+  command! CSpellEdit e ~/.config/cspell.json
 ]])
 vim.opt.cmdheight = 1 -- more space in the neovim command line for displaying messages
 vim.opt.confirm = true
 vim.opt.foldmethod = "syntax"
 vim.opt.foldlevelstart = 99
--- vim.opt.spell = true
+vim.opt.swapfile = true
+vim.opt.updatetime = 1000
+-- vim.o.scrolloff = "0"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 
 -- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode = {
+	["gI"] = "<cmd>lua vim.lsp.buf.implementation()<CR>",
+	["gr"] = "<cmd>lua vim.lsp.buf.references()<CR>",
+	["gd"] = "<cmd>lua vim.lsp.buf.definition()<CR>",
+	["K"] = "<cmd>lua vim.lsp.buf.hover()<CR>",
+	["B"] = "<cmd>:ReachOpen buffers<CR>",
+	["ga"] = "<cmd>lua vim.lsp.buf.code_action()<CR>",
+	["[l"] = "<cmd>:lNext<CR>",
+	["]l"] = "<cmd>:lnext<CR>",
+	["<C-w>z"] = "<cmd>:res | :vertical res<CR>", -- zoom in
+}
 
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = false
@@ -59,9 +74,6 @@ lvim.keys.insert_mode["jj"] = false
 lvim.keys.insert_mode["jk"] = false
 lvim.keys.insert_mode["kj"] = false
 lvim.keys.insert_mode["kk"] = false
-
--- edit a default keymapping
--- lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
@@ -82,8 +94,11 @@ lvim.keys.insert_mode["kk"] = false
 -- }
 
 -- Use which-key to add extra bindings with the leader-key prefix
+lvim.builtin.which_key.setup.layout.width.max = 111
+
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["w"] = { "<cmd>w<CR>", "Save" }
+lvim.builtin.which_key.mappings["."] = { ":<Up><CR>", "Run Last" }
 lvim.builtin.which_key.mappings["C"] = { "<cmd>:tabclose<CR>", "Close Tab" }
 lvim.builtin.which_key.mappings["q"] = { "<cmd>q<CR>", "Quit" }
 lvim.builtin.which_key.mappings["Q"] = { "<cmd>qa<CR>", "QuitAll" }
@@ -92,6 +107,7 @@ lvim.builtin.which_key.mappings["t"] = { "<cmd>TroubleToggle<cr>", "Trouble" }
 lvim.builtin.which_key.mappings["f"] = { "<cmd>Telescope find_files<cr>", "File" }
 lvim.builtin.which_key.mappings["m"] = { "<cmd>MarksListAll<cr>", "Marks" }
 lvim.builtin.which_key.mappings["ss"] = { "<cmd>SessionManager load_session<cr>", "Session" }
+lvim.builtin.which_key.mappings["sb"] = { "<cmd>Telescope buffers<cr>", "Buffers" }
 lvim.builtin.which_key.mappings["sT"] = { "<cmd>TodoTelescope<cr>", "Tag" }
 
 lvim.builtin.which_key.mappings["gg"] = { "<cmd>G<cr>", "Status" }
@@ -99,27 +115,7 @@ lvim.builtin.which_key.mappings["gv"] = { "<cmd>DiffviewOpen<cr>", "Diffview" }
 lvim.builtin.which_key.mappings["gf"] = { "<cmd>DiffviewFileHistory<cr>", "DiffviewFileHistory" }
 lvim.builtin.which_key.mappings["gl"] = { "<cmd>G blame --date=short<cr>", "File Blame" }
 
-lvim.builtin.which_key.mappings["bp"] = { "<cmd>verbose pwd<cr>", "PWD" }
-
-lvim.keys.normal_mode = {
-	-- Page down/up
-	-- ["[d"] = "<PageUp>",
-	-- ["]d"] = "<PageDown>",
-
-	-- Navigate buffers
-	-- ["<Tab>"] = ":bnext<CR>",
-	-- ["<S-Tab>"] = ":bprevious<CR>",
-	["gI"] = "<cmd>lua vim.lsp.buf.implementation()<CR>",
-	["gr"] = "<cmd>lua vim.lsp.buf.references()<CR>",
-	["gd"] = "<cmd>lua vim.lsp.buf.definition()<CR>",
-	["K"] = "<cmd>lua vim.lsp.buf.hover()<CR>",
-	["g."] = "<cmd>lua vim.lsp.buf.code_action()<CR>",
-	["[l"] = "<cmd>:lNext<CR>",
-	["]l"] = "<cmd>:lnext<CR>",
-	["<C-w>z"] = "<cmd>:res | :vertical res<CR>", -- zoom in
-}
-
--- TODO: User Config for predefined plugins
+-- TODO User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
@@ -131,14 +127,20 @@ lvim.builtin.alpha.dashboard.section.buttons.entries[3] = {
 
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
-
-lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
-lvim.builtin.nvimtree.setup.update_cwd = true -- if project active, this option will be ture implicitly.
-lvim.builtin.nvimtree.setup.update_focused_file.update_cwd = false -- if project active, this option will be ture implicitly.
-
+lvim.builtin.terminal.execs = {}
 lvim.builtin.project.active = false
 -- lvim.builtin.dap.active = true
+
+lvim.builtin.nvimtree.setup.view.side = "left"
+lvim.builtin.nvimtree.setup.view.width = 35
+lvim.builtin.nvimtree.setup.hijack_netrw = false
+lvim.builtin.nvimtree.setup.disable_netrw = false
+lvim.builtin.nvimtree.show_icons.git = 1
+lvim.builtin.nvimtree.icons.git.staged = "✔"
+lvim.builtin.nvimtree.icons.git.unstaged = "✗"
+lvim.builtin.nvimtree.icons.git.untracked = "*"
+lvim.builtin.nvimtree.setup.update_cwd = true -- if project active, this option will be ture implicitly.
+lvim.builtin.nvimtree.setup.update_focused_file.update_cwd = false -- if project active, this option will be ture implicitly.
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -153,8 +155,8 @@ lvim.builtin.treesitter.ensure_installed = {
 	"css",
 	"rust",
 	"go",
-	"java",
 	"yaml",
+	"toml",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -166,12 +168,7 @@ lvim.builtin.lualine.options = {
 	section_separators = { left = "" },
 }
 
-lvim.builtin.project.patterns = { ".git", "Makefile", "package.json", "go.mod", "Cargo.toml" }
-
--- lvim.builtin.lualine.style = "default"
-
 -- generic LSP settings
-
 -- ---@usage disable automatic installation of servers
 -- lvim.lsp.automatic_servers_installation = false
 
@@ -193,54 +190,30 @@ lvim.builtin.project.patterns = { ".git", "Makefile", "package.json", "go.mod", 
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
 
--- -- set a formatter, this will override the language server formatting capabilities (if it exists)
-local formatters = require("lvim.lsp.null-ls.formatters")
-formatters.setup({
-	{ command = "black", filetypes = { "python" } },
-	-- { command = "isort", filetypes = { "python" } },
-	{ command = "stylua", filetypes = { "lua" } },
-	{ command = "shfmt", filetypes = { "sh" } },
-	{
-		-- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-		command = "prettier",
-		---@usage arguments to pass to the formatter
-		-- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+-- cmp config
+table.insert(lvim.builtin.cmp.sources, { name = "orgmode" })
 
-		---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-		filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+-- null-ls config
+local null_ls = require("null-ls")
+null_ls.setup({
+	sources = {
+		null_ls.builtins.formatting.shfmt,
+		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.diagnostics.eslint,
+		null_ls.builtins.formatting.prettier,
+		null_ls.builtins.diagnostics.cspell.with({
+			diagnostics_postprocess = function(diagnostic)
+				diagnostic.severity = vim.diagnostic.severity.HINT
+			end,
+			disabled_filetypes = { "NvimTree", "qf" },
+			extra_args = { "-u", "-c", vim.fn.expand("~/.config/cspell.json") },
+		}),
 	},
 })
-
--- -- set additional linters
-local linters = require("lvim.lsp.null-ls.linters")
-linters.setup({
-	-- { command = "flake8", filetypes = { "python" } },
-	-- {
-	--   -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-	--   command = "shellcheck",
-	--   ---@usage arguments to pass to the formatter
-	--   -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-	--   extra_args = { "--severity", "warning" },
-	-- },
-	{ command = "eslint", filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } },
-})
-
-local lspconfig = require("lspconfig")
-if lspconfig.emmet_ls then
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-	lspconfig.emmet_ls.setup({
-		-- on_attach = on_attach,
-		capabilities = capabilities,
-		filetypes = { "html", "css", "typescriptreact", "javascriptreact" },
-	})
-end
 
 -- Additional Plugins
 lvim.plugins = {
 	{ "folke/trouble.nvim" },
-	{ "folke/lsp-colors.nvim" },
 	{
 		"f-person/git-blame.nvim",
 		event = "BufRead",
@@ -249,63 +222,31 @@ lvim.plugins = {
 		end,
 	},
 	{
-		"phaazon/hop.nvim",
-		branch = "v1", -- optional but strongly recommended
+		"ggandor/lightspeed.nvim",
 		config = function()
-			-- you can configure Hop the way you like here; see :h hop-config
-			require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
-			vim.api.nvim_set_keymap("n", "s", ":HopChar2<cr>", { silent = true })
-			vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", { silent = true })
+			require("lightspeed").setup({
+				ignore_case = true,
+			})
 		end,
 	},
 	{ "tpope/vim-surround" },
 	{
 		"simrat39/rust-tools.nvim",
 		config = function()
-			-- -- debug setting
-			-- local extension_path = require("dap-install.config.settings").options["installation_path"]
-			-- 	.. "codelldb/extension/"
-			-- local codelldb_path = extension_path .. "adapter/codelldb"
-			-- local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
-			-- require("rust-tools").setup({
-			-- 	dap = {
-			-- 		adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
-			-- 	},
-			-- })
 			require("rust-tools").setup({})
 		end,
 	},
 	{ "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" },
-	{
-		"folke/todo-comments.nvim",
-		requires = "nvim-lua/plenary.nvim",
-		config = function()
-			require("todo-comments").setup({})
-		end,
-	},
-	{
-		"ray-x/go.nvim",
-		config = function()
-			require("go").setup()
-		end,
-	},
+	{ "fatih/vim-go" },
 	{
 		"norcalli/nvim-colorizer.lua",
 		config = function()
 			require("colorizer").setup()
 		end,
 	},
-	-- { "Crescent617/dracula.nvim" },
 	{
 		"dracula/vim",
 		as = "dracula",
-	},
-	{
-		"windwp/nvim-ts-autotag",
-		event = "InsertEnter",
-		config = function()
-			require("nvim-ts-autotag").setup()
-		end,
 	},
 	{
 		"ray-x/lsp_signature.nvim",
@@ -319,7 +260,7 @@ lvim.plugins = {
 	{
 		"stevearc/dressing.nvim",
 		config = function()
-			require("dressing").setup({ select = { backend = "builtin" } })
+			require("dressing").setup({})
 		end,
 	},
 	{
@@ -327,7 +268,8 @@ lvim.plugins = {
 		requires = "nvim-lua/plenary.nvim",
 		config = function()
 			require("session_manager").setup({
-				autoload_mode = require("session_manager.config").AutoloadMode.CurrentDir,
+				autoload_mode = require("session_manager.config").AutoloadMode.Disabled,
+				autosave_only_in_session = true,
 			})
 		end,
 	},
@@ -335,7 +277,6 @@ lvim.plugins = {
 		"chentau/marks.nvim",
 		config = function()
 			require("marks").setup({
-				force_write_shada = true, -- https://github.com/neovim/neovim/issues/4295
 				mappings = {
 					toggle = "mm",
 					prev = false,
@@ -349,22 +290,72 @@ lvim.plugins = {
 	{
 		"editorconfig/editorconfig-vim",
 		config = function()
-			vim.g.EditorConfig_exclude_patterns = { "fugitive://.*", "scp://.*" }
+			vim.g.EditorConfig_exclude_patterns = { "fugitive://.*", "scp://.*", "term://*" }
 		end,
 	},
 	{ "jremmen/vim-ripgrep" },
+	{ "nvim-treesitter/playground" },
+	{ "simrat39/symbols-outline.nvim" },
 	{
-		"booperlv/nvim-gomove",
+		"toppair/reach.nvim",
 		config = function()
-			require("gomove").setup({})
+			-- default config
+			require("reach").setup({
+				notifications = true,
+			})
 		end,
 	},
-	{ "nvim-treesitter/playground" },
+	{ "simnalamburt/vim-mundo" },
+	{ "ellisonleao/glow.nvim" },
+	{ "AndrewRadev/bufferize.vim" },
+	{ "lewis6991/impatient.nvim" },
+	{
+		"haringsrob/nvim_context_vt",
+		config = function()
+			require("nvim_context_vt").setup({
+				prefix = "➜",
+			})
+		end,
+	},
+	{
+		"nvim-orgmode/orgmode",
+		config = function()
+			require("orgmode").setup_ts_grammar()
+			require("orgmode").setup({
+				org_agenda_files = { "~/OneDrive - Comcast APAC/orgmode/*" },
+				org_default_notes_file = "~/OneDrive - Comcast APAC/orgmode/refile.org",
+				org_capture_templates = {
+					j = {
+						description = "Journal",
+						template = "* %<%Y-%m-%d %A> :JOURNAL:\n  %?\n  %U",
+						target = "~/OneDrive - Comcast APAC/orgmode/journal.org",
+					},
+					n = {
+						description = "Note",
+						template = "* %? :NOTE:\n%U\n%a\n",
+						target = "~/OneDrive - Comcast APAC/orgmode/note.org",
+					},
+				},
+			})
+		end,
+	},
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 lvim.autocommands.custom_groups = {
 	-- { "ColorScheme", "dracula", table.concat(color_conf, " | ") },
-	{ "VimEnter", "*", table.concat(color_conf, " | ") },
-	{ "VimEnter", "*", "lua vim.diagnostic.config({ virtual_text = { prefix = '●' } })" },
+	{ "VimEnter", "*", table.concat(dracula_customize, " | ") },
+	{ "VimEnter", "*", "lua vim.diagnostic.config({ virtual_text = { prefix = '' } })" },
+	{ "InsertLeave", "*", ":lua vim.diagnostic.show(nil, 0)" },
+	{ "InsertEnter", "*", ":lua vim.diagnostic.hide(nil, 0)" },
+	{ "InsertLeave", "*", ":set relativenumber" },
+	{ "InsertEnter", "*", ":set norelativenumber" },
 }
+
+-- GUI
+if vim.g.neovide then
+	vim.o.guifont = "JetBrainsMono Nerd Font Fix Line Height:h13"
+	vim.g.neovide_cursor_vfx_mode = "railgun"
+	vim.g.neovide_remember_window_size = true
+	vim.g.neovide_input_use_logo = true
+end
