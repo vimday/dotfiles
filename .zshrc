@@ -8,7 +8,7 @@ export ZSH="/Users/hrli/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="refined"
+# ZSH_THEME="refined"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -65,9 +65,6 @@ ZSH_THEME="refined"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Preload
-source $HOME/zsh-plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.sh
-
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
@@ -75,24 +72,25 @@ source $HOME/zsh-plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.sh
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     # history
+    emoji
     git
     gitignore
-    # rand-quote
     # vi-mode
     # safe-paste
     colored-man-pages
     sudo
     git-open
     zsh-autosuggestions
-    # history-substring-search
     macos
-    # man
-    # zsh-autocomplete
     zsh-syntax-highlighting
     autojump
     tmux
     rust
     nvm
+    httpie
+    nix-zsh-completions
+    encode64 
+    fancy-ctrl-z
     # command-not-found
 )
 
@@ -109,7 +107,7 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
+if [[ -z $SSH_CONNECTION ]]; then
   export EDITOR='lvim'
 else
   export EDITOR='vim'
@@ -130,14 +128,14 @@ fi
 # my alias
 alias add-newline="sed 's/$/\n/'"
 alias x=ranger
-alias lg='lazygit'
-alias lf='lazyfw'
-alias hfzf='history -f | fzf'
 alias rm=trash
+
+export TODOTXT_DEFAULT_ACTION=ls
+alias t='todo.sh -d ~/.todo.cfg'
 
 # display when login
 if [[ -e ~/Script/hello.sh ]]; then
-  source ~/Script/hello.sh | fsays
+  source ~/Script/hello.sh | fsays -w 90
 fi
 
 # >>> conda initialize >>>
@@ -155,3 +153,25 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+export GO111MODULE=on
+export GOPROXY=https://arti.freewheel.tv/api/go/go
+export GOSUMDB=off
+
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
+
+# workspace
+export GOPATH=/Users/hrli/workspace/common/src/go
+export PATH="$GOPATH/bin:$PATH"
+
+export ZK_NOTEBOOK_DIR=~/notes
+
+# mcfly: sub <C-r>
+export MCFLY_RESULTS=50
+eval "$(mcfly init zsh)"
+
+# modern prompt
+source <(/usr/local/bin/starship init zsh --print-full-init)

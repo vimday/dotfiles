@@ -1,12 +1,12 @@
 #!/bin/bash
 
-cp "$HOME/.tmux.conf" .
-cp "$HOME/.zshrc" .
-cp "$HOME/.zshenv" .
-cp "$HOME/.editorconfig" .
+rsync -u "$HOME/.tmux.conf" .
+rsync -u "$HOME/.zshrc" .
+rsync -u "$HOME/.zshenv" .
+rsync -u "$HOME/.editorconfig" .
 
 mkdir -p .config/lvim
-cp -r "$HOME/.config/lvim" .config
+rsync -u -r "$HOME/.config/lvim" .config
 
 mkdir -p .config/nvim
-cp -r "$HOME/.config/nvim" .config
+rsync -u -r "$HOME/.config/nvim" .config

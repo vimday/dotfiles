@@ -14,133 +14,97 @@ lvim.format_on_save = true
 
 -- colorscheme
 lvim.colorscheme = "dracula"
-local dracula_customize = {
-	-- "hi DraculaBgDark guibg=#282A36",
-	"hi DraculaWinSeparator ctermfg=61 ctermbg=235 guifg=#6272A4 guibg=#282A36",
-	"hi CursorLine guibg=#33354F",
-	-- "hi HopNextKey guifg=yellow gui=bold,reverse",
-	"hi DiffAdd guibg=#2d4543",
-	"hi DiffChange guibg=#33354F",
-	"hi DiffDelete guifg=#f8f8f2 guibg=#6b3742 gui=NONE",
-	"hi DiffText guibg=#554738 gui=NONE",
-	"hi DraculaErrorLine guifg=NONE gui=undercurl guisp=#FF5555",
-	"hi DraculaWarnLine guifg=NONE gui=undercurl guisp=#FFB86C",
-	"hi DraculaInfoLine guifg=NONE gui=undercurl guisp==#8BE9FD",
-	-- link
-	"hi! link DraculaSearch DraculaSelection",
-	"hi! link typescriptDestructureVariable TSVariable",
-	"hi! link GitSignsAdd DraculaGreen",
-	"hi! link GitSignsChange DraculaOrange",
-	"hi! link GitSignsDelete DraculaRed",
-	"hi! link Keyword DraculaPinkItalic",
-	"hi! link Include DraculaPinkItalic",
-	"hi! link TSNamespace Identifier",
-}
 
 -- vim config
 vim.cmd([[
   tnoremap <Esc> <C-\><C-n>
   command! DiffOrig w !diff % -
   command! VimdiffOrig diffthis | vnew | read ++edit # | 0d_ | diffthis
-  command! CSpellEdit e ~/.config/cspell.json
 ]])
 vim.opt.cmdheight = 1 -- more space in the neovim command line for displaying messages
 vim.opt.confirm = true
-vim.opt.foldmethod = "syntax"
+vim.opt.foldmethod = "indent"
 vim.opt.foldlevelstart = 99
 vim.opt.swapfile = true
-vim.opt.updatetime = 1000
+-- vim.opt.updatetime = 700
 -- vim.o.scrolloff = "0"
+-- vim.opt.spell = true
+vim.opt.spelloptions = "camel"
+vim.opt.spelllang = "en,cjk,programming"
+-- vim.opt.conceallevel = 2
+-- vim.opt.concealcursor = "nc"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 
 -- add your own keymapping
 lvim.keys.normal_mode = {
-	["gI"] = "<cmd>lua vim.lsp.buf.implementation()<CR>",
-	["gr"] = "<cmd>lua vim.lsp.buf.references()<CR>",
-	["gd"] = "<cmd>lua vim.lsp.buf.definition()<CR>",
-	["K"] = "<cmd>lua vim.lsp.buf.hover()<CR>",
-	["B"] = "<cmd>:ReachOpen buffers<CR>",
-	["ga"] = "<cmd>lua vim.lsp.buf.code_action()<CR>",
-	["[l"] = "<cmd>:lNext<CR>",
-	["]l"] = "<cmd>:lnext<CR>",
 	["<C-w>z"] = "<cmd>:res | :vertical res<CR>", -- zoom in
 }
 
+lvim.keys.visual_mode = {
+	["ga"] = ":'<,'>lua vim.lsp.buf.range_code_action()<CR>",
+}
 -- unmap a default keymapping
--- lvim.keys.normal_mode["<C-Up>"] = false
-lvim.keys.insert_mode["jj"] = false
-lvim.keys.insert_mode["jk"] = false
-lvim.keys.insert_mode["kj"] = false
-lvim.keys.insert_mode["kk"] = false
-
--- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
--- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
--- local _, actions = pcall(require, "telescope.actions")
--- lvim.builtin.telescope.defaults.mappings = {
---   -- for input mode
---   i = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---     ["<C-n>"] = actions.cycle_history_next,
---     ["<C-p>"] = actions.cycle_history_prev,
---   },
---   -- for normal mode
---   n = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---   },
--- }
+local unmap_n = { "jj", "jk", "kj", "kk" }
+for _, value in ipairs(unmap_n) do
+	lvim.keys.insert_mode[value] = false
+end
 
 -- Use which-key to add extra bindings with the leader-key prefix
-lvim.builtin.which_key.setup.layout.width.max = 111
+lvim.builtin.which_key.setup.layout.width.max = 150
 
--- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+lvim.builtin.which_key.mappings["P"] = lvim.builtin.which_key.mappings["p"] -- Packer.nvim
+lvim.builtin.which_key.mappings["p"] = { "<cmd>TroubleToggle<CR>", "Problems" }
 lvim.builtin.which_key.mappings["w"] = { "<cmd>w<CR>", "Save" }
 lvim.builtin.which_key.mappings["."] = { ":<Up><CR>", "Run Last" }
 lvim.builtin.which_key.mappings["C"] = { "<cmd>:tabclose<CR>", "Close Tab" }
 lvim.builtin.which_key.mappings["q"] = { "<cmd>q<CR>", "Quit" }
 lvim.builtin.which_key.mappings["Q"] = { "<cmd>qa<CR>", "QuitAll" }
 
-lvim.builtin.which_key.mappings["t"] = { "<cmd>TroubleToggle<cr>", "Trouble" }
 lvim.builtin.which_key.mappings["f"] = { "<cmd>Telescope find_files<cr>", "File" }
-lvim.builtin.which_key.mappings["m"] = { "<cmd>MarksListAll<cr>", "Marks" }
 lvim.builtin.which_key.mappings["ss"] = { "<cmd>SessionManager load_session<cr>", "Session" }
 lvim.builtin.which_key.mappings["sb"] = { "<cmd>Telescope buffers<cr>", "Buffers" }
-lvim.builtin.which_key.mappings["sT"] = { "<cmd>TodoTelescope<cr>", "Tag" }
 
 lvim.builtin.which_key.mappings["gg"] = { "<cmd>G<cr>", "Status" }
 lvim.builtin.which_key.mappings["gv"] = { "<cmd>DiffviewOpen<cr>", "Diffview" }
 lvim.builtin.which_key.mappings["gf"] = { "<cmd>DiffviewFileHistory<cr>", "DiffviewFileHistory" }
 lvim.builtin.which_key.mappings["gl"] = { "<cmd>G blame --date=short<cr>", "File Blame" }
 
+lvim.builtin.which_key.mappings["t"] = {
+	name = "Test",
+	f = { "<cmd>Ultest<cr>", "Test File" },
+	n = { "<cmd>UltestNearest<cr>", "Test Nearest" },
+	l = { "<cmd>UltestLast<cr>", "Test Last" },
+	o = { "<cmd>UltestOutput<cr>", "Show Test Output" },
+	a = { "<cmd>UltestAttach<cr>", "Attach Test" },
+	s = { "<cmd>UltestStopNearest<cr>", "Stop Test Nearest" },
+	S = { "<cmd>UltestStop<cr>", "Stop Test" },
+	t = { "<cmd>UltestSummary<cr>", "Toggle Test Outline" },
+}
+
+lvim.lsp.automatic_configuration.skipped_filetypes = { "rst", "plaintext" }
+
 -- TODO User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
-lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.alpha.dashboard.section.buttons.entries[3] = {
-	"SPC s s",
-	"  Recent Session",
-	"<CMD>SessionManager load_session<CR>",
-}
 
 lvim.builtin.notify.active = true
-lvim.builtin.terminal.active = true
+lvim.builtin.terminal.active = false
 lvim.builtin.terminal.execs = {}
 lvim.builtin.project.active = false
--- lvim.builtin.dap.active = true
+lvim.builtin.dap.active = true
 
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.view.width = 35
-lvim.builtin.nvimtree.setup.hijack_netrw = false
+lvim.builtin.nvimtree.setup.hijack_netrw = true
 lvim.builtin.nvimtree.setup.disable_netrw = false
 lvim.builtin.nvimtree.show_icons.git = 1
 lvim.builtin.nvimtree.icons.git.staged = "✔"
 lvim.builtin.nvimtree.icons.git.unstaged = "✗"
 lvim.builtin.nvimtree.icons.git.untracked = "*"
-lvim.builtin.nvimtree.setup.update_cwd = true -- if project active, this option will be ture implicitly.
-lvim.builtin.nvimtree.setup.update_focused_file.update_cwd = false -- if project active, this option will be ture implicitly.
+lvim.builtin.nvimtree.setup.update_cwd = true -- if project active, this option will be true implicitly.
+lvim.builtin.nvimtree.setup.update_focused_file.update_cwd = false -- if project active, this option will be true implicitly.
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -170,50 +134,52 @@ lvim.builtin.lualine.options = {
 
 -- generic LSP settings
 -- ---@usage disable automatic installation of servers
--- lvim.lsp.automatic_servers_installation = false
-
--- ---@usage Select which servers should be configured manually. Requires `:LvimCacheReset` to take effect.
--- See the full default list `:lua print(vim.inspect(lvim.lsp.override))`
--- vim.list_extend(lvim.lsp.override, { "pyright" })
-
--- ---@usage setup a server -- see: https://www.lunarvim.org/languages/#overriding-the-default-configuration
--- local opts = {} -- check the lspconfig documentation for a list of all possible options
--- require("lvim.lsp.manager").setup("pylsp", opts)
-
--- -- you can set a custom on_attach function that will be used for all the language servers
--- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
--- lvim.lsp.on_attach_callback = function(client, bufnr)
---   local function buf_set_option(...)
---     vim.api.nvim_buf_set_option(bufnr, ...)
---   end
---   --Enable completion triggered by <c-x><c-o>
---   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
--- end
-
--- cmp config
-table.insert(lvim.builtin.cmp.sources, { name = "orgmode" })
+lvim.lsp.automatic_servers_installation = false
 
 -- null-ls config
 local null_ls = require("null-ls")
-null_ls.setup({
-	sources = {
-		null_ls.builtins.formatting.shfmt,
-		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.diagnostics.eslint,
-		null_ls.builtins.formatting.prettier,
-		null_ls.builtins.diagnostics.cspell.with({
-			diagnostics_postprocess = function(diagnostic)
-				diagnostic.severity = vim.diagnostic.severity.HINT
-			end,
-			disabled_filetypes = { "NvimTree", "qf" },
-			extra_args = { "-u", "-c", vim.fn.expand("~/.config/cspell.json") },
-		}),
-	},
-})
+lvim.lsp.null_ls.setup.sources = {
+	-- null_ls.builtins.formatting.prettier,
+	null_ls.builtins.formatting.shfmt,
+	null_ls.builtins.formatting.stylua,
+	null_ls.builtins.diagnostics.eslint,
+	null_ls.builtins.diagnostics.protolint,
+	null_ls.builtins.formatting.protolint,
+	-- null_ls.builtins.formatting.buf,
+	null_ls.builtins.completion.spell.with({
+		filetypes = { "markdown" },
+	}),
+	null_ls.builtins.formatting.markdownlint,
+	null_ls.builtins.diagnostics.codespell.with({
+		diagnostics_postprocess = function(diagnostic)
+			diagnostic.severity = vim.diagnostic.severity.HINT
+		end,
+		disabled_filetypes = { "NvimTree", "qf", "netrw" },
+		extra_args = { "-I", vim.fn.expand("~/.config/lvim/spell/en.utf-8.add") },
+	}),
+}
 
 -- Additional Plugins
 lvim.plugins = {
-	{ "folke/trouble.nvim" },
+	-- colorscheme
+	{ "dracula/vim", as = "dracula" },
+	"folke/tokyonight.nvim",
+	-- utils
+	"folke/trouble.nvim",
+	{
+		"kosayoda/nvim-lightbulb",
+		config = function()
+			vim.cmd([[autocmd CursorHold * lua require'nvim-lightbulb'.update_lightbulb()]])
+		end,
+	},
+	{
+		"m-demare/hlargs.nvim",
+		requires = { "nvim-treesitter/nvim-treesitter" },
+		config = function()
+			require("hlargs").setup()
+			vim.cmd([[highlight! link Hlargs TSParameter]])
+		end,
+	},
 	{
 		"f-person/git-blame.nvim",
 		event = "BufRead",
@@ -229,15 +195,15 @@ lvim.plugins = {
 			})
 		end,
 	},
-	{ "tpope/vim-surround" },
+	"tpope/vim-surround",
 	{
 		"simrat39/rust-tools.nvim",
 		config = function()
 			require("rust-tools").setup({})
 		end,
+		ft = "rust",
 	},
 	{ "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" },
-	{ "fatih/vim-go" },
 	{
 		"norcalli/nvim-colorizer.lua",
 		config = function()
@@ -245,18 +211,12 @@ lvim.plugins = {
 		end,
 	},
 	{
-		"dracula/vim",
-		as = "dracula",
-	},
-	{
 		"ray-x/lsp_signature.nvim",
 		config = function()
 			require_clean("lsp_signature").setup()
 		end,
 	},
-	{
-		"tpope/vim-fugitive",
-	},
+	"tpope/vim-fugitive",
 	{
 		"stevearc/dressing.nvim",
 		config = function()
@@ -268,21 +228,7 @@ lvim.plugins = {
 		requires = "nvim-lua/plenary.nvim",
 		config = function()
 			require("session_manager").setup({
-				autoload_mode = require("session_manager.config").AutoloadMode.Disabled,
-				autosave_only_in_session = true,
-			})
-		end,
-	},
-	{
-		"chentau/marks.nvim",
-		config = function()
-			require("marks").setup({
-				mappings = {
-					toggle = "mm",
-					prev = false,
-					delete_buf = "dm<space>",
-				},
-				default_mappings = false,
+				autoload_mode = require("session_manager.config").AutoloadMode.CurrentDir,
 			})
 		end,
 	},
@@ -293,9 +239,9 @@ lvim.plugins = {
 			vim.g.EditorConfig_exclude_patterns = { "fugitive://.*", "scp://.*", "term://*" }
 		end,
 	},
-	{ "jremmen/vim-ripgrep" },
-	{ "nvim-treesitter/playground" },
-	{ "simrat39/symbols-outline.nvim" },
+	"jremmen/vim-ripgrep",
+	"nvim-treesitter/playground",
+	"simrat39/symbols-outline.nvim",
 	{
 		"toppair/reach.nvim",
 		config = function()
@@ -303,59 +249,200 @@ lvim.plugins = {
 			require("reach").setup({
 				notifications = true,
 			})
+			vim.cmd([[
+        nnoremap B <cmd>:ReachOpen buffers<CR>
+        nnoremap M <cmd>:ReachOpen marks<CR>
+      ]])
 		end,
 	},
-	{ "simnalamburt/vim-mundo" },
-	{ "ellisonleao/glow.nvim" },
-	{ "AndrewRadev/bufferize.vim" },
-	{ "lewis6991/impatient.nvim" },
+	"simnalamburt/vim-mundo",
+	"ellisonleao/glow.nvim",
+	{
+		"chentau/marks.nvim",
+		config = function()
+			require("marks").setup({
+				default_mappings = false,
+			})
+		end,
+	},
+	"AndrewRadev/bufferize.vim",
 	{
 		"haringsrob/nvim_context_vt",
 		config = function()
 			require("nvim_context_vt").setup({
 				prefix = "➜",
+				min_rows = 13,
+				disable_virtual_lines_ft = { "yaml" },
 			})
 		end,
 	},
 	{
-		"nvim-orgmode/orgmode",
+		"ray-x/go.nvim",
 		config = function()
-			require("orgmode").setup_ts_grammar()
-			require("orgmode").setup({
-				org_agenda_files = { "~/OneDrive - Comcast APAC/orgmode/*" },
-				org_default_notes_file = "~/OneDrive - Comcast APAC/orgmode/refile.org",
-				org_capture_templates = {
-					j = {
-						description = "Journal",
-						template = "* %<%Y-%m-%d %A> :JOURNAL:\n  %?\n  %U",
-						target = "~/OneDrive - Comcast APAC/orgmode/journal.org",
-					},
-					n = {
-						description = "Note",
-						template = "* %? :NOTE:\n%U\n%a\n",
-						target = "~/OneDrive - Comcast APAC/orgmode/note.org",
-					},
-				},
-			})
+			require("go").setup({ dap_debug = false, dap_debug_gui = false, dap_debug_keymap = false })
+			vim.cmd([[command! GoModTidy !go mod tidy]])
+		end,
+		ft = "go",
+	},
+	{
+		"leoluz/nvim-dap-go",
+		config = function()
+			require("dap-go").setup()
+		end,
+		ft = "go",
+	},
+	{
+		"theHamsta/nvim-dap-virtual-text",
+		config = function()
+			require("nvim-dap-virtual-text").setup()
 		end,
 	},
+	{
+		"danymat/neogen",
+		config = function()
+			require("neogen").setup({})
+		end,
+		requires = "nvim-treesitter/nvim-treesitter",
+	},
+	"padde/jump.vim", -- use for autojump
+	"tpope/vim-unimpaired",
+	{
+		"mickael-menu/zk-nvim",
+		config = function()
+			require("zk").setup({
+				picker = "telescope",
+			})
+
+			local m = function(mode, lhs, rhs)
+				vim.api.nvim_set_keymap(mode, lhs, rhs, { noremap = true, silent = false })
+			end
+
+			-- Create a new note after asking for its title.
+			m("n", "<leader>zn", "<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>")
+			-- Open notes.
+			m("n", "<leader>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>")
+			-- Open notes associated with the selected tags.
+			m("n", "<leader>zt", "<Cmd>ZkTags<CR>")
+			-- Open notes linking to the current buffer.
+			m("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>")
+			-- Alternative for backlinks using pure LSP and showing the source context.
+			--map('n', '<leader>zb', '<Cmd>lua vim.lsp.buf.references()<CR>')
+			-- Open notes linked by the current buffer.
+			m("n", "<leader>zl", "<Cmd>ZkLinks<CR>")
+			-- Search for the notes matching a given query.
+			m("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' }, match = vim.fn.input('Search: ') }<CR>")
+			-- Search for the notes matching the current visual selection.
+			m("v", "<leader>zf", ":'<,'>ZkMatch<CR>")
+			-- Create a new daily note
+			m("n", "<leader>zd", "<Cmd>ZkNew { group = 'daily' }<CR>")
+		end,
+	},
+	{ "preservim/vim-markdown", requires = "godlygeek/tabular", ft = "markdown" },
+	{
+		"jbyuki/nabla.nvim",
+		config = function()
+			vim.cmd("command! Nabla :lua require('nabla').popup()<CR>")
+		end,
+	},
+	{
+		"axieax/urlview.nvim",
+		config = function()
+			require("urlview").setup({})
+		end,
+	},
+	"wellle/targets.vim",
+	{ "michaelb/sniprun", run = "bash ./install.sh" },
+	{
+		"psliwka/vim-dirtytalk",
+		run = function()
+			vim.cmd(":DirtytalkUpdate")
+			local frm = vim.call("spellfile#WritableSpellDir")
+			local to = vim.call("spellfile#GetDirChoices")[1][1]
+			local code = os.execute(string.format("cp -f %s/*.spl %s", frm, to))
+			if code ~= 0 then
+				vim.notify(string.format("Fail to sync dictionary from %s to %s", frm, to), vim.log.levels.ERROR)
+			else
+				vim.notify(string.format("Success to sync dictionary from %s to %s", frm, to), vim.log.levels.INFO)
+			end
+		end,
+	},
+	{
+		"rcarriga/vim-ultest",
+		requires = { "vim-test/vim-test" },
+		run = ":UpdateRemotePlugins",
+		config = function()
+			vim.g.ultest_output_on_line = 0
+		end,
+	},
+	"freitass/todo.txt-vim",
+}
+
+local vim_enter_autocmd = {
+	-- treesitter highlight
+	"hi! link LspCodeLens Comment",
+	"hi! link typescriptDestructureVariable TSVariable",
+	"hi! link SpellBad DiagnosticUnderlineHint",
+
+	-- diagnostics underline
+	"hi! DiagnosticUnderlineError guifg=NONE gui=undercurl guisp=#FF5555",
+	"hi! DiagnosticUnderlineWarn guifg=NONE gui=undercurl guisp=#FFB86C",
+	"hi! DiagnosticUnderlineInfo guifg=NONE gui=undercurl guisp=#8BE9FD",
+	"hi! link DiagnosticUnderlineHint DiagnosticUnderlineInfo",
+
+	-- diagnostics vt
+	"hi! DiagnosticVirtualTextError guifg=#FF5555 guibg=#362C3D",
+	"hi! DiagnosticVirtualTextInfo guifg=#8BE9FD guibg=#22304B",
+	"hi! DiagnosticVirtualTextWarn guifg=#e0af68 guibg=#373640",
+	"hi! link DiagnosticVirtualTextHint DiagnosticVirtualTextInfo",
+
+	-- diagnostics vt
+	"lua vim.diagnostic.config({ virtual_text = { prefix = '' } })",
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 lvim.autocommands.custom_groups = {
-	-- { "ColorScheme", "dracula", table.concat(color_conf, " | ") },
-	{ "VimEnter", "*", table.concat(dracula_customize, " | ") },
-	{ "VimEnter", "*", "lua vim.diagnostic.config({ virtual_text = { prefix = '' } })" },
-	{ "InsertLeave", "*", ":lua vim.diagnostic.show(nil, 0)" },
-	{ "InsertEnter", "*", ":lua vim.diagnostic.hide(nil, 0)" },
+	{ "VimEnter", "*", table.concat(vim_enter_autocmd, " | ") },
 	{ "InsertLeave", "*", ":set relativenumber" },
 	{ "InsertEnter", "*", ":set norelativenumber" },
+	-- { "InsertLeave", "*", ":lua vim.diagnostic.show(nil, 0)" },
+	-- { "InsertEnter", "*", ":lua vim.diagnostic.hide(nil, 0)" },
 }
+
+-- Autocommands when "dracula"
+local dracula_overwrite = {
+	-- highlight
+	"hi! link Search DraculaSelection",
+	"hi! link GitSignsAdd DraculaGreen",
+	"hi! link GitSignsAdd DraculaGreen",
+	"hi! link GitSignsChange DraculaOrange",
+	"hi! link GitSignsDelete DraculaRed",
+	"hi! link TSNamespace Identifier",
+	"hi DraculaWinSeparator guifg=#6272A4 guibg=#282A36",
+
+	-- telescope
+	"hi! link TelescopeBorder DraculaPurple",
+
+	-- diff
+	"hi DiffAdd guibg=#2d453f",
+	"hi DiffChange guibg=#273d53",
+	"hi DiffDelete guifg=#f8f8f2 guibg=#6b373f gui=NONE",
+	"hi DiffText guifg=NONE guibg=#44475A",
+	"hi CursorLine guibg=#33354F",
+}
+
+if lvim.colorscheme == "dracula" then
+	table.insert(lvim.autocommands.custom_groups, { "VimEnter", "*", table.concat(dracula_overwrite, " | ") })
+end
 
 -- GUI
 if vim.g.neovide then
 	vim.o.guifont = "JetBrainsMono Nerd Font Fix Line Height:h13"
-	vim.g.neovide_cursor_vfx_mode = "railgun"
 	vim.g.neovide_remember_window_size = true
-	vim.g.neovide_input_use_logo = true
+	vim.g.neovide_cursor_vfx_mode = "railgun"
+	vim.g.neovide_input_use_logo = 1
+	vim.cmd([[
+    nmap <D-v> "+p<CR>
+    imap <D-v> <C-R>+
+    tmap <D-v> <C-R>+
+  ]])
 end
