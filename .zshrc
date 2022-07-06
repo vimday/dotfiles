@@ -75,22 +75,18 @@ plugins=(
     emoji
     git
     gitignore
-    # vi-mode
+    vi-mode
     # safe-paste
     colored-man-pages
-    sudo
-    git-open
-    zsh-autosuggestions
     macos
-    zsh-syntax-highlighting
     autojump
     tmux
     rust
     nvm
     httpie
-    nix-zsh-completions
     encode64 
     fancy-ctrl-z
+    zoxide
     # command-not-found
 )
 
@@ -100,6 +96,19 @@ fpath+=~/.zfunc
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+
+# zplug
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
+
+zplug "spwhitt/nix-zsh-completions"
+zplug "paulirish/git-open"
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "jameshgrn/zshnotes"
+
+# Then, source plugins and add commands to $PATH
+zplug load
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -120,18 +129,36 @@ fi
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# my alias
-alias add-newline="sed 's/$/\n/'"
-alias x=ranger
+# alias
+alias x=xplr
 alias rm=trash
+# alias nvim=lvim
+alias sed=gsed
 
+# --------------- APPs ----------------
+
+# vi-mode
+VI_MODE_SET_CURSOR=true
+
+# zk
+export ZK_NOTEBOOK_DIR=~/notes
+
+# todo.sh
 export TODOTXT_DEFAULT_ACTION=ls
 alias t='todo.sh -d ~/.todo.cfg'
+
+# mcfly: sub <C-r> search history
+eval "$(mcfly init zsh)"
+export MCFLY_RESULTS=50
+
+# starship prompt
+source <(/usr/local/bin/starship init zsh --print-full-init)
+
+# golang
+export GO111MODULE=on
+export GOPROXY=https://arti.freewheel.tv/api/go/go
+export GOSUMDB=off
 
 # display when login
 if [[ -e ~/Script/hello.sh ]]; then
@@ -153,25 +180,8 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-export GO111MODULE=on
-export GOPROXY=https://arti.freewheel.tv/api/go/go
-export GOSUMDB=off
+[[ -s "/Users/hrli/.gvm/scripts/gvm" ]] && source "/Users/hrli/.gvm/scripts/gvm"
 
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
-eval "$(goenv init -)"
-export PATH="$GOROOT/bin:$PATH"
-export PATH="$PATH:$GOPATH/bin"
-
-# workspace
-export GOPATH=/Users/hrli/workspace/common/src/go
+export GOPATH=/Users/hrli/workspace/common/src/go # freewheel workspace
 export PATH="$GOPATH/bin:$PATH"
-
-export ZK_NOTEBOOK_DIR=~/notes
-
-# mcfly: sub <C-r>
-export MCFLY_RESULTS=50
-eval "$(mcfly init zsh)"
-
-# modern prompt
-source <(/usr/local/bin/starship init zsh --print-full-init)
+export PATH="/usr/local/opt/llvm/bin:$PATH"

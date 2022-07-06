@@ -6,7 +6,5 @@ rsync -u "$HOME/.zshenv" .
 rsync -u "$HOME/.editorconfig" .
 
 mkdir -p .config/lvim
-rsync -u -r "$HOME/.config/lvim" .config
-
-mkdir -p .config/nvim
-rsync -u -r "$HOME/.config/nvim" .config
+rsync -u -r "$HOME/.config/lvim/config.lua" ./lvim/
+rsync -u -r "$HOME/.config/nvim/lua/custom" ./nvchad/
