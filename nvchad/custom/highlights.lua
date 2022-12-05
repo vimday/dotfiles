@@ -3,7 +3,6 @@ local M = {
    DiffAdd = { fg = "green" },
    DiffDelete = { fg = "red" },
    DiffChange = { fg = "orange" },
-   DiffText = { bg = "orange" },
+   -- DiffText = { bg = "orange" },
 }
-
 return M

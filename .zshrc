@@ -78,15 +78,11 @@ plugins=(
     vi-mode
     # safe-paste
     colored-man-pages
-    macos
     autojump
     tmux
     rust
     nvm
-    httpie
-    encode64 
     fancy-ctrl-z
-    zoxide
     # command-not-found
 )
 
@@ -105,7 +101,6 @@ zplug "spwhitt/nix-zsh-completions"
 zplug "paulirish/git-open"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting"
-zplug "jameshgrn/zshnotes"
 
 # Then, source plugins and add commands to $PATH
 zplug load
@@ -117,7 +112,7 @@ zplug load
 
 # Preferred editor for local and remote sessions
 if [[ -z $SSH_CONNECTION ]]; then
-  export EDITOR='lvim'
+  export EDITOR='nvim'
 else
   export EDITOR='vim'
 fi
@@ -133,8 +128,10 @@ fi
 # alias
 alias x=xplr
 alias rm=trash
-# alias nvim=lvim
+alias v=nvim
 alias sed=gsed
+alias proxy-enable='export https_proxy=http://127.0.0.1:7890;export http_proxy=http://127.0.0.1:7890;export all_proxy=socks5://127.0.0.1:7890'
+alias proxy-disable='unset https_proxy http_proxy all_proxy'
 
 # --------------- APPs ----------------
 
@@ -149,16 +146,26 @@ export TODOTXT_DEFAULT_ACTION=ls
 alias t='todo.sh -d ~/.todo.cfg'
 
 # mcfly: sub <C-r> search history
-eval "$(mcfly init zsh)"
-export MCFLY_RESULTS=50
+# eval "$(mcfly init zsh)"
+# export MCFLY_RESULTS=50
 
 # starship prompt
 source <(/usr/local/bin/starship init zsh --print-full-init)
+
+# perl
+export PATH="$PATH:/usr/local/Cellar/perl/5.34.0/bin/"
 
 # golang
 export GO111MODULE=on
 export GOPROXY=https://arti.freewheel.tv/api/go/go
 export GOSUMDB=off
+
+# goenv
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
 
 # display when login
 if [[ -e ~/Script/hello.sh ]]; then
@@ -180,8 +187,6 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-[[ -s "/Users/hrli/.gvm/scripts/gvm" ]] && source "/Users/hrli/.gvm/scripts/gvm"
-
-export GOPATH=/Users/hrli/workspace/common/src/go # freewheel workspace
-export PATH="$GOPATH/bin:$PATH"
+# export GOPATH=/Users/hrli/workspace/common/src/go # freewheel workspace
+# export PATH="$GOPATH/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"

@@ -21,7 +21,7 @@ local sources = {
    b.completion.spell.with {
       filetypes = { "markdown" },
    },
-   b.diagnostics.codespell.with {
+   b.diagnostics.cspell.with {
       diagnostics_postprocess = function(diagnostic)
          diagnostic.severity = vim.diagnostic.severity.HINT
       end,

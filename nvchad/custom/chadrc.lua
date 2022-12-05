@@ -7,24 +7,19 @@ local override = require "custom.override"
 -- example of changing theme:
 
 M.ui = {
-   theme = "chadracula",
-   hl_override = require "custom.highlights",
-   -- theme_toggle = { "chadracula", "one_light" },
+  theme = "chadracula",
+  hl_override = require "custom.highlights",
+  -- theme_toggle = { "chadracula", "one_light" },
 }
 
 M.mappings = require "custom.mappings"
 
 M.plugins = {
-   user = require "custom.plugins",
-   options = {
-      lspconfig = {
-         setup_lspconf = "custom.plugins.lspconfig",
-      },
-   },
-   override = {
-      ["kyazdani42/nvim-tree.lua"] = override.nvimtree,
-      ["nvim-treesitter/nvim-treesitter"] = override.treesitter,
-   },
+  user = require "custom.plugins",
+  override = {
+    ["kyazdani42/nvim-tree.lua"] = override.nvimtree,
+    ["nvim-treesitter/nvim-treesitter"] = override.treesitter,
+  },
 }
 
 return M
