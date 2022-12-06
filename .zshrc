@@ -72,10 +72,10 @@ export ZSH="/Users/hrli/.oh-my-zsh"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     # history
-    emoji
+    # emoji
     git
     gitignore
-    vi-mode
+    # vi-mode
     # safe-paste
     colored-man-pages
     autojump
@@ -136,7 +136,7 @@ alias proxy-disable='unset https_proxy http_proxy all_proxy'
 # --------------- APPs ----------------
 
 # vi-mode
-VI_MODE_SET_CURSOR=true
+# VI_MODE_SET_CURSOR=true
 
 # zk
 export ZK_NOTEBOOK_DIR=~/notes
@@ -159,13 +159,6 @@ export PATH="$PATH:/usr/local/Cellar/perl/5.34.0/bin/"
 export GO111MODULE=on
 export GOPROXY=https://arti.freewheel.tv/api/go/go
 export GOSUMDB=off
-
-# goenv
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
-eval "$(goenv init -)"
-export PATH="$GOROOT/bin:$PATH"
-export PATH="$PATH:$GOPATH/bin"
 
 # display when login
 if [[ -e ~/Script/hello.sh ]]; then
@@ -190,3 +183,14 @@ unset __conda_setup
 # export GOPATH=/Users/hrli/workspace/common/src/go # freewheel workspace
 # export PATH="$GOPATH/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
+
+# ===== set g environment variables =====
+export GOROOT="${HOME}/.g/go"
+export PATH="${HOME}/bin:${HOME}/.g/go/bin:$PATH"
+export G_MIRROR=https://golang.google.cn/dl/
+unalias g
+
+# ===== homebrew ====
+export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
+export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
+export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
