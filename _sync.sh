@@ -10,5 +10,3 @@ rsync -u "$HOME/.vimrc" .
 
 rsync -u -r "$HOME/.config/lvim/config.lua" ./lvim/
 rsync -u -r "$HOME/.config/nvim/lua/custom" ./nvchad/
-
-brew bundle -f dump

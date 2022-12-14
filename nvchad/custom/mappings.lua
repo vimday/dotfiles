@@ -17,7 +17,6 @@ M.disabled = {
     ["<leader>tn"] = "",
     ["<leader>tp"] = "",
     ["<leader>tt"] = "",
-    ["<leader>uu"] = "",
     ["<leader>v"] = "",
     ["<leader>wK"] = "",
     ["<leader>wa"] = "",
@@ -86,7 +85,7 @@ M.debug = {
 M.telescope = {
   n = {
     ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", "   show keys" },
-    ["<leader>ft"] = { "<cmd> Telescope terms <CR>", "   pick hidden term" },
+    ["<leader>fc"] = { "<cmd> Telescope commands <CR>", "  show commands" },
     ["<leader>fT"] = { "<cmd> Telescope themes <CR>", "   nvchad themes" },
     ["<leader>fs"] = { "<cmd> SessionManager load_session<CR>", "  session" },
     ["<leader>gc"] = { "<cmd> Telescope git_commits <CR>", "   git commits" },
@@ -99,7 +98,7 @@ M.lsp = {
     ["<leader>la"] = { vim.lsp.buf.code_action, "Code Action" },
     ["<leader>ld"] = { "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<cr>", "Buffer Diagnostics" },
     ["<leader>lD"] = { "<cmd>Telescope diagnostics<cr>", "Workspace Diagnostics" },
-    ["<leader>lf"] = { vim.lsp.buf.format, "Format" },
+    ["<leader>lf"] = { ":Neoformat<cr>", "Format" },
     ["<leader>li"] = { "<cmd>LspInfo<cr>", "Info" },
     ["<leader>lI"] = { "<cmd>Mason<cr>", "Installer Info" },
     ["<leader>ll"] = { vim.lsp.codelens.run, "CodeLens Action" },
@@ -164,23 +163,18 @@ M.gitsigns = {
   },
 }
 
--- M.groups = {
---   n = {
---     ["<leader>"] = {
---       f = { name = "find" },
---       z = { name = "zk notes" },
---       r = { name = "rest" },
---       c = { name = "code" },
---       t = { name = "test/telescope" },
---     },
---   },
--- }
-
 M.tabufline = {
   n = {
     ["L"] = { require("nvchad_ui.tabufline").tabuflineNext, "  goto next buffer" },
     ["H"] = { require("nvchad_ui.tabufline").tabuflinePrev, "  goto prev buffer" },
   },
+}
+
+M.code = {
+  n = {
+    ["<leader>cp"] = {"<cmd>lua require('custom.my-plugins.printf').printf()<cr>", "printf"},
+    ["<leader>cP"] = {"<cmd>lua require('custom.my-plugins.printf').clear()<cr>", "clear printf"},
+  }
 }
 
 return M

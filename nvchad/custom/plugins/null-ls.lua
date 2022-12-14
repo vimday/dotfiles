@@ -10,9 +10,9 @@ local sources = {
   b.formatting.shfmt,
   -- b.formatting.stylua,
   b.formatting.black,
-  b.formatting.clang_format.with {
-    filetypes = { "proto" },
-  },
+  -- b.formatting.clang_format.with {
+  --   filetypes = { "proto" },
+  -- },
   b.formatting.pg_format,
   b.formatting.prettier.with {
     extra_filetypes = { "markdown" },
@@ -25,6 +25,7 @@ local sources = {
     diagnostics_postprocess = function(diagnostic)
       diagnostic.severity = vim.diagnostic.severity.HINT
     end,
+    disabled_filetypes = { "NvimTree" },
   },
 }
 

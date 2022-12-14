@@ -34,7 +34,7 @@ local M = {
     event = "BufRead",
     config = function()
       require("todo-comments").setup {}
-    end
+    end,
   },
   ["kyazdani42/nvim-tree.lua"] = {
     override_options = {
@@ -49,7 +49,7 @@ local M = {
           },
         },
       },
-    }
+    },
   },
   ["nvim-treesitter/nvim-treesitter"] = {
     override_options = {
@@ -71,9 +71,9 @@ local M = {
         "tsx",
         "http",
       },
-    }
+    },
   },
-  ['rhysd/conflict-marker.vim'] = {
+  ["rhysd/conflict-marker.vim"] = {
     event = "BufRead",
   },
   ["goolord/alpha-nvim"] = {
@@ -82,10 +82,11 @@ local M = {
       require("alpha").setup(require("alpha.themes.startify").config)
     end,
   },
-  ["ggandor/leap.nvim"] = {
-    event = "BufRead",
+  ["ggandor/lightspeed.nvim"] = {
     config = function()
-      require("leap").set_default_keymaps()
+      require("lightspeed").setup {
+        ignore_case = true,
+      }
     end,
   },
   ["tpope/vim-surround"] = { event = "BufRead" },
@@ -158,7 +159,7 @@ local M = {
   },
   ["stevearc/dressing.nvim"] = {
     config = function()
-      require("dressing").setup { select = { backend = { "telescope" } } }
+      require("dressing").setup {}
     end,
   },
   ["Shatur/neovim-session-manager"] = {
@@ -170,16 +171,17 @@ local M = {
       }
     end,
   },
-  ["kevinhwang91/nvim-bqf"] = { ft = "qf",
+  ["kevinhwang91/nvim-bqf"] = {
+    ft = "qf",
     config = function()
-      require('bqf').setup({
+      require("bqf").setup {
         auto_enable = true,
         auto_resize_height = true, -- highly recommended enable
         preview = {
           win_height = 12,
           win_vheight = 12,
           delay_syntax = 80,
-          border_chars = { '┃', '┃', '━', '━', '┏', '┓', '┗', '┛', '█' },
+          border_chars = { "┃", "┃", "━", "━", "┏", "┓", "┗", "┛", "█" },
           show_title = false,
           should_preview_cb = function(bufnr, qwinid)
             local ret = true
@@ -188,12 +190,12 @@ local M = {
             if fsize > 100 * 1024 then
               -- skip file size greater than 100k
               ret = false
-            elseif bufname:match('^fugitive://') then
+            elseif bufname:match "^fugitive://" then
               -- skip fugitive buffer
               ret = false
             end
             return ret
-          end
+          end,
         },
         -- make `drop` and `tab drop` to become preferred
         -- func_map = {
@@ -210,8 +212,9 @@ local M = {
         --     extra_opts = { '--bind', 'ctrl-o:toggle-all', '--prompt', '> ' }
         --   }
         -- }
-      })
-    end },
+      }
+    end,
+  },
   ["editorconfig/editorconfig-vim"] = {
     event = "BufRead",
     config = function()
@@ -222,7 +225,7 @@ local M = {
   ["simrat39/symbols-outline.nvim"] = {
     config = function()
       require("symbols-outline").setup()
-    end
+    end,
   },
   ["toppair/reach.nvim"] = {
     event = "BufRead",
@@ -293,7 +296,11 @@ local M = {
     end,
     requires = "nvim-treesitter/nvim-treesitter",
   },
-  ["padde/jump.vim"] = {}, -- use for autojump
+  ["padde/jump.vim"] = {
+    config = function()
+      vim.g.autojump_vim_command = "tcd"
+    end,
+  }, -- use for autojump
   ["tpope/vim-unimpaired"] = {},
   ["windwp/nvim-ts-autotag"] = {
     config = function()
@@ -381,8 +388,8 @@ local M = {
         spelling = {
           enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
           suggestions = 20, -- how many suggestions should be shown in the list?
-        }
-      }
+        },
+      },
     },
     config = function()
       require "plugins.configs.whichkey"
@@ -390,9 +397,7 @@ local M = {
       wk.register({
         f = { name = "find" },
         z = { name = "zk notes" },
-        r = { name = "rest" },
-        c = { name = "code" },
-        t = { name = "test/telescope" },
+        t = { name = "test" },
         l = { name = "lsp" },
         g = { name = "git" },
         d = { name = "debug" },
@@ -403,8 +408,8 @@ local M = {
     -- disable = true,
     after = "nvim-lspconfig",
     config = function()
-      local banned_words = { "textDocument/" }
-      local notify = require("notify")
+      local banned_words = { "textDocument/", "multiple different client offset_encodings detected" }
+      local notify = require "notify"
       vim.notify = function(msg, ...)
         for _, banned in ipairs(banned_words) do
           if string.find(msg, banned) then
@@ -428,14 +433,15 @@ local M = {
   ["nvim-treesitter/nvim-treesitter-context"] = {
     event = "BufRead",
     config = function()
+      vim.cmd [[hi TreesitterContextBottom gui=underline guisp=Grey]]
       require("treesitter-context").setup {}
     end,
   },
-  ['j-hui/fidget.nvim'] = {
+  ["j-hui/fidget.nvim"] = {
     disable = true,
     config = function()
-      require "fidget".setup {}
-    end
+      require("fidget").setup {}
+    end,
   },
   ["smjonas/live-command.nvim"] = {
     event = "BufRead",
@@ -449,19 +455,50 @@ local M = {
   },
   ["wbthomason/packer.nvim"] = {
     override_options = {
-      max_jobs = 12
-    }
+      max_jobs = 20,
+    },
   },
   -- ["NvChad/ui"] = {
   --   override_options = require('custom.plugins.ui'),
   -- },
+  ["NvChad/nvterm"] = {
+    override_options = {
+      terminals = {
+        type_opts = {
+          float = {
+            relative = "editor",
+            row = 0.15,
+            col = 0.15,
+            width = 0.7,
+            height = 0.7,
+            border = "single",
+          },
+        },
+      },
+    },
+  },
   ["SmiteshP/nvim-navic"] = {
     requires = "neovim/nvim-lspconfig",
     module = "nvim-navic",
     config = function()
       require("nvim-navic").setup { highlight = true }
-    end
-  }
+    end,
+  },
+  ["folke/neodev.nvim"] = {
+    ft = "lua",
+    config = function()
+      require("neodev").setup {}
+      vim.lsp.start {
+        name = "lua-language-server",
+        cmd = { "lua-language-server" },
+        before_init = require("neodev.lsp").before_init,
+        root_dir = vim.fn.getcwd(),
+        settings = { Lua = {} },
+      }
+    end,
+  },
+  ["rafcamlet/nvim-luapad"] = { requires = "antoinemadec/FixCursorHold.nvim" },
+  ["tpope/vim-dispatch"] = {},
 }
 
 return M

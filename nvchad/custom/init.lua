@@ -31,7 +31,7 @@ opt.wrap = true
 -- opt.spelloptions = "camel"
 g.conflict_marker_enable_mappings = 0
 
-local theme_cmd = {
+local highlightss = {
   -- diff
   "hi DiffText guifg=#FFB86C guibg=#33354f gui=NONE",
   "hi CursorLine guibg=#33354F",
@@ -63,7 +63,7 @@ local theme_cmd = {
 }
 
 local autocmds = {
-  { "UIEnter", "*", table.concat(theme_cmd, " | ") },
+  { "UIEnter", "*", table.concat(highlightss, " | ") },
   { "InsertLeave", "*", "lua vim.diagnostic.config({ virtual_text = { prefix = '' } })" },
   { "InsertLeave", "*", ":set relativenumber" },
   { "InsertEnter", "*", ":set norelativenumber" },
@@ -74,6 +74,8 @@ local autocmds = {
 for _, v in ipairs(autocmds) do
   vim.api.nvim_create_autocmd(v[1], { pattern = v[2], command = v[3] })
 end
+
+-- User Defined Function
 
 -- GUI
 if g.neovide then
@@ -95,3 +97,4 @@ if g.neovide then
     tmap ˆ <a-i>
   ]]
 end
+

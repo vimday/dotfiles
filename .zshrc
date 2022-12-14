@@ -71,12 +71,11 @@ export ZSH="/Users/hrli/.oh-my-zsh"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    # history
+    history
     # emoji
     git
     gitignore
-    # vi-mode
-    # safe-paste
+    safe-paste
     colored-man-pages
     autojump
     tmux
@@ -101,6 +100,7 @@ zplug "spwhitt/nix-zsh-completions"
 zplug "paulirish/git-open"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting"
+# zplug "jeffreytse/zsh-vi-mode"
 
 # Then, source plugins and add commands to $PATH
 zplug load
