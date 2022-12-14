@@ -72,6 +72,7 @@ export ZSH="/Users/hrli/.oh-my-zsh"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     history
+    vi-mode
     # emoji
     git
     gitignore
@@ -129,6 +130,7 @@ fi
 alias x=xplr
 alias rm=trash
 alias v=nvim
+alias nv='neovide'
 alias sed=gsed
 alias proxy-enable='export https_proxy=http://127.0.0.1:7890;export http_proxy=http://127.0.0.1:7890;export all_proxy=socks5://127.0.0.1:7890'
 alias proxy-disable='unset https_proxy http_proxy all_proxy'
@@ -146,8 +148,8 @@ export TODOTXT_DEFAULT_ACTION=ls
 alias t='todo.sh -d ~/.todo.cfg'
 
 # mcfly: sub <C-r> search history
-# eval "$(mcfly init zsh)"
-# export MCFLY_RESULTS=50
+eval "$(mcfly init zsh)"
+export MCFLY_RESULTS=50
 
 # starship prompt
 source <(/usr/local/bin/starship init zsh --print-full-init)

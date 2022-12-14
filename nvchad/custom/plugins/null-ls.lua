@@ -23,7 +23,7 @@ local sources = {
   },
   b.diagnostics.cspell.with {
     diagnostics_postprocess = function(diagnostic)
-      diagnostic.severity = vim.diagnostic.severity.HINT
+      diagnostic.severity = vim.diagnostic.severity.INFO
     end,
     disabled_filetypes = { "NvimTree" },
   },

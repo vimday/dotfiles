@@ -23,7 +23,7 @@ M.disabled = {
     ["<leader>wk"] = "",
     ["<leader>wl"] = "",
     ["<leader>wr"] = "",
-    ["gx"] = ""
+    ["gx"] = "",
   },
   i = {
     ["<C-h>"] = "",
@@ -42,13 +42,12 @@ M.general = {
     ["<leader>."] = { ":<Up><CR>", "last cmd" },
     ["<leader>;"] = { "<cmd>Alpha<CR>", "open dashboard" },
     ["<leader>S"] = { "<cmd>lua require('spectre').open()<CR>", "spectre" },
-    ["<leader>p"] = { "<cmd>TroubleToggle<CR>", "problems" },
+    ["<leader>tp"] = { "<cmd>TroubleToggle<CR>", "problems" },
     ["<leader>b"] = { "<cmd>b#<cr>", "last buffer" },
-    ["gx"] = { "<cmd>silent !open <cfile><cr>", "open cursor file with system default" }
+    ["gx"] = { "<cmd>silent !open <cfile><cr>", "open cursor file with system default" },
   },
-  c = {
-    ["<C-j>"] = { 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', "pre cmd" },
-    ["<C-k>"] = { 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', "nxt cmd" },
+  v = {
+    ["<leader>S"] = { "<cmd>lua require('spectre').open_visual()<CR>", "spectre" },
   },
 }
 
@@ -82,19 +81,20 @@ M.debug = {
   },
 }
 
-M.telescope = {
-  n = {
-    ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", "   show keys" },
-    ["<leader>fc"] = { "<cmd> Telescope commands <CR>", "  show commands" },
-    ["<leader>fT"] = { "<cmd> Telescope themes <CR>", "   nvchad themes" },
-    ["<leader>fs"] = { "<cmd> SessionManager load_session<CR>", "  session" },
-    ["<leader>gc"] = { "<cmd> Telescope git_commits <CR>", "   git commits" },
-    ["<leader>gt"] = { "<cmd> Telescope git_status <CR>", "   git status" },
-  },
-}
-
 M.lsp = {
   n = {
+    ["[E"] = {
+      function()
+        vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.ERROR }
+      end,
+      "prev error",
+    },
+    ["]E"] = {
+      function()
+        vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR }
+      end,
+      "next error",
+    },
     ["<leader>la"] = { vim.lsp.buf.code_action, "Code Action" },
     ["<leader>ld"] = { "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<cr>", "Buffer Diagnostics" },
     ["<leader>lD"] = { "<cmd>Telescope diagnostics<cr>", "Workspace Diagnostics" },
@@ -102,12 +102,18 @@ M.lsp = {
     ["<leader>li"] = { "<cmd>LspInfo<cr>", "Info" },
     ["<leader>lI"] = { "<cmd>Mason<cr>", "Installer Info" },
     ["<leader>ll"] = { vim.lsp.codelens.run, "CodeLens Action" },
-    ["<leader>lq"] = { function()
-      vim.diagnostic.setloclist({ severity = vim.diagnostic.severity.ERROR })
-    end, "Quickfix Document" },
-    ["<leader>lQ"] = { function()
-      vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR })
-    end, "Quickfix Workspace" },
+    ["<leader>lq"] = {
+      function()
+        vim.diagnostic.setloclist { severity = vim.diagnostic.severity.ERROR }
+      end,
+      "Quickfix Document",
+    },
+    ["<leader>lQ"] = {
+      function()
+        vim.diagnostic.setqflist { severity = vim.diagnostic.severity.ERROR }
+      end,
+      "Quickfix Workspace",
+    },
     ["<leader>lr"] = { require("nvchad_ui.renamer").open, "Rename" },
     ["<leader>ls"] = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
     ["<leader>lS"] = {
@@ -172,9 +178,8 @@ M.tabufline = {
 
 M.code = {
   n = {
-    ["<leader>cp"] = {"<cmd>lua require('custom.my-plugins.printf').printf()<cr>", "printf"},
-    ["<leader>cP"] = {"<cmd>lua require('custom.my-plugins.printf').clear()<cr>", "clear printf"},
-  }
+    ["<leader>pf"] = { "<cmd>lua require('custom.my-plugins.printf').printf()<cr>", "printf" },
+  },
 }
 
 return M

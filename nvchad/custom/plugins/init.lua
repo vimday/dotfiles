@@ -11,6 +11,7 @@ local M = {
   },
   -- lsp
   ["neovim/nvim-lspconfig"] = {
+    after = "neodev.nvim",
     config = function()
       require "custom.plugins.lspconfig"
     end,
@@ -95,8 +96,12 @@ local M = {
     config = function()
       require("rust-tools").setup {
         server = {
-          standalone = false,
           on_attach = require("plugins.configs.lspconfig").on_attach,
+          settings = {
+            ["rust-analyzer"] = {
+              inlayHints = { locationLinks = false },
+            },
+          },
         },
       }
     end,
@@ -267,6 +272,7 @@ local M = {
   ["ray-x/go.nvim"] = {
     after = "nvim-lspconfig",
     ft = { "go" },
+    requires = { "ray-x/guihua.lua" },
     config = function()
       require("go").setup()
     end,
@@ -420,16 +426,6 @@ local M = {
       end
     end,
   },
-  ["nanotee/sqls.nvim"] = {
-    ft = "sql",
-    config = function()
-      require("lspconfig").sqls.setup {
-        on_attach = function(client, bufnr)
-          require("sqls").on_attach(client, bufnr)
-        end,
-      }
-    end,
-  },
   ["nvim-treesitter/nvim-treesitter-context"] = {
     event = "BufRead",
     config = function()
@@ -462,6 +458,7 @@ local M = {
   --   override_options = require('custom.plugins.ui'),
   -- },
   ["NvChad/nvterm"] = {
+    disable = true,
     override_options = {
       terminals = {
         type_opts = {
@@ -488,17 +485,62 @@ local M = {
     ft = "lua",
     config = function()
       require("neodev").setup {}
-      vim.lsp.start {
-        name = "lua-language-server",
-        cmd = { "lua-language-server" },
-        before_init = require("neodev.lsp").before_init,
-        root_dir = vim.fn.getcwd(),
-        settings = { Lua = {} },
-      }
     end,
   },
   ["rafcamlet/nvim-luapad"] = { requires = "antoinemadec/FixCursorHold.nvim" },
   ["tpope/vim-dispatch"] = {},
+  ["michaelb/sniprun"] = {
+    run = "bash ./install.sh",
+    config = function()
+      require("sniprun").setup {}
+    end,
+  },
+  ["akinsho/toggleterm.nvim"] = {
+    tag = "*",
+    config = function()
+      require("toggleterm").setup {
+        open_mapping = [[<c-\>]],
+        start_in_insert = false,
+        shade_terminals = true,
+        auto_scroll = false,
+        float_opts = {
+          border = "curved",
+        },
+      }
+      vim.keymap.set("t", "jk", [[<C-\><C-n>]])
+    end,
+  },
+  ["Pocco81/true-zen.nvim"] = {
+    config = function()
+      require("true-zen").setup {}
+    end,
+  },
+  ["b0o/incline.nvim"] = {
+    config = function()
+      require("incline").setup()
+    end,
+  },
+  ["hrsh7th/cmp-cmdline"] = {
+    after = "nvim-cmp",
+    config = function()
+      local cmp = require "cmp"
+      cmp.setup.cmdline({ "/", "?" }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "buffer" },
+        },
+      })
+
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = "path" },
+        }, {
+          { name = "cmdline" },
+        }),
+      })
+    end,
+  },
 }
 
 return M

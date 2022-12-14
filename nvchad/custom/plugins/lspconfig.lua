@@ -1,6 +1,6 @@
 local _on_attach = require("plugins.configs.lspconfig").on_attach
 local capabilities = require("plugins.configs.lspconfig").capabilities
-local navic = require("nvim-navic")
+local navic = require "nvim-navic"
 
 local on_attach = function(client, bufnr)
   _on_attach(client, bufnr)
@@ -10,12 +10,23 @@ local on_attach = function(client, bufnr)
 end
 
 require("lspconfig").clangd.setup {
-  on_attach = on_attach
+  on_attach = on_attach,
 }
 local lspconfig = require "lspconfig"
 
-local servers = { "vimls", "html", "cssls", "bashls", "pyright", "gopls", "tsserver", "jsonls", "taplo", "prosemd_lsp",
-  "eslint" }
+local servers = {
+  "vimls",
+  "html",
+  "cssls",
+  "bashls",
+  "pyright",
+  "gopls",
+  "tsserver",
+  "jsonls",
+  "taplo",
+  "prosemd_lsp",
+  "eslint",
+}
 
 for _, lsp in ipairs(servers) do
   if lsp == "clangd" then
