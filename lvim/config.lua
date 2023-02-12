@@ -171,7 +171,7 @@ lvim.plugins = {
   },
   {
     "m-demare/hlargs.nvim",
-    requires = { "nvim-treesitter/nvim-treesitter" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
       require("hlargs").setup()
       vim.cmd([[highlight! link Hlargs TSParameter]])
@@ -197,7 +197,7 @@ lvim.plugins = {
     end,
     ft = "rust",
   },
-  { "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" },
+  { "sindrets/diffview.nvim", dependencies = "nvim-lua/plenary.nvim" },
   {
     "norcalli/nvim-colorizer.lua",
     event = "BufRead",
@@ -338,7 +338,7 @@ lvim.plugins = {
       require("neogen").setup({})
     end,
     event = "BufRead",
-    requires = "nvim-treesitter/nvim-treesitter",
+    dependencies = "nvim-treesitter/nvim-treesitter",
   },
   { "padde/jump.vim" }, -- use for autojump
   { "tpope/vim-unimpaired" },
@@ -373,7 +373,7 @@ lvim.plugins = {
       m("n", "<leader>zd", "<Cmd>ZkNew { group = 'daily' }<CR>")
     end,
   },
-  { "preservim/vim-markdown", requires = "godlygeek/tabular", ft = "markdown" },
+  { "preservim/vim-markdown", dependencies = "godlygeek/tabular", ft = "markdown" },
   {
     "jbyuki/nabla.nvim",
     ft = "markdown",
@@ -392,7 +392,7 @@ lvim.plugins = {
   {
     "nvim-neotest/neotest",
     event = "BufRead",
-    requires = {
+    dependencies = {
       "vim-test/vim-test",
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",

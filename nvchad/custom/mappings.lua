@@ -24,6 +24,8 @@ M.disabled = {
     ["<leader>wl"] = "",
     ["<leader>wr"] = "",
     ["gx"] = "",
+    ["gi"] = "",
+    ["<Bslash>"] = "",
   },
   i = {
     ["<C-h>"] = "",
@@ -94,6 +96,10 @@ M.lsp = {
         vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR }
       end,
       "next error",
+    },
+    ["gI"] = {
+      vim.lsp.buf.implementation,
+      "lsp implementation",
     },
     ["<leader>la"] = { vim.lsp.buf.code_action, "Code Action" },
     ["<leader>ld"] = { "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<cr>", "Buffer Diagnostics" },
@@ -179,6 +185,13 @@ M.tabufline = {
 M.code = {
   n = {
     ["<leader>pf"] = { "<cmd>lua require('custom.my-plugins.printf').printf()<cr>", "printf" },
+  },
+}
+
+M.reach = {
+  n = {
+    ["<C-b>"] = { "<cmd>:ReachOpen buffers<CR>", "buffers" },
+    ["<C-m>"] = { "<cmd>:ReachOpen marks<CR>", "marks" },
   },
 }
 

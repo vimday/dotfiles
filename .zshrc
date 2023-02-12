@@ -71,23 +71,23 @@ export ZSH="/Users/hrli/.oh-my-zsh"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    history
-    vi-mode
-    # emoji
-    git
-    gitignore
-    safe-paste
-    colored-man-pages
-    autojump
-    tmux
-    rust
-    nvm
-    fancy-ctrl-z
-    # command-not-found
+  history
+  vi-mode
+  # emoji
+  git
+  gitignore
+  safe-paste
+  colored-man-pages
+  autojump
+  tmux
+  rust
+  nvm
+  fancy-ctrl-z
+  # command-not-found
 )
 
 # custom completion
-fpath+=~/.zfunc 
+fpath+=~/.zfunc
 
 source $ZSH/oh-my-zsh.sh
 
@@ -157,7 +157,7 @@ source <(/usr/local/bin/starship init zsh --print-full-init)
 # perl
 export PATH="$PATH:/usr/local/Cellar/perl/5.34.0/bin/"
 
-# golang
+# freewheel
 export GO111MODULE=on
 export GOPROXY=https://arti.freewheel.tv/api/go/go
 export GOSUMDB=off
@@ -169,15 +169,15 @@ fi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/usr/local/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/usr/local/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2>/dev/null)"
 if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
+  eval "$__conda_setup"
 else
-    if [ -f "/usr/local/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
-        . "/usr/local/Caskroom/miniconda/base/etc/profile.d/conda.sh"
-    else
-        export PATH="/usr/local/Caskroom/miniconda/base/bin:$PATH"
-    fi
+  if [ -f "/usr/local/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
+    . "/usr/local/Caskroom/miniconda/base/etc/profile.d/conda.sh"
+  else
+    export PATH="/usr/local/Caskroom/miniconda/base/bin:$PATH"
+  fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<

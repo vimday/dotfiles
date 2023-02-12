@@ -9,6 +9,12 @@ local M = {
       vim.cmd [[autocmd CursorHold * lua require'nvim-lightbulb'.update_lightbulb()]]
     end,
   },
+  ["andymass/vim-matchup"] = {
+    setup = function()
+      -- may set any options here
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end,
+  },
   -- lsp
   ["neovim/nvim-lspconfig"] = {
     after = "neodev.nvim",
@@ -26,7 +32,7 @@ local M = {
   ["windwp/nvim-spectre"] = {
     module = "spectre",
     config = function()
-      require("spectre").setup { mapping = { ["send_to_qf"] = { map = "<localLeader>q" } } }
+      require("spectre").setup { mapping = { ["send_to_qf"] = { map = "<C-q>" } } }
     end,
   },
   ["f-person/git-blame.nvim"] = { event = "BufRead" },
@@ -37,7 +43,7 @@ local M = {
       require("todo-comments").setup {}
     end,
   },
-  ["kyazdani42/nvim-tree.lua"] = {
+  ["nvim-tree/nvim-tree.lua"] = {
     override_options = {
       git = {
         enable = true,
@@ -119,50 +125,8 @@ local M = {
       ]]
     end,
   },
-  ["jbyuki/venn.nvim"] = {
-    event = "BufRead",
-    config = function()
-      local venn = require "venn"
-      venn.set_line({ "s", "s", " ", " " }, "|")
-      venn.set_line({ " ", "s", " ", "s" }, "+")
-      venn.set_line({ "s", " ", " ", "s" }, "+")
-      venn.set_line({ " ", "s", "s", " " }, "+")
-      venn.set_line({ "s", " ", "s", " " }, "+")
-      venn.set_line({ " ", "s", "s", "s" }, "+")
-      venn.set_line({ "s", " ", "s", "s" }, "+")
-      venn.set_line({ "s", "s", " ", "s" }, "+")
-      venn.set_line({ "s", "s", "s", " " }, "+")
-      venn.set_line({ "s", "s", "s", "s" }, "+")
-      venn.set_line({ " ", " ", "s", "s" }, "-")
-      venn.set_arrow("up", "^")
-      venn.set_arrow("down", "v")
-      venn.set_arrow("left", "<")
-      venn.set_arrow("right", ">")
-
-      -- venn.nvim: enable or disable keymappings
-      function _G.ToggleVenn()
-        local venn_enabled = vim.inspect(vim.b.venn_enabled)
-        if venn_enabled == "nil" then
-          vim.b.venn_enabled = true
-          vim.cmd [[setlocal ve=all]]
-          -- draw a line on HJKL keystrokes
-          vim.api.nvim_buf_set_keymap(0, "n", "J", "<C-v>j:VBox<CR>", { noremap = true })
-          vim.api.nvim_buf_set_keymap(0, "n", "K", "<C-v>k:VBox<CR>", { noremap = true })
-          vim.api.nvim_buf_set_keymap(0, "n", "L", "<C-v>l:VBox<CR>", { noremap = true })
-          vim.api.nvim_buf_set_keymap(0, "n", "H", "<C-v>h:VBox<CR>", { noremap = true })
-          -- draw a box by pressing "f" with visual selection
-          vim.api.nvim_buf_set_keymap(0, "v", "f", ":VBox<CR>", { noremap = true })
-        else
-          vim.cmd [[setlocal ve=]]
-          vim.cmd [[mapclear <buffer>]]
-          vim.b.venn_enabled = nil
-        end
-      end
-
-      vim.api.nvim_set_keymap("n", "<leader>tv", ":lua ToggleVenn()<CR>", { noremap = true })
-    end,
-  },
   ["stevearc/dressing.nvim"] = {
+    event = "BufRead",
     config = function()
       require("dressing").setup {}
     end,
@@ -226,7 +190,6 @@ local M = {
       vim.g.EditorConfig_exclude_patterns = { "fugitive://.*", "scp://.*", "term://*" }
     end,
   },
-  ["nvim-treesitter/playground"] = { event = "BufRead" },
   ["simrat39/symbols-outline.nvim"] = {
     config = function()
       require("symbols-outline").setup()
@@ -238,8 +201,7 @@ local M = {
       -- default config
       require("reach").setup {}
       vim.cmd [[
-        nnoremap B <cmd>:ReachOpen buffers<CR>
-        nnoremap M <cmd>:ReachOpen marks<CR>
+        hi! link ReachHandleDelete DiffRemoved
       ]]
     end,
   },
@@ -247,7 +209,9 @@ local M = {
   ["ellisonleao/glow.nvim"] = {
     ft = "markdown",
     config = function()
-      require("glow").setup {}
+      require("glow").setup {
+        width = 120,
+      }
     end,
   },
   ["chentoast/marks.nvim"] = {
@@ -277,7 +241,7 @@ local M = {
       require("go").setup()
     end,
   },
-  ["nvim-telescope/telescope.nvim"] = { module = "telescope" },
+  -- ["nvim-telescope/telescope.nvim"] = { module = "telescope" },
   ["mfussenegger/nvim-dap"] = {
     config = function()
       require "custom.plugins.dap"
@@ -307,8 +271,11 @@ local M = {
       vim.g.autojump_vim_command = "tcd"
     end,
   }, -- use for autojump
-  ["tpope/vim-unimpaired"] = {},
+  ["tpope/vim-unimpaired"] = {
+    event = "BufRead",
+  },
   ["windwp/nvim-ts-autotag"] = {
+    event = "BufRead",
     config = function()
       require("nvim-ts-autotag").setup()
     end,
@@ -318,28 +285,6 @@ local M = {
       require("zk").setup {
         picker = "telescope",
       }
-      local m = function(mode, lhs, rhs)
-        vim.api.nvim_set_keymap(mode, lhs, rhs, { noremap = true, silent = false })
-      end
-
-      -- Create a new note after asking for its title.
-      m("n", "<leader>zn", "<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>")
-      -- Open notes.
-      m("n", "<leader>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>")
-      -- Open notes associated with the selected tags.
-      m("n", "<leader>zt", "<Cmd>ZkTags<CR>")
-      -- Open notes linking to the current buffer.
-      m("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>")
-      -- Alternative for backlinks using pure LSP and showing the source context.
-      --map('n', '<leader>zb', '<Cmd>lua vim.lsp.buf.references()<CR>')
-      -- Open notes linked by the current buffer.
-      m("n", "<leader>zl", "<Cmd>ZkLinks<CR>")
-      -- Search for the notes matching a given query.
-      m("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' }, match = vim.fn.input('Search: ') }<CR>")
-      -- Search for the notes matching the current visual selection.
-      m("v", "<leader>zf", ":'<,'>ZkMatch<CR>")
-      -- Create a new daily note
-      m("n", "<leader>zd", "<Cmd>ZkNew { group = 'daily' }<CR>")
     end,
   },
   ["preservim/vim-markdown"] = { requires = "godlygeek/tabular", ft = "markdown" },
@@ -402,7 +347,6 @@ local M = {
       local wk = require "which-key"
       wk.register({
         f = { name = "find" },
-        z = { name = "zk notes" },
         t = { name = "test" },
         l = { name = "lsp" },
         g = { name = "git" },
@@ -454,9 +398,6 @@ local M = {
       max_jobs = 20,
     },
   },
-  -- ["NvChad/ui"] = {
-  --   override_options = require('custom.plugins.ui'),
-  -- },
   ["NvChad/nvterm"] = {
     disable = true,
     override_options = {
@@ -474,13 +415,6 @@ local M = {
       },
     },
   },
-  ["SmiteshP/nvim-navic"] = {
-    requires = "neovim/nvim-lspconfig",
-    module = "nvim-navic",
-    config = function()
-      require("nvim-navic").setup { highlight = true }
-    end,
-  },
   ["folke/neodev.nvim"] = {
     ft = "lua",
     config = function()
@@ -488,7 +422,6 @@ local M = {
     end,
   },
   ["rafcamlet/nvim-luapad"] = { requires = "antoinemadec/FixCursorHold.nvim" },
-  ["tpope/vim-dispatch"] = {},
   ["michaelb/sniprun"] = {
     run = "bash ./install.sh",
     config = function()
@@ -510,12 +443,8 @@ local M = {
       vim.keymap.set("t", "jk", [[<C-\><C-n>]])
     end,
   },
-  ["Pocco81/true-zen.nvim"] = {
-    config = function()
-      require("true-zen").setup {}
-    end,
-  },
   ["b0o/incline.nvim"] = {
+    event = "BufRead",
     config = function()
       require("incline").setup()
     end,
@@ -539,6 +468,12 @@ local M = {
           { name = "cmdline" },
         }),
       })
+    end,
+  },
+  ["iamcco/markdown-preview.nvim"] = {
+    ft = "markdown",
+    run = function()
+      vim.fn["mkdp#util#install"]()
     end,
   },
 }

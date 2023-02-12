@@ -28,6 +28,7 @@ o.foldlevelstart = 99
 o.swapfile = true
 o.scrolloff = 8
 o.wrap = true
+o.relativenumber = true
 -- opt.updatetime = 512
 -- opt.timeoutlen = 400
 -- opt.spell = true
@@ -58,6 +59,9 @@ local highlights = {
   "highlight ConflictMarkerTheirs guibg=#344f69",
   "highlight ConflictMarkerEnd guibg=#2f628e",
   "highlight ConflictMarkerCommonAncestorsHunk guibg=#754a81",
+
+  -- vim-matchup
+  "hi MatchWord guifg=NONE guibg=#5e5f69",
 }
 
 local autocmds = {
@@ -72,43 +76,6 @@ local autocmds = {
 for _, v in ipairs(autocmds) do
   vim.api.nvim_create_autocmd(v[1], { pattern = v[2], command = v[3] })
 end
-
--- -- Terminal Theme: dracula
--- vim.cmd [[
--- " Palette: {{{
---   let g:dracula#palette          = {}
---   let g:dracula#palette.color_0  = '#21222C'
---   let g:dracula#palette.color_1  = '#FF5555'
---   let g:dracula#palette.color_2  = '#50FA7B'
---   let g:dracula#palette.color_3  = '#F1FA8C'
---   let g:dracula#palette.color_4  = '#BD93F9'
---   let g:dracula#palette.color_5  = '#FF79C6'
---   let g:dracula#palette.color_6  = '#8BE9FD'
---   let g:dracula#palette.color_7  = '#F8F8F2'
---   let g:dracula#palette.color_8  = '#6272A4'
---   let g:dracula#palette.color_9  = '#FF6E6E'
---   let g:dracula#palette.color_10 = '#69FF94'
---   let g:dracula#palette.color_11 = '#FFFFA5'
---   let g:dracula#palette.color_12 = '#D6ACFF'
---   let g:dracula#palette.color_13 = '#FF92DF'
---   let g:dracula#palette.color_14 = '#A4FFFF'
---   let g:dracula#palette.color_15 = '#FFFFFF'
---
---   if has('nvim')
---     for s:i in range(16)
---       let g:terminal_color_{s:i} = g:dracula#palette['color_' . s:i]
---     endfor
---   endif
---
---   if has('terminal')
---     let g:terminal_ansi_colors = []
---     for s:i in range(16)
---       call add(g:terminal_ansi_colors, g:dracula#palette['color_' . s:i])
---     endfor
---   endif
--- ]]
-
--- User Defined Function
 
 -- GUI
 if g.neovide then
