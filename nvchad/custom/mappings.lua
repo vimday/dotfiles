@@ -98,16 +98,22 @@ M.lsp = {
       "next error",
     },
     ["gI"] = {
-      vim.lsp.buf.implementation,
+      function ()
+        vim.lsp.buf.implementation()
+      end,
       "lsp implementation",
     },
-    ["<leader>la"] = { vim.lsp.buf.code_action, "Code Action" },
+    ["<leader>la"] = { function ()
+      vim.lsp.buf.code_action()
+    end, "Code Action" },
     ["<leader>ld"] = { "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<cr>", "Buffer Diagnostics" },
     ["<leader>lD"] = { "<cmd>Telescope diagnostics<cr>", "Workspace Diagnostics" },
     ["<leader>lf"] = { ":Neoformat<cr>", "Format" },
     ["<leader>li"] = { "<cmd>LspInfo<cr>", "Info" },
     ["<leader>lI"] = { "<cmd>Mason<cr>", "Installer Info" },
-    ["<leader>ll"] = { vim.lsp.codelens.run, "CodeLens Action" },
+    ["<leader>ll"] = { function ()
+      vim.lsp.codelens.run()
+    end  , "CodeLens Action" },
     ["<leader>lq"] = {
       function()
         vim.diagnostic.setloclist { severity = vim.diagnostic.severity.ERROR }
@@ -120,7 +126,9 @@ M.lsp = {
       end,
       "Quickfix Workspace",
     },
-    ["<leader>lr"] = { require("nvchad_ui.renamer").open, "Rename" },
+    ["<leader>lr"] = { function ()
+      require("nvchad_ui.renamer").open()
+    end, "Rename" },
     ["<leader>ls"] = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
     ["<leader>lS"] = {
       "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
@@ -177,8 +185,12 @@ M.gitsigns = {
 
 M.tabufline = {
   n = {
-    ["L"] = { require("nvchad_ui.tabufline").tabuflineNext, "  goto next buffer" },
-    ["H"] = { require("nvchad_ui.tabufline").tabuflinePrev, "  goto prev buffer" },
+    ["L"] = { function ()
+      require("nvchad_ui.tabufline").tabuflineNext()
+    end, "  goto next buffer" },
+    ["H"] = { function ()
+      require("nvchad_ui.tabufline").tabuflinePrev()
+    end, "  goto prev buffer" },
   },
 }
 
