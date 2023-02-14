@@ -202,8 +202,8 @@ M.code = {
 
 M.reach = {
   n = {
-    ["<C-b>"] = { "<cmd>:ReachOpen buffers<CR>", "buffers" },
-    ["<C-m>"] = { "<cmd>:ReachOpen marks<CR>", "marks" },
+    ["B"] = { "<cmd>:ReachOpen buffers<CR>", "buffers" },
+    ["M"] = { "<cmd>:ReachOpen marks<CR>", "marks" },
   },
 }
 
