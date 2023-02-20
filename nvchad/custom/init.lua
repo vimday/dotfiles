@@ -65,6 +65,11 @@ local highlights = {
 }
 
 local autocmds = {
+  {
+    "UIEnter",
+    "*",
+    "lua require('base46').load_all_highlights()",
+  }, -- fix nvchad
   { "UIEnter", "*", table.concat(highlights, " | ") },
   { "InsertLeave", "*", "lua vim.diagnostic.config({ virtual_text = { prefix = '' } })" },
   { "InsertLeave", "*", ":set relativenumber" },
