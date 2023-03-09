@@ -20,7 +20,7 @@ local M = { -- utils
   },
   {
     "andymass/vim-matchup",
-    event = "BufRead",
+    event = "VeryLazy",
     init = function()
       -- may set any options here
       vim.g.matchup_matchparen_offscreen = {
@@ -129,7 +129,7 @@ local M = { -- utils
   {
     "folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",
-    event = "BufRead",
+    event = "VeryLazy",
     config = function()
       require("todo-comments").setup {}
     end,
@@ -179,7 +179,7 @@ local M = { -- utils
   },
   {
     "ggandor/lightspeed.nvim",
-    event = "BufRead",
+    event = "VeryLazy",
     config = function()
       require("lightspeed").setup {
         ignore_case = true,
@@ -188,7 +188,7 @@ local M = { -- utils
   },
   {
     "tpope/vim-surround",
-    event = "BufRead",
+    event = "VeryLazy",
   },
   {
     "simrat39/rust-tools.nvim",
@@ -233,7 +233,7 @@ local M = { -- utils
   {
     "stevearc/dressing.nvim",
     dependencies = "nvim-telescope/telescope.nvim",
-    lazy = false,
+    event = "VeryLazy",
     config = function()
       require("dressing").setup {}
     end,
@@ -285,7 +285,7 @@ local M = { -- utils
   },
   {
     "editorconfig/editorconfig-vim",
-    event = "BufRead",
+    event = "VeryLazy",
     config = function()
       vim.g.EditorConfig_exclude_patterns = { "fugitive://.*", "scp://.*", "term://*" }
     end,
@@ -310,7 +310,7 @@ local M = { -- utils
   },
   {
     "simnalamburt/vim-mundo",
-    event = "BufRead",
+    event = "VeryLazy",
   },
   {
     "ellisonleao/glow.nvim",
@@ -323,7 +323,7 @@ local M = { -- utils
   },
   {
     "chentoast/marks.nvim",
-    event = "BufRead",
+    event = "VeryLazy",
     config = function()
       require("marks").setup {
         default_mappings = false,
@@ -397,14 +397,14 @@ local M = { -- utils
   },
   {
     "padde/jump.vim",
-    lazy = false,
+    event = "VeryLazy",
     config = function()
       vim.g.autojump_vim_command = "tcd"
     end,
   }, -- use for autojump
   {
     "tpope/vim-unimpaired",
-    event = "BufRead",
+    event = "VeryLazy",
   },
   {
     "windwp/nvim-ts-autotag",
@@ -415,7 +415,7 @@ local M = { -- utils
   },
   {
     "mickael-menu/zk-nvim",
-    lazy = false,
+    event = "VeryLazy",
     config = function()
       require("zk").setup {
         picker = "telescope",
@@ -440,7 +440,7 @@ local M = { -- utils
   },
   {
     "wellle/targets.vim",
-    event = "BufRead",
+    event = "VeryLazy",
   },
   {
     "nvim-neotest/neotest",
@@ -468,7 +468,7 @@ local M = { -- utils
   },
   {
     "sbdchd/neoformat",
-    event = "BufRead",
+    event = "VeryLazy",
     config = function()
       vim.g.neoformat_go_gofmt = {
         exe = "gofmt",
@@ -494,33 +494,10 @@ local M = { -- utils
         },
       },
     },
-    config = function()
-      require "plugins.configs.whichkey"
-      local wk = require "which-key"
-      wk.register({
-        f = {
-          name = "find",
-        },
-        t = {
-          name = "test",
-        },
-        l = {
-          name = "lsp",
-        },
-        g = {
-          name = "git",
-        },
-        d = {
-          name = "debug",
-        },
-      }, {
-        prefix = "<leader>",
-      }) -- insert any whichkey opts here
-    end,
   },
   {
     "nvim-treesitter/nvim-treesitter-context",
-    event = "BufRead",
+    event = "VeryLazy",
     config = function()
       vim.cmd [[hi TreesitterContextBottom gui=underline guisp=Grey]]
       require("treesitter-context").setup {}
@@ -535,7 +512,7 @@ local M = { -- utils
   },
   {
     "smjonas/live-command.nvim",
-    event = "BufRead",
+    event = "VeryLazy",
     config = function()
       require("live-command").setup {
         commands = {
@@ -580,7 +557,7 @@ local M = { -- utils
   {
     "akinsho/toggleterm.nvim",
     version = "*",
-    lazy = false,
+    event = "VeryLazy",
     config = function()
       require("toggleterm").setup {
         open_mapping = [[<c-\>]],
@@ -604,7 +581,7 @@ local M = { -- utils
   {
     "hrsh7th/cmp-cmdline",
     dependencies = "nvim-cmp",
-    lazy = false,
+    event = "VeryLazy",
     config = function()
       local cmp = require "cmp"
       cmp.setup.cmdline({ "/", "?" }, {
@@ -636,7 +613,7 @@ local M = { -- utils
   },
   {
     "folke/noice.nvim",
-    lazy = false,
+    event = "VeryLazy",
     config = function()
       require("noice").setup {
         -- you can enable a preset for easier configuration
@@ -654,9 +631,9 @@ local M = { -- utils
           messages = { view = "mini" },
         },
         popupmenu = { enabled = false },
-        messages = {
-          view = "mini",
-        },
+        -- messages = {
+        --   view = "mini",
+        -- },
       }
     end,
     dependencies = {
@@ -673,6 +650,37 @@ local M = { -- utils
       },
     },
   },
-  { "AndrewRadev/bufferize.vim", lazy = false },
+  { "AndrewRadev/bufferize.vim", event = "VeryLazy" },
+  {
+    "leoluz/nvim-dap-go",
+    ft = "go",
+    config = function()
+      require("dap-go").setup {
+        -- Additional dap configurations can be added.
+        -- dap_configurations accepts a list of tables where each entry
+        -- represents a dap configuration. For more details do:
+        -- :help dap-configuration
+        dap_configurations = {
+          {
+            -- Must be "go" or it will be ignored by the plugin
+            type = "go",
+            name = "Attach remote",
+            mode = "remote",
+            request = "attach",
+          },
+        },
+        -- delve configurations
+        delve = {
+          -- time to wait for delve to initialize the debug session.
+          -- default to 20 seconds
+          initialize_timeout_sec = 20,
+          -- a string that defines the port to start delve debugger.
+          -- default to string "${port}" which instructs nvim-dap
+          -- to start the process in a random available port
+          port = "${port}",
+        },
+      }
+    end,
+  },
 }
 return M

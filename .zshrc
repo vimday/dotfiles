@@ -187,12 +187,18 @@ unset __conda_setup
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 
 # ===== set g environment variables =====
-export GOROOT="${HOME}/.g/go"
-export PATH="${HOME}/bin:${HOME}/.g/go/bin:$PATH"
-export G_MIRROR=https://golang.google.cn/dl/
-unalias g
+# export GOROOT="${HOME}/.g/go"
+# export PATH="${HOME}/bin:${HOME}/.g/go/bin:$PATH"
+# export G_MIRROR=https://golang.google.cn/dl/
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin" unalias g
 
 # ===== homebrew ====
 export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
 export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
 export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
+
+export GOPATH="$HOME/go/1.20.1"; export GOROOT="$HOME/.goenv/versions/1.20.1"; export PATH="$GOPATH/bin:$PATH"; # g-install: do NOT edit, see https://github.com/stefanmaric/g
