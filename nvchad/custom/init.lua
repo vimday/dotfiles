@@ -82,25 +82,25 @@ for _, v in ipairs(autocmds) do
   vim.api.nvim_create_autocmd(v[1], { pattern = v[2], command = v[3] })
 end
 
-if vim.fn.has "wsl" then
-  local clip = "/mnt/c/Windows/System32/clip.exe"
-  vim.api.nvim_create_autocmd({ "TextYankPost" }, {
-    pattern = "*",
-    callback = function()
-      local op = vim.v.event.operator
-      local reg = vim.v.event.regname
-      if op == "y" or op == "d" or op == "x" then
-        if reg == "+" or reg == "" then
-          vim.cmd('call system("' .. clip .. '", @0)')
-        end
-      end
-    end,
-  })
-end
+-- if vim.fn.has "wsl" then
+--   local clip = "/mnt/c/Windows/System32/clip.exe"
+--   vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+--     pattern = "*",
+--     callback = function()
+--       local op = vim.v.event.operator
+--       local reg = vim.v.event.regname
+--       if op == "y" or op == "d" or op == "x" then
+--         if reg == "+" or reg == "" then
+--           vim.cmd('call system("' .. clip .. '", @0)')
+--         end
+--       end
+--     end,
+--   })
+-- end
 
 -- GUI
 if g.neovide then
-  o.guifont = "JetBrainsMono Nerd Font:h13"
+  o.guifont = "JetBrainsMono Nerd Font:h11"
   g.neovide_remember_window_size = true
   g.neovide_cursor_vfx_mode = "railgun"
   g.neovide_confirm_quit = true

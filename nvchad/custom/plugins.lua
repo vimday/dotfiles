@@ -7,7 +7,7 @@ local M = { -- utils
     "kosayoda/nvim-lightbulb",
     event = "BufRead",
     config = function()
-      vim.cmd [[autocmd CursorHold * lua require'nvim-lightbulb'.update_lightbulb()]]
+      vim.cmd [[autocmd CursorHold * lua require 'nvim-lightbulb'.update_lightbulb()]]
     end,
   },
   {
@@ -196,6 +196,13 @@ local M = { -- utils
     ft = "rust",
     config = function()
       require("rust-tools").setup {
+        tools = {
+          inlay_hints = {
+            -- automatically set inlay hints (type hints)
+            -- default: true
+            auto = false,
+          },
+        },
         server = {
           on_attach = require("plugins.configs.lspconfig").on_attach,
           settings = {
@@ -232,8 +239,8 @@ local M = { -- utils
   },
   {
     "stevearc/dressing.nvim",
-    dependencies = "nvim-telescope/telescope.nvim",
     event = "VeryLazy",
+    dependencies = { "nvim-telescope/telescope.nvim", "folke/noice.nvim" },
     config = function()
       require("dressing").setup {}
     end,
@@ -446,22 +453,25 @@ local M = { -- utils
     "nvim-neotest/neotest",
     event = "BufRead",
     dependencies = {
-      "vim-test/vim-test",
+      {
+        "vim-test/vim-test",
+        config = function()
+          vim.cmd 'let test#strategy ="neovim"'
+        end,
+      },
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
-      "antoinemadec/FixCursorHold.nvim",
       "nvim-neotest/neotest-plenary",
       "nvim-neotest/neotest-go",
       "nvim-neotest/neotest-vim-test",
     },
     config = function()
+      vim.cmd [[let test#strategy ="neovim"]]
       require("neotest").setup {
         adapters = {
           require "neotest-go",
           require "neotest-plenary",
-          require "neotest-vim-test" {
-            ignore_file_types = { "go", "vim", "lua" },
-          },
+          require "neotest-vim-test",
         },
       }
     end,
@@ -486,6 +496,7 @@ local M = { -- utils
   {
     "folke/which-key.nvim",
     enabled = true,
+    keys = { "<leader>", '"', "'", "`", "z", "g" },
     opts = {
       plugins = {
         spelling = {
@@ -549,6 +560,7 @@ local M = { -- utils
   },
   {
     "michaelb/sniprun",
+    lazy = false,
     build = "bash ./install.sh",
     config = function()
       require("sniprun").setup {}
@@ -682,5 +694,14 @@ local M = { -- utils
       }
     end,
   },
+  {
+    "saecki/crates.nvim",
+    tag = "v0.3.0",
+    requires = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("crates").setup()
+    end,
+  },
 }
+
 return M
