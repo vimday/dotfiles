@@ -72,7 +72,7 @@ local M = { -- utils
   }, -- format & linting
   {
     "jose-elias-alvarez/null-ls.nvim",
-    dependencies = "nvim-lspconfig",
+    dependencies = "neovim/nvim-lspconfig",
     event = "BufRead",
     config = function()
       local present, null_ls = pcall(require, "null-ls")
@@ -84,8 +84,10 @@ local M = { -- utils
       local b = null_ls.builtins
 
       local sources = {
-        b.formatting.shfmt, -- b.formatting.stylua,
-        b.formatting.black, -- b.formatting.clang_format.with {
+        b.formatting.shfmt,
+        -- b.formatting.stylua,
+        b.formatting.black,
+        -- b.formatting.clang_format.with {
         --   filetypes = { "proto" },
         -- },
         b.formatting.pg_format,
@@ -192,7 +194,7 @@ local M = { -- utils
   },
   {
     "simrat39/rust-tools.nvim",
-    dependencies = "nvim-lspconfig",
+    dependencies = "neovim/nvim-lspconfig",
     ft = "rust",
     config = function()
       require("rust-tools").setup {
@@ -253,40 +255,22 @@ local M = { -- utils
         auto_enabled = true,
         auto_resize_height = true, -- highly recommended enable
         preview = {
-          win_height = 12,
-          win_vheight = 12,
-          delay_syntax = 80,
-          border_chars = { "┃", "┃", "━", "━", "┏", "┓", "┗", "┛", "█" },
-          show_title = false,
           should_preview_cb = function(bufnr, qwinid)
             local ret = true
             local bufname = vim.api.nvim_buf_get_name(bufnr)
             local fsize = vim.fn.getfsize(bufname)
-            if fsize > 100 * 1024 then
+            if fsize > 100 * 1024 or fsize == 0 then
               -- skip file size greater than 100k
               ret = false
             elseif bufname:match "^fugitive://" then
               -- skip fugitive buffer
               ret = false
+            else
+              ret = vim.fn.isdirectory(vim.fs.dirname(bufname))
             end
             return ret
           end,
         },
-        -- make `drop` and `tab drop` to become preferred
-        -- func_map = {
-        --   drop = 'o',
-        --   openc = 'O',
-        --   split = '<C-s>',
-        --   tabdrop = '<C-t>',
-        --   tabc = '',
-        --   ptogglemode = 'z,',
-        -- },
-        -- filter = {
-        --   fzf = {
-        --     action_for = { ['ctrl-s'] = 'split', ['ctrl-t'] = 'tab drop' },
-        --     extra_opts = { '--bind', 'ctrl-o:toggle-all', '--prompt', '> ' }
-        --   }
-        -- }
       }
     end,
   },
@@ -351,7 +335,7 @@ local M = { -- utils
   {
     "ray-x/go.nvim",
     ft = { "go" },
-    dependencies = { "nvim-lspconfig", "ray-x/guihua.lua" },
+    dependencies = { "neovim/nvim-lspconfig", "ray-x/guihua.lua" },
     config = function()
       require("go").setup()
     end,
@@ -539,22 +523,6 @@ local M = { -- utils
     enabled = false,
   },
   {
-    "folke/neodev.nvim",
-    ft = "lua",
-    config = function()
-      require("neodev").setup {}
-      vim.lsp.start {
-        name = "lua-language-server",
-        cmd = { "lua-language-server" },
-        before_init = require("neodev.lsp").before_init,
-        root_dir = vim.fn.getcwd(),
-        settings = {
-          Lua = {},
-        },
-      }
-    end,
-  },
-  {
     "rafcamlet/nvim-luapad",
     dependencies = "antoinemadec/FixCursorHold.nvim",
   },
@@ -563,7 +531,9 @@ local M = { -- utils
     lazy = false,
     build = "bash ./install.sh",
     config = function()
-      require("sniprun").setup {}
+      require("sniprun").setup {
+        repl_enable = { "Python3_original" },
+      }
     end,
   },
   {
@@ -592,7 +562,7 @@ local M = { -- utils
   },
   {
     "hrsh7th/cmp-cmdline",
-    dependencies = "nvim-cmp",
+    dependencies = "hrsh7th/nvim-cmp",
     event = "VeryLazy",
     config = function()
       local cmp = require "cmp"
@@ -696,10 +666,33 @@ local M = { -- utils
   },
   {
     "saecki/crates.nvim",
-    tag = "v0.3.0",
-    requires = { "nvim-lua/plenary.nvim" },
+    version = "*",
+    dependencies = "nvim-lua/plenary.nvim",
+    ft = "rust",
     config = function()
       require("crates").setup()
+    end,
+  },
+  {
+    "folke/neodev.nvim",
+    dependencies = "neovim/nvim-lspconfig",
+    ft = "lua",
+    config = function()
+      -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+      require("neodev").setup {}
+
+      -- then setup your lsp server as usual
+      local lspconfig = require "lspconfig"
+      -- example to setup lua_ls and enable call snippets
+      lspconfig.lua_ls.setup {
+        settings = {
+          Lua = {
+            completion = {
+              callSnippet = "Replace",
+            },
+          },
+        },
+      }
     end,
   },
 }
