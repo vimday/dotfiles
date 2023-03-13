@@ -695,6 +695,19 @@ local M = { -- utils
       }
     end,
   },
+  {
+    "rmagatti/goto-preview",
+    event = "BufRead",
+    config = function()
+      require("goto-preview").setup {
+        default_mappings = true,
+      }
+      -- vim.cmd [[
+      --   nnoremap gp <cmd>lua require('goto-preview').goto_preview_definition()<CR>
+      --   nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>
+      -- ]]
+    end,
+  },
 }
 
 return M
