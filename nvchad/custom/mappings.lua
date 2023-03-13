@@ -47,6 +47,7 @@ M.general = {
     ["<leader>tp"] = { "<cmd>TroubleToggle<CR>", "problems" },
     ["<leader>b"] = { "<cmd>b#<cr>", "last buffer" },
     ["gx"] = { "<cmd>silent !open <cfile><cr>", "open cursor file with system default" },
+    ["<Esc>"] = { "<cmd>nohl<cr>", "nohl" },
   },
   v = {
     ["<leader>S"] = { "<cmd>lua require('spectre').open_visual()<CR>", "spectre" },
@@ -98,22 +99,28 @@ M.lsp = {
       "next error",
     },
     ["gI"] = {
-      function ()
+      function()
         vim.lsp.buf.implementation()
       end,
       "lsp implementation",
     },
-    ["<leader>la"] = { function ()
-      vim.lsp.buf.code_action()
-    end, "Code Action" },
-    ["<leader>ld"] = { "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<cr>", "Buffer Diagnostics" },
+    ["<leader>la"] = {
+      function()
+        vim.lsp.buf.code_action()
+      end,
+      "Code Action",
+    },
+    ["<leader>ld"] = { "<cmd>Telescope diagnostics bufnr=0<cr>", "Buffer Diagnostics" },
     ["<leader>lD"] = { "<cmd>Telescope diagnostics<cr>", "Workspace Diagnostics" },
     ["<leader>lf"] = { ":Neoformat<cr>", "Format" },
     ["<leader>li"] = { "<cmd>LspInfo<cr>", "Info" },
     ["<leader>lI"] = { "<cmd>Mason<cr>", "Installer Info" },
-    ["<leader>ll"] = { function ()
-      vim.lsp.codelens.run()
-    end  , "CodeLens Action" },
+    ["<leader>ll"] = {
+      function()
+        vim.lsp.codelens.run()
+      end,
+      "CodeLens Action",
+    },
     ["<leader>lq"] = {
       function()
         vim.diagnostic.setloclist { severity = vim.diagnostic.severity.ERROR }
@@ -126,9 +133,12 @@ M.lsp = {
       end,
       "Quickfix Workspace",
     },
-    ["<leader>lr"] = { function ()
-      require("nvchad_ui.renamer").open()
-    end, "Rename" },
+    ["<leader>lr"] = {
+      function()
+        require("nvchad_ui.renamer").open()
+      end,
+      "Rename",
+    },
     ["<leader>ls"] = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
     ["<leader>lS"] = {
       "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
@@ -185,12 +195,18 @@ M.gitsigns = {
 
 M.tabufline = {
   n = {
-    ["L"] = { function ()
-      require("nvchad_ui.tabufline").tabuflineNext()
-    end, "  goto next buffer" },
-    ["H"] = { function ()
-      require("nvchad_ui.tabufline").tabuflinePrev()
-    end, "  goto prev buffer" },
+    ["L"] = {
+      function()
+        require("nvchad_ui.tabufline").tabuflineNext()
+      end,
+      "  goto next buffer",
+    },
+    ["H"] = {
+      function()
+        require("nvchad_ui.tabufline").tabuflinePrev()
+      end,
+      "  goto prev buffer",
+    },
   },
 }
 
