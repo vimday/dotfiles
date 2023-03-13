@@ -9,10 +9,13 @@ M.ui = {
   theme = "chadracula",
   hl_override = require "custom.highlights",
   -- theme_toggle = { "chadracula", "one_light" },
+  -- nvdash = {
+  --   load_on_startup = true,
+  -- },
 }
 
 M.mappings = require "custom.mappings"
 
-M.plugins = require "custom.plugins"
+M.plugins = "custom.plugins"
 
 return M
