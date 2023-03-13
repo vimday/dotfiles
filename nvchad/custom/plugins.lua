@@ -696,16 +696,15 @@ local M = { -- utils
     end,
   },
   {
-    "rmagatti/goto-preview",
-    event = "BufRead",
+    "dnlhc/glance.nvim",
+    event = "VeryLazy",
     config = function()
-      require("goto-preview").setup {
-        default_mappings = true,
-      }
-      -- vim.cmd [[
-      --   nnoremap gp <cmd>lua require('goto-preview').goto_preview_definition()<CR>
-      --   nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>
-      -- ]]
+      require("glance").setup {}
+      -- Lua
+      vim.keymap.set("n", "gpd", "<CMD>Glance definitions<CR>")
+      vim.keymap.set("n", "gpr", "<CMD>Glance references<CR>")
+      vim.keymap.set("n", "gpt", "<CMD>Glance type_definitions<CR>")
+      vim.keymap.set("n", "gpi", "<CMD>Glance implementations<CR>")
     end,
   },
 }
