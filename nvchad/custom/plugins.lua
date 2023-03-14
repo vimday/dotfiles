@@ -27,7 +27,15 @@ local M = { -- utils
         method = "popup",
       }
     end,
-  }, -- lsp
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    opts = {
+      mapping = {
+        ["<CR>"] = require("cmp").mapping(require("cmp").mapping.confirm { select = true }, { "i", "c" }),
+      },
+    },
+  },
   {
     "neovim/nvim-lspconfig",
     config = function()

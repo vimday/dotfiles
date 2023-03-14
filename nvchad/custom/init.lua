@@ -66,7 +66,7 @@ local highlights = {
 
 local autocmds = {
   { "UIEnter", "*", table.concat(highlights, " | ") },
-  { "InsertLeave", "*", "lua vim.diagnostic.config({ virtual_text = { prefix = '' } })" },
+  -- { "InsertLeave", "*", "lua vim.diagnostic.config({ virtual_text = { prefix = '●' } })" },
   { "InsertLeave", "*", ":set relativenumber" },
   { "InsertEnter", "*", ":set norelativenumber" },
   { "InsertLeave", "*", ":lua vim.diagnostic.show(nil, 0)" },
