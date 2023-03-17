@@ -29,14 +29,6 @@ local M = { -- utils
     end,
   },
   {
-    "hrsh7th/nvim-cmp",
-    opts = {
-      mapping = {
-        ["<CR>"] = require("cmp").mapping(require("cmp").mapping.confirm { select = true }, { "i", "c" }),
-      },
-    },
-  },
-  {
     "neovim/nvim-lspconfig",
     config = function()
       local on_attach = require("plugins.configs.lspconfig").on_attach
@@ -715,6 +707,7 @@ local M = { -- utils
       vim.keymap.set("n", "gpi", "<CMD>Glance implementations<CR>")
     end,
   },
+  { "tpope/vim-repeat", event = "VeryLazy" },
 }
 
 return M
