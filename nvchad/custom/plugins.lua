@@ -92,7 +92,6 @@ local M = { -- utils
         -- },
         b.formatting.pg_format,
         b.formatting.prettier.with {
-          extra_filetypes = { "markdown" },
           disabled_filetypes = { "json" },
         },
         b.completion.spell.with {
