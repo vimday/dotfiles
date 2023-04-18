@@ -85,7 +85,6 @@ local M = { -- utils
 
       local sources = {
         b.formatting.shfmt,
-        -- b.formatting.stylua,
         b.formatting.black,
         -- b.formatting.clang_format.with {
         --   filetypes = { "proto" },
@@ -756,6 +755,16 @@ local M = { -- utils
     dependencies = "nvim-treesitter/nvim-treesitter",
     event = "VeryLazy",
     config = true,
+  },
+  {
+    "github/copilot.vim",
+    event = "VeryLazy",
+    config = function()
+      vim.cmd [[
+        imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+        let g:copilot_no_tab_map = v:true
+    ]]
+    end,
   },
 }
 
