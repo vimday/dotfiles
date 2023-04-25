@@ -601,32 +601,32 @@ local M = { -- utils
       require("incline").setup()
     end,
   },
-  {
-    "hrsh7th/cmp-cmdline",
-    dependencies = "hrsh7th/nvim-cmp",
-    event = "VeryLazy",
-    config = function()
-      local cmp = require "cmp"
-      cmp.setup.cmdline({ "/", "?" }, {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = { {
-          name = "buffer",
-        } },
-      })
-
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources(
-          { {
-            name = "path",
-          } },
-          { {
-            name = "cmdline",
-          } }
-        ),
-      })
-    end,
-  },
+  -- {
+  --   "hrsh7th/cmp-cmdline",
+  --   dependencies = "hrsh7th/nvim-cmp",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     local cmp = require "cmp"
+  --     cmp.setup.cmdline({ "/", "?" }, {
+  --       mapping = cmp.mapping.preset.cmdline(),
+  --       sources = { {
+  --         name = "buffer",
+  --       } },
+  --     })
+  --
+  --     cmp.setup.cmdline(":", {
+  --       mapping = cmp.mapping.preset.cmdline(),
+  --       sources = cmp.config.sources(
+  --         { {
+  --           name = "path",
+  --         } },
+  --         { {
+  --           name = "cmdline",
+  --         } }
+  --       ),
+  --     })
+  --   end,
+  -- },
   {
     "iamcco/markdown-preview.nvim",
     ft = "markdown",
