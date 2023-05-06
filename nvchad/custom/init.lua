@@ -29,6 +29,7 @@ o.swapfile = false
 o.scrolloff = 8
 o.wrap = false
 o.relativenumber = true
+o.shell = "zsh"
 -- opt.updatetime = 512
 -- opt.timeoutlen = 400
 -- opt.spell = true
@@ -103,9 +104,36 @@ if g.neovide then
   g.neovide_no_idle = true
 
   vim.cmd [[
-    nmap <D-v> "+p<CR>
+    let g:dracula#palette          = {} 
+    let g:dracula#palette.color_0  = '#21222C'
+    let g:dracula#palette.color_1  = '#FF5555'
+    let g:dracula#palette.color_2  = '#50FA7B'
+    let g:dracula#palette.color_3  = '#F1FA8C'
+    let g:dracula#palette.color_4  = '#BD93F9'
+    let g:dracula#palette.color_5  = '#FF79C6'
+    let g:dracula#palette.color_6  = '#8BE9FD'
+    let g:dracula#palette.color_7  = '#F8F8F2'
+    let g:dracula#palette.color_8  = '#6272A4'
+    let g:dracula#palette.color_9  = '#FF6E6E'
+    let g:dracula#palette.color_10 = '#69FF94'
+    let g:dracula#palette.color_11 = '#FFFFA5'
+    let g:dracula#palette.color_12 = '#D6ACFF'
+    let g:dracula#palette.color_13 = '#FF92DF'
+    let g:dracula#palette.color_14 = '#A4FFFF'
+    let g:dracula#palette.color_15 = '#FFFFFF'
+
+    if has('nvim')
+      for s:i in range(16)
+        let g:terminal_color_{s:i} = g:dracula#palette['color_' . s:i]
+      endfor
+    endif
+  ]]
+
+  vim.cmd [[
     imap <D-v> <C-R>+
     tmap <D-v> <C-R>+
+    imap <C-v> <C-R>+
+    tmap <C-v> <C-R>+
     map ˙ <a-h>
     map ∆ <a-j>
     map ˚ <a-k>
