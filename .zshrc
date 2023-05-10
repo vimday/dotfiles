@@ -202,3 +202,5 @@ export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
 export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
 
 export GOPATH="$HOME/go/1.20.1"; export GOROOT="$HOME/.goenv/versions/1.20.1"; export PATH="$GOPATH/bin:$PATH"; # g-install: do NOT edit, see https://github.com/stefanmaric/g
+
+export PATH=~/Github/my-busybox:$PATH
