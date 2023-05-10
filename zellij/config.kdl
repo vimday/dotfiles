@@ -153,7 +153,8 @@ keybinds clear-defaults=true {
         bind "N" { SwitchToMode "Resize"; }
         bind "O" { SwitchToMode "Session"; }
         bind "T" { SwitchToMode "Tab"; }
-        bind "H" { SwitchToMode "Move"; }
+        bind "P" { SwitchToMode "Pane"; }
+        bind "M" { SwitchToMode "Move"; }
     }
     shared_except "locked" "tmux" {
         bind "Alt n" { NewPane; }
