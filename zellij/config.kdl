@@ -132,7 +132,7 @@ keybinds clear-defaults=true {
         bind "l" { MoveFocus "Right"; SwitchToMode "Normal"; }
         bind "j" { MoveFocus "Down"; SwitchToMode "Normal"; }
         bind "k" { MoveFocus "Up"; SwitchToMode "Normal"; }
-        bind "o" { FocusNextPane; }
+        bind "o" { FocusNextPane; SwitchToMode "Normal"; }
         bind "d" { Detach; }
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
         bind "Space" { NextSwapLayout; }
@@ -152,12 +152,12 @@ keybinds clear-defaults=true {
         bind "w" { ToggleFloatingPanes; SwitchToMode "Normal"; }
 
         // special case for tmux
-        bind "G" { SwitchToMode "Locked"; }
-        bind "N" { SwitchToMode "Resize"; }
-        bind "O" { SwitchToMode "Session"; }
-        bind "T" { SwitchToMode "Tab"; }
-        bind "P" { SwitchToMode "Pane"; }
-        bind "M" { SwitchToMode "Move"; }
+        bind "Ctrl h" { SwitchToMode "Locked"; }
+        bind "Ctrl n" { SwitchToMode "Resize"; }
+        bind "Ctrl o" { SwitchToMode "Session"; }
+        bind "Ctrl t" { SwitchToMode "Tab"; }
+        bind "Ctrl p" { SwitchToMode "Pane"; }
+        bind "Ctrl h" { SwitchToMode "Move"; }
     }
     shared_except "locked" "tmux" {
         bind "Alt n" { NewPane; }
