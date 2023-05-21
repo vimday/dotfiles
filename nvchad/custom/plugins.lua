@@ -766,6 +766,32 @@ local M = { -- utils
     ]]
     end,
   },
+  {
+    "rcarriga/nvim-notify",
+    event = "VeryLazy",
+    config = function()
+      local banned_messages = {}
+      local last_msg = nil
+      local last_ts = vim.fn.localtime()
+      local timeout = 6
+
+      vim.notify = function(msg, ...)
+        local now = vim.fn.localtime()
+        if msg == last_msg and now - last_ts <= timeout then
+          return
+        end
+
+        last_msg = msg
+        last_ts = now
+        for _, banned in ipairs(banned_messages) do
+          if string.match(msg, banned) then
+            return
+          end
+        end
+        require "notify"(msg, ...)
+      end
+    end,
+  },
 }
 
 return M
