@@ -223,4 +223,10 @@ M.reach = {
   },
 }
 
+M.yanky = {
+  n = {
+    ["<leader>fy"] = { "<cmd>Telescope yank_history<cr>", "yank history" },
+  },
+}
+
 return M
