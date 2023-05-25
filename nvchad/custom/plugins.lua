@@ -793,13 +793,6 @@ local M = { -- utils
     end,
   },
   {
-    "m4xshen/hardtime.nvim",
-    event = "BufRead",
-    config = function()
-      require("hardtime").setup()
-    end,
-  },
-  {
     "gbprod/yanky.nvim",
     event = "BufRead",
     config = function()
@@ -809,7 +802,7 @@ local M = { -- utils
           on_yank = false,
         },
       }
-      require("telescope").load_extension("yank_history")
+      require("telescope").load_extension "yank_history"
     end,
   },
 }
