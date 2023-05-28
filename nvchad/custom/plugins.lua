@@ -130,7 +130,7 @@ local M = { -- utils
   {
     "folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",
-    event = "VeryLazy",
+    event = "BufRead",
     config = function()
       require("todo-comments").setup {}
     end,
@@ -366,35 +366,6 @@ local M = { -- utils
   },
   {
     "mfussenegger/nvim-dap",
-    config = function()
-      local dap = require "dap"
-
-      -- dap config
-      local text = {
-        breakpoint = {
-          text = "",
-          texthl = "LspDiagnosticsSignError",
-          linehl = "",
-          numhl = "",
-        },
-        breakpoint_rejected = {
-          text = "",
-          texthl = "LspDiagnosticsSignHint",
-          linehl = "",
-          numhl = "",
-        },
-        stopped = {
-          text = "",
-          texthl = "LspDiagnosticsSignInformation",
-          linehl = "DiagnosticUnderlineInfo",
-          numhl = "LspDiagnosticsSignInformation",
-        },
-      }
-
-      vim.fn.sign_define("DapBreakpoint", text.breakpoint)
-      vim.fn.sign_define("DapBreakpointRejected", text.breakpoint_rejected)
-      vim.fn.sign_define("DapStopped", text.stopped)
-    end,
   },
   {
     "rcarriga/nvim-dap-ui",
@@ -804,6 +775,27 @@ local M = { -- utils
       }
       require("telescope").load_extension "yank_history"
     end,
+  },
+  {
+    "jackMort/ChatGPT.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("chatgpt").setup {
+        chat = {
+          keymaps = {
+            draft_message = "<C-t>",
+          },
+        },
+        openai_params = {
+          max_tokens = 1000,
+        },
+      }
+    end,
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
   },
 }
 
