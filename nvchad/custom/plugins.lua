@@ -4,13 +4,6 @@ local M = { -- utils
     event = "BufRead",
   },
   {
-    "kosayoda/nvim-lightbulb",
-    event = "BufRead",
-    config = function()
-      vim.cmd [[autocmd CursorHold * lua require 'nvim-lightbulb'.update_lightbulb()]]
-    end,
-  },
-  {
     "goolord/alpha-nvim",
     lazy = false,
     dependencies = { "nvim-tree/nvim-web-devicons" },
