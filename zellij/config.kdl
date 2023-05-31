@@ -243,11 +243,24 @@ themes {
         white 192 202 245
         orange 255 158 100
     }
+    catppuccin-mocha {
+        fg 205 214 244
+        bg 88 91 112
+        black 24 24 37
+        red 243 139 168
+        green 166 227 161
+        yellow 249 226 175
+        blue 137 180 250
+        magenta 245 194 231
+        cyan 137 220 235
+        white 205 214 244
+        orange 250 179 135
+    }
 }
 
 // Choose the theme that is specified in the themes section.
 // Default: default
-theme "dracula"
+theme "catppuccin-mocha"
 
 // The name of the default layout to load on startup
 // Default: "default"
