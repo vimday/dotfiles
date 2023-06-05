@@ -39,7 +39,6 @@ g.loaded_python3_provider = nil
 
 local highlights = {
   -- diff
-  "hi! DiffText guifg=black guibg=orange",
   "hi CursorLine guibg=#33354F",
 
   -- diagnostics underline

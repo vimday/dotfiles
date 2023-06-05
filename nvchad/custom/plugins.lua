@@ -790,6 +790,18 @@ local M = { -- utils
       "nvim-telescope/telescope.nvim",
     },
   },
+  {
+    "pwntester/octo.nvim",
+    cmd = "Octo",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("octo").setup { timeout = 10000 }
+    end,
+  },
 }
 
 return M
