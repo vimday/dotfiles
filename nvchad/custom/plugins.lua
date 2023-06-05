@@ -475,11 +475,18 @@ local M = { -- utils
       }
     end,
   },
+  -- {
+  --   "chrisbra/csv.vim",
+  --   ft = "csv",
+  --   config = function()
+  --     vim.g.no_csv_maps = 1
+  --   end,
+  -- },
   {
-    "chrisbra/csv.vim",
+    "mechatroner/rainbow_csv",
     ft = "csv",
     config = function()
-      vim.g.no_csv_maps = 1
+      vim.g.rbql_with_headers = 1
     end,
   },
   {
