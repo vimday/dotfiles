@@ -89,15 +89,28 @@ M.lsp = {
   n = {
     ["[E"] = {
       function()
-        vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.ERROR }
+        vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" } }
       end,
       "prev error",
     },
     ["]E"] = {
       function()
-        vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR }
+        vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" } }
       end,
       "next error",
+    },
+    ["[d"] = {
+      function()
+        vim.diagnostic.goto_prev { float = { border = "rounded" } }
+      end,
+      "prev diagnostic",
+    },
+
+    ["]d"] = {
+      function()
+        vim.diagnostic.goto_next { float = { border = "rounded" } }
+      end,
+      "next diagnostic",
     },
     ["gI"] = {
       function()
