@@ -89,7 +89,7 @@ local M = { -- utils
         b.completion.spell.with {
           filetypes = { "markdown" },
         },
-        b.diagnostics.cspell.with {
+        b.diagnostics.codespell.with {
           diagnostics_postprocess = function(diagnostic)
             diagnostic.severity = vim.diagnostic.severity.INFO
           end,

@@ -25,7 +25,5 @@ link() {
 }
 
 link "$cur_dir/.tmux.conf" "$HOME/.tmux.conf"
-link "$cur_dir/.zshrc" "$HOME/.zshrc"
-link "$cur_dir/.zshenv" "$HOME/.zshenv"
 link "$cur_dir/.editorconfig" "$HOME/.editorconfig"
 link "$cur_dir/.vimrc" "$HOME/.vimrc"
