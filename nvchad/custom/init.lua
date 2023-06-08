@@ -30,6 +30,7 @@ o.scrolloff = 8
 o.wrap = false
 o.relativenumber = true
 o.shell = "zsh"
+o.list = true
 -- opt.updatetime = 512
 -- opt.timeoutlen = 400
 -- opt.spell = true
