@@ -5,8 +5,7 @@ local g = vim.g
 vim.cmd [[
   command! DiffOrig w !diff -u % -
   command! DiffOrigVim vert new | setlocal buftype=nofile | setlocal nobuflisted | read ++edit # | 0d_ | diffthis | wincmd p | diffthis | wincmd p
-  command! CSpell e ~/.cspell.json
-  command! -range -nargs=1 Search /\%><line1>l\%<<line2>l<args>
+  command! -range -nargs=1 SearchInRange /\%><line1>l\%<<line2>l<args>
   packadd cfilter
 
   function! QuickFixToggle()
@@ -76,22 +75,6 @@ local autocmds = {
 for _, v in ipairs(autocmds) do
   vim.api.nvim_create_autocmd(v[1], { pattern = v[2], command = v[3] })
 end
-
--- if vim.fn.has "wsl" then
---   local clip = "/mnt/c/Windows/System32/clip.exe"
---   vim.api.nvim_create_autocmd({ "TextYankPost" }, {
---     pattern = "*",
---     callback = function()
---       local op = vim.v.event.operator
---       local reg = vim.v.event.regname
---       if op == "y" or op == "d" or op == "x" then
---         if reg == "+" or reg == "" then
---           vim.cmd('call system("' .. clip .. '", @0)')
---         end
---       end
---     end,
---   })
--- end
 
 -- GUI
 if g.neovide then

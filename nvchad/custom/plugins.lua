@@ -810,6 +810,7 @@ local M = { -- utils
     config = function()
       require("lsp_lines").setup()
       vim.diagnostic.config { virtual_text = false }
+      vim.cmd [[command! -nargs=0 LspLinesToggle lua require('lsp_lines').toggle()]]
     end,
   },
 }
