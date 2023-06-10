@@ -805,14 +805,11 @@ local M = { -- utils
   },
   {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-    event = "BufRead",
+    event = "VeryLazy",
+    dependencies = "neovim/nvim-lspconfig",
     config = function()
-      require("lsp_lines").setup {}
-      -- vim.diagnostic.config { virtual_lines = { only_current_line = true } }
-      vim.api.nvim_create_autocmd(
-        "InsertLeave",
-        { pattern = "*", command = ":lua vim.diagnostic.config { virtual_text = false}" }
-      )
+      require("lsp_lines").setup()
+      vim.diagnostic.config { virtual_text = false }
     end,
   },
 }
