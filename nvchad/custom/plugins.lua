@@ -196,13 +196,28 @@ local M = { -- utils
     "rhysd/conflict-marker.vim",
     event = "BufRead",
   },
+  -- {
+  --   "ggandor/lightspeed.nvim",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     require("lightspeed").setup {
+  --       ignore_case = true,
+  --     }
+  --   end,
+  -- },
   {
-    "ggandor/lightspeed.nvim",
+    "ggandor/leap.nvim",
     event = "VeryLazy",
     config = function()
-      require("lightspeed").setup {
-        ignore_case = true,
-      }
+      require("leap").add_default_mappings()
+      vim.cmd [[nnoremap gs <Plug>(leap-from-window)]]
+    end,
+  },
+  {
+    "ggandor/flit.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("flit").setup()
     end,
   },
   {
@@ -786,6 +801,18 @@ local M = { -- utils
     },
     config = function()
       require("octo").setup { timeout = 10000 }
+    end,
+  },
+  {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    event = "BufRead",
+    config = function()
+      require("lsp_lines").setup {}
+      -- vim.diagnostic.config { virtual_lines = { only_current_line = true } }
+      vim.api.nvim_create_autocmd(
+        "InsertLeave",
+        { pattern = "*", command = ":lua vim.diagnostic.config { virtual_text = false}" }
+      )
     end,
   },
 }
