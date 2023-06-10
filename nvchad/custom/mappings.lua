@@ -135,6 +135,12 @@ M.lsp = {
       end,
       "CodeLens Action",
     },
+    ["<leader>lL"] = {
+      function ()
+        require("lsp_lines").toggle()
+      end,
+      "Toggle LSP Lines"
+    },
     ["<leader>lq"] = {
       function()
         vim.diagnostic.setloclist { severity = vim.diagnostic.severity.ERROR }
