@@ -777,27 +777,6 @@ local M = { -- utils
     end,
   },
   {
-    "jackMort/ChatGPT.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("chatgpt").setup {
-        chat = {
-          keymaps = {
-            draft_message = "<C-t>",
-          },
-        },
-        openai_params = {
-          max_tokens = 1000,
-        },
-      }
-    end,
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-    },
-  },
-  {
     "pwntester/octo.nvim",
     cmd = "Octo",
     dependencies = {
