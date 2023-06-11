@@ -809,8 +809,8 @@ local M = { -- utils
     dependencies = "neovim/nvim-lspconfig",
     config = function()
       require("lsp_lines").setup()
-      vim.diagnostic.config { virtual_text = false }
-      vim.cmd [[command! -nargs=0 LspLinesToggle lua require('lsp_lines').toggle()]]
+      vim.diagnostic.config { virtual_lines = false }
+      vim.cmd [[command! -nargs=0 LspLinesToggle lua require('lsp_lines').toggle(); vim.diagnostic.config { virtual_text = not vim.diagnostic.config().virtual_lines }]]
     end,
   },
 }
