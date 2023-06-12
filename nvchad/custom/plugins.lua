@@ -96,10 +96,11 @@ local M = { -- utils
           disabled_filetypes = { "NvimTree" },
         },
         require "typescript.extensions.null-ls.code-actions",
+        b.code_actions.gitsigns,
       }
 
       null_ls.setup {
-        debug = true,
+        -- debug = true,
         sources = sources,
       }
     end,
@@ -254,6 +255,7 @@ local M = { -- utils
   {
     "sindrets/diffview.nvim",
     dependencies = "nvim-lua/plenary.nvim",
+    event = "VeryLazy",
   },
   {
     "tpope/vim-fugitive",

@@ -198,12 +198,10 @@ M.gitsigns = {
       "Checkout commit(for current file)",
     },
     ["<leader>gd"] = {
-      "<cmd>Gitsigns diffthis HEAD<cr>",
+      "<cmd>Gitsigns diffthis<cr>",
       "Git Diff",
     },
     ["<leader>gg"] = { "<cmd>Git<cr>", "   gitfutive" },
-    ["<leader>gv"] = { "<cmd>DiffviewOpen<cr>", "  diff view" },
-    ["<leader>gf"] = { "<cmd>DiffviewFileHistory<cr>", "  file diff view" },
   },
 }
 

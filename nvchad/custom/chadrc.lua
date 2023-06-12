@@ -7,7 +7,12 @@ local M = {}
 
 M.ui = {
   theme = "chadracula",
-  hl_override = require "custom.highlights",
+  hl_override = {
+    -- diff
+    DiffAdd = { fg = "green" },
+    DiffDelete = { fg = "red" },
+    DiffChange = { fg = "orange" },
+  },
   -- theme_toggle = { "chadracula", "one_light" },
   -- nvdash = {
   --   load_on_startup = true,
