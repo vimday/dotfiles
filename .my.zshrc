@@ -40,10 +40,6 @@ alias proxy-enable='export https_proxy=http://127.0.0.1:7890;export http_proxy=h
 alias proxy-disable='unset https_proxy http_proxy all_proxy'
 
 # --------------- APPs ----------------
-# tmux
-function tmux-list-panes() {
-  tmux list-panes -a -F "$(tmux show-options -vg set-titles-string)"' [#{?pane_pipe,piped,not piped}]'
-}
 
 [ -f ~/.my.env ] && source ~/.my.env
 
