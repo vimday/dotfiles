@@ -382,7 +382,7 @@ local M = { -- utils
     dependencies = { "mfussenegger/nvim-dap" },
     config = function()
       require("dapui").setup {}
-      vim.api.nvim_create_user_command("DapEval", 'lua require("dapui").eval()')
+      vim.api.nvim_create_user_command("DapEval", 'lua require("dapui").eval()', {})
     end,
   },
   {
