@@ -382,6 +382,7 @@ local M = { -- utils
     dependencies = { "mfussenegger/nvim-dap" },
     config = function()
       require("dapui").setup {}
+      vim.api.nvim_create_user_command("DapEval", 'lua require("dapui").eval()')
     end,
   },
   {
@@ -751,7 +752,10 @@ local M = { -- utils
       vim.cmd [[
         imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
         let g:copilot_no_tab_map = v:true
-    ]]
+      ]]
+      vim.api.nvim_set_var("copilot_filetypes", {
+        ["dap-repl"] = false,
+      })
     end,
   },
   {
