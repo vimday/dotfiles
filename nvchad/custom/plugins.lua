@@ -798,25 +798,23 @@ local M = { -- utils
     end,
   },
   {
-    "pwntester/octo.nvim",
-    cmd = "Octo",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      require("octo").setup { timeout = 10000 }
-    end,
-  },
-  {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     event = "VeryLazy",
     dependencies = "neovim/nvim-lspconfig",
     config = function()
       require("lsp_lines").setup()
       vim.diagnostic.config { virtual_lines = false }
-      vim.cmd [[command! -nargs=0 LspLinesToggle lua require('lsp_lines').toggle(); vim.diagnostic.config { virtual_text = not vim.diagnostic.config().virtual_lines }]]
+
+      local function toggle_lsp_lines()
+        local lsp_lines = require "lsp_lines"
+        lsp_lines.toggle()
+
+        local diag_config = vim.diagnostic.config()
+        diag_config.virtual_text = not diag_config.virtual_lines
+        vim.diagnostic.config(diag_config)
+      end
+
+      vim.api.nvim_create_user_command("LspLinesToggle", toggle_lsp_lines, { nargs = 0 })
     end,
   },
 }

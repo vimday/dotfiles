@@ -11,10 +11,7 @@ M.disabled = {
     ["<leader>f"] = "",
     ["<leader>h"] = "",
     ["<leader>ls"] = "",
-    ["<leader>pt"] = "",
     ["<leader>q"] = "",
-    ["<leader>ra"] = "",
-    ["<leader>rn"] = "",
     ["<leader>tn"] = "",
     ["<leader>tp"] = "",
     ["<leader>tt"] = "",
@@ -164,17 +161,17 @@ M.lsp = {
     },
     ["<leader>lwa"] = {
       vim.lsp.buf.add_workspace_folder,
-      "   add workspace folder",
+      "add workspace folder",
     },
     ["<leader>lwr"] = {
       vim.lsp.buf.remove_workspace_folder,
-      "   remove workspace folder",
+      "remove workspace folder",
     },
     ["<leader>lwl"] = {
       function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
       end,
-      "   list workspace folders",
+      "list workspace folders",
     },
   },
 }
