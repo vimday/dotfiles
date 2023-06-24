@@ -43,6 +43,7 @@ local M = { -- utils
         "prosemd_lsp",
         "eslint",
         "clangd",
+        "gdscript"
       }
 
       for _, lsp in ipairs(servers) do
