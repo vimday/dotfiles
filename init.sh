@@ -27,3 +27,10 @@ link() {
 link "$cur_dir/.tmux.conf" "$HOME/.tmux.conf"
 link "$cur_dir/.editorconfig" "$HOME/.editorconfig"
 link "$cur_dir/.vimrc" "$HOME/.vimrc"
+
+if [[ ! -d "$HOME/.config" ]]; then
+  mkdir "$HOME/.config"
+fi
+
+link "$cur_dir/starship.toml" "$HOME/.config/starship.toml"
+link "$cur_dir/zellij" "$HOME/.config/zellij"
