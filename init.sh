@@ -27,6 +27,7 @@ link() {
 link "$cur_dir/.tmux.conf" "$HOME/.tmux.conf"
 link "$cur_dir/.editorconfig" "$HOME/.editorconfig"
 link "$cur_dir/.vimrc" "$HOME/.vimrc"
+link "$cur_dir/.gitconfig" "$HOME/.gitconfig"
 
 if [[ ! -d "$HOME/.config" ]]; then
   mkdir "$HOME/.config"
