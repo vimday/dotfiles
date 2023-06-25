@@ -187,22 +187,18 @@ awful.util.tasklist_buttons = mytable.join(
     end)
 )
 
-beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.personal.lua", os.getenv("HOME"), chosen_theme))
+beautiful.init(string.format("%s/.config/awesome/themes/%s/theme-personal.lua", os.getenv("HOME"), chosen_theme))
 
 -- }}}
 
 -- {{{ Custom
 --- beautiful config
 beautiful.wallpaper = string.format("%s/Pictures/wp4676582-4k-pc-wallpapers.jpg", os.getenv("HOME"))
-beautiful.useless_gap = 30
-beautiful.border_width = 4
-beautiful.border_focus = "#59e269"
-beautiful.fg_focus = "#59e269"
-beautiful.menu_fg_focus = "#59e269"
--- beautiful.xresources.apply_dpi(150)
-beautiful.wibar_type = "dock"
-beautiful.wibar_opacity = 0.5
--- beautiful.wibar_height = 30
+local dpi = beautiful.xresources.apply_dpi
+beautiful.border_width = dpi(3)
+beautiful.useless_gap = dpi(20)
+beautiful.menu_width = dpi(150)
+beautiful.menu_border_width = dpi(3)
 
 --- naughty config
 naughty.config.spacing = 10
