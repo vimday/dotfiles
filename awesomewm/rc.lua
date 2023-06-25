@@ -109,7 +109,7 @@ local browser = "librewolf"
 local scrlocker = "slock"
 
 awful.util.terminal = terminal
-awful.util.tagnames = { "dev", "monitor", "learn", "play", "emmmmmm"  }
+awful.util.tagnames = { "dev", "monitor", "learn", "play", "emmmmmm" }
 awful.layout.layouts = {
     awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
@@ -599,15 +599,7 @@ globalkeys = mytable.join(
     --]]
     -- dmenu
     awful.key({ modkey }, "p", function()
-        os.execute(
-            string.format(
-                "dmenu_run -i -fn 'Monospace' -nb '%s' -nf '%s' -sb '%s' -sf '%s'",
-                beautiful.bg_normal,
-                beautiful.fg_normal,
-                beautiful.bg_focus,
-                beautiful.fg_focus
-            )
-        )
+        os.execute("dmenu_run -i -fn Monospace -p 'Open '")
     end, { description = "show dmenu", group = "launcher" }),
     --]]
     -- alternatively use rofi, a dmenu-like application with more features
