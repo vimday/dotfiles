@@ -200,6 +200,8 @@ beautiful.useless_gap = dpi(20)
 beautiful.menu_width = dpi(150)
 beautiful.menu_border_width = dpi(3)
 beautiful.hotkeys_modifiers_fg = beautiful.fg_normal
+beautiful.systray_icon_spacing = dpi(5)
+beautiful.bg_systray = beautiful.bg_normal
 
 --- naughty config
 naughty.config.spacing = 10
