@@ -97,6 +97,11 @@ EOF
   fi
 fi
 
+if check_command trash; then
+  # trash-cli
+  alias rm='trash'
+fi
+
 if check_command todo.sh; then
   # todo.txt
   export TODOTXT_DEFAULT_ACTION=ls

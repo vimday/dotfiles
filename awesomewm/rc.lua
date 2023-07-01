@@ -63,13 +63,7 @@ end
 -- {{{ Autostart windowless processes
 
 -- This function will run once every time Awesome is started
-local function run_once(cmd_arr)
-  for _, cmd in ipairs(cmd_arr) do
-    awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null || (%s)", cmd, cmd))
-  end
-end
-
--- run_once({ "urxvtd", "unclutter -root" }) -- comma-separated entries
+awful.spawn.once(string.format("sh -c 'cd %s && ls | xargs -n1 gio launch'", os.getenv "HOME" .. "/.config/autostart"))
 
 -- This function implements the XDG autostart specification
 --[[
@@ -328,14 +322,18 @@ globalkeys = mytable.join(
   end, { description = "destroy all notifications", group = "hotkeys" }),
   -- Take a screenshot
   -- https://github.com/lcpz/dots/blob/master/bin/screenshot
-  awful.key({ altkey }, "p", function()
-    os.execute "screenshot"
+  awful.key({}, "Print", function()
+    awful.spawn "flameshot gui"
   end, { description = "take a screenshot", group = "hotkeys" }),
 
   -- X screen locker
   awful.key({ altkey, "Control" }, "l", function()
     os.execute(scrlocker)
   end, { description = "lock screen", group = "hotkeys" }),
+
+  awful.key({ modkey, "Shift" }, "c", function()
+    awful.spawn "gpaste-client ui"
+  end, { description = "clipboard", group = "hotkeys" }),
 
   -- Show help
   awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
@@ -482,9 +480,9 @@ globalkeys = mytable.join(
   awful.key({ modkey, "Control" }, "l", function()
     awful.tag.incncol(-1, nil, true)
   end, { description = "decrease the number of columns", group = "layout" }),
-  awful.key({ modkey }, "space", function()
-    awful.layout.inc(1)
-  end, { description = "select next", group = "layout" }),
+  -- awful.key({ modkey }, "space", function()
+  --   awful.layout.inc(1)
+  -- end, { description = "select next", group = "layout" }),
   awful.key({ modkey, "Shift" }, "space", function()
     awful.layout.inc(-1)
   end, { description = "select previous", group = "layout" }),
@@ -601,7 +599,7 @@ globalkeys = mytable.join(
               {description = "show the menubar", group = "launcher"}),
     --]]
   -- dmenu
-  awful.key({ modkey }, "p", function()
+  awful.key({ modkey }, "space", function()
     os.execute "dmenu_run -i -fn Monospace -p 'Open '"
   end, { description = "show dmenu", group = "launcher" }),
   --]]
