@@ -42,8 +42,6 @@ local M = { -- utils
         "taplo",
         "prosemd_lsp",
         "eslint",
-        "clangd",
-        "gdscript"
       }
 
       for _, lsp in ipairs(servers) do
@@ -143,6 +141,27 @@ local M = { -- utils
             git = true,
           },
         },
+      },
+    },
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "bash-language-server",
+        "black",
+        "codelldb",
+        "codespell",
+        "css-lsp",
+        "json-lsp",
+        "lua-language-server",
+        "prettier",
+        "prosemd-lsp",
+        "pyright",
+        "shfmt",
+        "stylua",
+        "yaml-language-server",
+        "zk",
       },
     },
   },
