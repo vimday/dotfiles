@@ -12,16 +12,6 @@ local M = { -- utils
     end,
   },
   {
-    "andymass/vim-matchup",
-    event = "VeryLazy",
-    init = function()
-      -- may set any options here
-      vim.g.matchup_matchparen_offscreen = {
-        method = "popup",
-      }
-    end,
-  },
-  {
     "neovim/nvim-lspconfig",
     config = function()
       local on_attach = require("plugins.configs.lspconfig").on_attach
