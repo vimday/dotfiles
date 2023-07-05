@@ -35,3 +35,4 @@ fi
 
 link "$cur_dir/starship.toml" "$HOME/.config/starship.toml"
 link "$cur_dir/zellij" "$HOME/.config/zellij"
+link "$cur_dir/awesomewm" "$HOME/.config/awesome"
