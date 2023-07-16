@@ -40,6 +40,9 @@ if [[ "$cur_shell" == "zsh" ]] && check_file $ZPLUG_HOME/init.zsh; then
   fi
 fi
 
+# keymap
+bindkey -r '^j' # unbind ctrl-j
+
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 

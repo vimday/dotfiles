@@ -826,6 +826,14 @@ local M = { -- utils
       vim.api.nvim_create_user_command("LspLinesToggle", toggle_lsp_lines, { nargs = 0 })
     end,
   },
+  {
+    "andymass/vim-matchup",
+    event = "BufRead",
+    config = function()
+      -- may set any options here
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end,
+  },
 }
 
 return M
