@@ -113,5 +113,4 @@ if check_command todo.sh; then
   # todo.txt
   export TODOTXT_DEFAULT_ACTION=ls
   alias t='todo.sh -d ~/.todo.cfg'
-  todo.sh
 fi
