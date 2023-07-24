@@ -151,6 +151,7 @@ local M = { -- utils
         "stylua",
         "yaml-language-server",
         "zk",
+        "vim-language-server",
       },
     },
   },
@@ -231,8 +232,14 @@ local M = { -- utils
     end,
   },
   {
-    "tpope/vim-surround",
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup {
+        -- Configuration here, or leave empty to use defaults
+      }
+    end,
   },
   {
     "simrat39/rust-tools.nvim",
@@ -599,32 +606,6 @@ local M = { -- utils
       require("incline").setup()
     end,
   },
-  -- {
-  --   "hrsh7th/cmp-cmdline",
-  --   dependencies = "hrsh7th/nvim-cmp",
-  --   event = "VeryLazy",
-  --   config = function()
-  --     local cmp = require "cmp"
-  --     cmp.setup.cmdline({ "/", "?" }, {
-  --       mapping = cmp.mapping.preset.cmdline(),
-  --       sources = { {
-  --         name = "buffer",
-  --       } },
-  --     })
-  --
-  --     cmp.setup.cmdline(":", {
-  --       mapping = cmp.mapping.preset.cmdline(),
-  --       sources = cmp.config.sources(
-  --         { {
-  --           name = "path",
-  --         } },
-  --         { {
-  --           name = "cmdline",
-  --         } }
-  --       ),
-  --     })
-  --   end,
-  -- },
   {
     "iamcco/markdown-preview.nvim",
     ft = "markdown",
@@ -632,45 +613,6 @@ local M = { -- utils
       vim.fn["mkdp#util#install"]()
     end,
   },
-  -- {
-  --   "folke/noice.nvim",
-  --   event = "VeryLazy",
-  --   config = function()
-  --     require("noice").setup {
-  --       -- you can enable a preset for easier configuration
-  --       presets = {
-  --         bottom_search = true, -- use a classic bottom cmdline for search
-  --         command_palette = true, -- position the cmdline and popupmenu together
-  --         long_message_to_split = true, -- long messages will be sent to a split
-  --         inc_rename = false, -- enables an input dialog for inc-rename.nvim
-  --         lsp_doc_border = false, -- add a border to hover docs and signature help
-  --       },
-  --       lsp = {
-  --         hover = { enabled = false },
-  --         progress = { enabled = false },
-  --         signature = { enabled = false },
-  --         messages = { view = "mini" },
-  --       },
-  --       popupmenu = { enabled = false },
-  --       messages = {
-  --         view = "mini",
-  --       },
-  --     }
-  --   end,
-  --   dependencies = {
-  --     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-  --     "MunifTanjim/nui.nvim",
-  --     -- OPTIONAL:
-  --     --   `nvim-notify` is only needed, if you want to use the notification view.
-  --     --   If not available, we use `mini` as the fallback
-  --     {
-  --       "rcarriga/nvim-notify",
-  --       config = function()
-  --         require("notify").setup { render = "compact" }
-  --       end,
-  --     },
-  --   },
-  -- },
   { "AndrewRadev/bufferize.vim", event = "VeryLazy" },
   {
     "leoluz/nvim-dap-go",
@@ -709,7 +651,13 @@ local M = { -- utils
     dependencies = "nvim-lua/plenary.nvim",
     ft = "rust",
     config = function()
-      require("crates").setup()
+      local null_ls = require "null-ls"
+      require("crates").setup {
+        null_ls = {
+          enabled = true,
+          name = "crates.nvim",
+        },
+      }
     end,
   },
   {
