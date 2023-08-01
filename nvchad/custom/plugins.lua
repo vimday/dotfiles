@@ -697,6 +697,13 @@ local M = { -- utils
   { "tpope/vim-repeat", event = "VeryLazy" },
   { "jose-elias-alvarez/typescript.nvim" },
   {
+    "dmmulroy/tsc.nvim",
+    ft = "typescript",
+    config = function()
+      require("tsc").setup()
+    end,
+  },
+  {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",
     event = "VeryLazy",
@@ -721,23 +728,24 @@ local M = { -- utils
     config = function()
       local banned_messages = {}
       local last_msg = nil
-      local last_ts = vim.fn.localtime()
+      local last_ts = 0
       local timeout = 6
+      local noti = require "notify"
 
       vim.notify = function(msg, ...)
         local now = vim.fn.localtime()
         if msg == last_msg and now - last_ts <= timeout then
           return
         end
-
         last_msg = msg
         last_ts = now
+
         for _, banned in ipairs(banned_messages) do
           if string.match(msg, banned) then
             return
           end
         end
-        require "notify"(msg, ...)
+        return noti(msg, ...)
       end
     end,
   },
