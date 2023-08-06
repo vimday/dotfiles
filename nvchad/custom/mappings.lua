@@ -35,11 +35,11 @@ M.disabled = {
 
 M.general = {
   n = {
-    ["<C-q>"] = { ":call QuickFixToggle()<CR>", "Toggle Quickfix" },
-    ["<C-w>z"] = { "<cmd>:resize | :vertical resize<CR>", "Zoom in window" },
+    ["<C-q>"] = { "<cmd>call QuickFixToggle()<CR>", "Toggle Quickfix" },
+    ["<C-w>z"] = { "<cmd>resize | vertical resize<CR>", "Zoom in window" },
     ["<leader>q"] = { "<cmd>q<cr>", "quit" },
     ["<leader>w"] = { "<cmd>w<cr>", "save" },
-    ["<leader>."] = { ":<Up><CR>", "last cmd" },
+    ["<leader>."] = { "<cmd><Up><CR>", "last cmd" },
     ["<leader>;"] = { "<cmd>Alpha<CR>", "open dashboard" },
     ["<leader>S"] = { "<cmd>lua require('spectre').open()<CR>", "spectre" },
     ["<leader>tp"] = { "<cmd>TroubleToggle<CR>", "problems" },
@@ -123,7 +123,7 @@ M.lsp = {
     },
     ["<leader>ld"] = { "<cmd>Telescope diagnostics bufnr=0<cr>", "Buffer Diagnostics" },
     ["<leader>lD"] = { "<cmd>Telescope diagnostics<cr>", "Workspace Diagnostics" },
-    ["<leader>lf"] = { ":Neoformat<cr>", "Format" },
+    ["<leader>lf"] = { "<cmd>Neoformat<cr>", "Format" },
     ["<leader>li"] = { "<cmd>LspInfo<cr>", "Info" },
     ["<leader>lI"] = { "<cmd>Mason<cr>", "Installer Info" },
     ["<leader>ll"] = {
@@ -227,8 +227,8 @@ M.code = {
 
 M.reach = {
   n = {
-    ["B"] = { "<cmd>:ReachOpen buffers<CR>", "buffers" },
-    ["M"] = { "<cmd>:ReachOpen marks<CR>", "marks" },
+    ["B"] = { "<cmd>ReachOpen buffers<CR>", "buffers" },
+    ["M"] = { "<cmd>ReachOpen marks<CR>", "marks" },
   },
 }
 

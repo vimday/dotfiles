@@ -86,7 +86,6 @@ local M = { -- utils
         },
         require "typescript.extensions.null-ls.code-actions",
       }
-
       null_ls.setup {
         -- debug = true,
         sources = sources,
@@ -222,6 +221,7 @@ local M = { -- utils
     config = function()
       require("leap").add_default_mappings()
       vim.cmd [[nnoremap gs <Plug>(leap-from-window)]]
+      vim.api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' }) -- or some grey
     end,
   },
   {
@@ -651,7 +651,6 @@ local M = { -- utils
     dependencies = "nvim-lua/plenary.nvim",
     ft = "rust",
     config = function()
-      local null_ls = require "null-ls"
       require("crates").setup {
         null_ls = {
           enabled = true,

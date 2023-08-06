@@ -32,8 +32,9 @@ o.shell = "zsh"
 o.list = true
 -- opt.updatetime = 512
 -- opt.timeoutlen = 400
--- opt.spell = true
--- opt.spelloptions = "camel"
+-- o.spell = true
+-- o.spelloptions = "camel,noplainbuffer"
+
 g.conflict_marker_enable_mappings = 0
 g.loaded_python3_provider = nil
 
