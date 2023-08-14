@@ -697,7 +697,7 @@ local M = { -- utils
   { "jose-elias-alvarez/typescript.nvim" },
   {
     "dmmulroy/tsc.nvim",
-    ft = "typescript",
+    ft = { "typescript", "typescriptreact"},
     config = function()
       require("tsc").setup()
     end,
