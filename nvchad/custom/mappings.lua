@@ -146,7 +146,7 @@ M.lsp = {
     },
     ["<leader>lr"] = {
       function()
-        require("nvchad_ui.renamer").open()
+        require("nvchad.renamer").open()
       end,
       "Rename",
     },
@@ -206,13 +206,13 @@ M.tabufline = {
   n = {
     ["L"] = {
       function()
-        require("nvchad_ui.tabufline").tabuflineNext()
+        require("nvchad.tabufline").tabuflineNext()
       end,
       "  goto next buffer",
     },
     ["H"] = {
       function()
-        require("nvchad_ui.tabufline").tabuflinePrev()
+        require("nvchad.tabufline").tabuflinePrev()
       end,
       "  goto prev buffer",
     },
