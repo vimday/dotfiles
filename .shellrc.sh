@@ -114,3 +114,6 @@ if check_command todo.sh; then
   export TODOTXT_DEFAULT_ACTION=ls
   alias t='todo.sh -d ~/.todo.cfg'
 fi
+
+# environment
+export GOPROXY=https://goproxy.cn
