@@ -21,7 +21,7 @@ M.disabled = {
     ["<leader>wk"] = "",
     ["<leader>wl"] = "",
     ["<leader>wr"] = "",
-    ["gx"] = "",
+    -- ["gx"] = "",
     ["gi"] = "",
     ["<Bslash>"] = "",
   },
@@ -44,7 +44,7 @@ M.general = {
     ["<leader>S"] = { "<cmd>lua require('spectre').open()<CR>", "spectre" },
     ["<leader>tp"] = { "<cmd>TroubleToggle<CR>", "problems" },
     ["<leader>b"] = { "<cmd>b#<cr>", "last buffer" },
-    ["gx"] = { "<cmd>silent !open <cfile><cr>", "open cursor file with system default" },
+    -- ["gx"] = { "<cmd>silent !open <cfile><cr>", "open cursor file with system default" },
     ["<Esc>"] = { "<cmd>nohl<cr>", "nohl" },
   },
   v = {

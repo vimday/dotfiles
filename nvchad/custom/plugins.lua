@@ -206,15 +206,6 @@ local M = { -- utils
     "rhysd/conflict-marker.vim",
     event = "BufRead",
   },
-  -- {
-  --   "ggandor/lightspeed.nvim",
-  --   event = "VeryLazy",
-  --   config = function()
-  --     require("lightspeed").setup {
-  --       ignore_case = true,
-  --     }
-  --   end,
-  -- },
   {
     "ggandor/leap.nvim",
     event = "VeryLazy",
@@ -251,19 +242,19 @@ local M = { -- utils
           inlay_hints = {
             -- automatically set inlay hints (type hints)
             -- default: true
-            auto = false,
+            -- auto = false,
           },
         },
         server = {
           on_attach = require("plugins.configs.lspconfig").on_attach,
-          settings = {
-            {
-              "rust-analyzer",
-              inlayHints = {
-                locationLinks = false,
-              },
-            },
-          },
+          -- settings = {
+          --   {
+          --     "rust-analyzer",
+          --     inlayHints = {
+          --       locationLinks = false,
+          --     },
+          --   },
+          -- },
         },
       }
     end,

@@ -117,3 +117,5 @@ fi
 
 # environment
 export GOPROXY=https://goproxy.cn
+export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
