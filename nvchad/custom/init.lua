@@ -17,7 +17,7 @@ vim.cmd [[
   endfunction
 
   " user-defined plugins
-  lua require('custom.my-plugins.printf').setup()
+  " lua require('custom.my-plugins.printf').setup()
 ]]
 
 o.cmdheight = 1 -- more space in the neovim command line for displaying messages

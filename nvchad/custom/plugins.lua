@@ -905,6 +905,17 @@ local M = { -- utils
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
   },
+  {
+    "andrewferrier/debugprint.nvim",
+    opts = {
+      create_keymaps = true,
+      create_commands = true,
+    },
+    -- Remove the following line to use development versions,
+    -- not just the formal releases
+    version = "*",
+    event = "VeryLazy",
+  },
 }
 
 return M
