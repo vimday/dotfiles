@@ -824,17 +824,61 @@ local M = { -- utils
     event = "VeryLazy",
     config = true,
   },
+  -- {
+  --   "github/copilot.vim",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     vim.cmd [[
+  --       imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+  --       let g:copilot_no_tab_map = v:true
+  --     ]]
+  --     vim.api.nvim_set_var("copilot_filetypes", {
+  --       ["dap-repl"] = false,
+  --     })
+  --   end,
+  -- },
   {
-    "github/copilot.vim",
-    event = "VeryLazy",
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
     config = function()
-      vim.cmd [[
-        imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
-        let g:copilot_no_tab_map = v:true
-      ]]
-      vim.api.nvim_set_var("copilot_filetypes", {
-        ["dap-repl"] = false,
-      })
+      require("copilot").setup {
+        panel = {
+          enabled = true,
+          auto_refresh = false,
+          keymap = {
+            jump_prev = "[[",
+            jump_next = "]]",
+            accept = "<CR>",
+            refresh = "gr",
+            open = "<M-CR>",
+          },
+          layout = {
+            position = "bottom", -- | top | left | right
+            ratio = 0.4,
+          },
+        },
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          debounce = 75,
+          keymap = {
+            accept = "<C-j>",
+            accept_word = false,
+            accept_line = false,
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-]>",
+          },
+        },
+        filetypes = {
+          yaml = true,
+          markdown = true,
+          gitcommit = true,
+          gitrebase = true,
+          ["dap-repl"] = false,
+        },
+      }
     end,
   },
   {

@@ -62,7 +62,6 @@ fi
 # --------------- APPs ----------------
 
 if check_dir ~/repos/my-busybox; then
-  # busybox
   export PATH=$PATH:~/repos/my-busybox/bin
 fi
 
@@ -104,14 +103,16 @@ EOF
 fi
 
 if check_command trash; then
-  # trash-cli
   alias rm='trash'
 fi
 
 if check_command todo.sh; then
-  # todo.txt
   export TODOTXT_DEFAULT_ACTION=ls
   alias t='todo.sh -d ~/.todo.cfg'
+fi
+
+if [[ $TERM == "xterm-kitty" ]] && check_command kitty; then
+  alias icat='kitty +kitten icat'
 fi
 
 # environment
