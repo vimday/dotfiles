@@ -765,7 +765,7 @@ local M = { -- utils
     "saecki/crates.nvim",
     version = "*",
     dependencies = "nvim-lua/plenary.nvim",
-    ft = "rust",
+    event = { "BufRead Cargo.toml" },
     config = function()
       require("crates").setup {
         null_ls = {
