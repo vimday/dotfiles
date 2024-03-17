@@ -58,9 +58,6 @@ local highlights = {
   "highlight ConflictMarkerTheirs guibg=#344f69",
   "highlight ConflictMarkerEnd guibg=#2f628e",
   "highlight ConflictMarkerCommonAncestorsHunk guibg=#754a81",
-
-  -- vim-matchup
-  "hi MatchWord guifg=NONE guibg=#5e5f69",
 }
 
 local autocmds = {

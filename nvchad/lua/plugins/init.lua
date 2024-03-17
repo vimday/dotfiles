@@ -91,7 +91,6 @@ return {
           disabled_filetypes = { "NvimTree" },
           args = { "-L", "crate,ans", "-" },
         },
-        require "typescript.extensions.null-ls.code-actions",
       }
       null_ls.setup {
         -- debug = true,
@@ -166,7 +165,9 @@ return {
     opts = {
       ensure_installed = {
         "vim",
+        "vimdoc",
         "html",
+        "lua",
         "css",
         "javascript",
         "typescript",
@@ -239,11 +240,6 @@ return {
       }
     end,
   },
-  -- {
-  --   "mrcjkb/rustaceanvim",
-  --   version = "^4", -- Recommended
-  --   ft = { "rust" },
-  -- },
   {
     "sindrets/diffview.nvim",
     dependencies = "nvim-lua/plenary.nvim",
@@ -541,16 +537,12 @@ return {
     end,
   },
   {
-    "NvChad/nvterm",
-    enabled = false,
-  },
-  {
     "rafcamlet/nvim-luapad",
     dependencies = "antoinemadec/FixCursorHold.nvim",
   },
   {
     "michaelb/sniprun",
-    lazy = false,
+    enabled = false,
     build = "bash ./install.sh",
     config = function()
       require("sniprun").setup {
@@ -795,13 +787,11 @@ return {
     end,
   },
   { "tpope/vim-repeat", event = "VeryLazy" },
-  { "jose-elias-alvarez/typescript.nvim" },
   {
-    "dmmulroy/tsc.nvim",
-    ft = { "typescript", "typescriptreact" },
-    config = function()
-      require("tsc").setup()
-    end,
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+    ft = {"typescript", "typescriptreact"},
   },
   {
     "danymat/neogen",
@@ -828,32 +818,11 @@ return {
     event = "InsertEnter",
     config = function()
       require("copilot").setup {
-        panel = {
-          enabled = true,
-          auto_refresh = false,
-          keymap = {
-            jump_prev = "[[",
-            jump_next = "]]",
-            accept = "<CR>",
-            refresh = "gr",
-            open = "<M-CR>",
-          },
-          layout = {
-            position = "bottom", -- | top | left | right
-            ratio = 0.4,
-          },
-        },
         suggestion = {
           enabled = true,
           auto_trigger = true,
-          debounce = 75,
           keymap = {
             accept = "<C-j>",
-            accept_word = false,
-            accept_line = false,
-            next = "<M-]>",
-            prev = "<M-[>",
-            dismiss = "<C-]>",
           },
         },
         filetypes = {
@@ -870,27 +839,8 @@ return {
     "rcarriga/nvim-notify",
     event = "VeryLazy",
     config = function()
-      local banned_messages = {}
-      local last_msg = nil
-      local last_ts = 0
-      local timeout = 6
       local noti = require "notify"
-
-      vim.notify = function(msg, ...)
-        local now = vim.fn.localtime()
-        if msg == last_msg and now - last_ts <= timeout then
-          return
-        end
-        last_msg = msg
-        last_ts = now
-
-        for _, banned in ipairs(banned_messages) do
-          if string.match(msg, banned) then
-            return
-          end
-        end
-        return noti(msg, ...)
-      end
+      vim.notify = noti
     end,
   },
   {

@@ -118,8 +118,6 @@ map("n", "<leader>gg", "<cmd>Git<cr>", { desc = "   gitfutive" })
 map("n", "L", "<cmd>bnext<cr>", { desc = "  goto next buffer" })
 map("n", "H", "<cmd>bNext<cr>", { desc = "  goto prev buffer" })
 
-map("n", "<leader>pf", "<cmd>lua require('custom.my-plugins.printf').printf()<cr>", { desc = "printf" })
-
 map("n", "B", "<cmd>ReachOpen buffers<CR>", { desc = "buffers" })
 map("n", "M", "<cmd>ReachOpen marks<CR>", { desc = "marks" })
 
