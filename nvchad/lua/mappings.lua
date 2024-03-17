@@ -1,4 +1,4 @@
-require("nvchad.mappings")
+require "nvchad.mappings"
 
 -- del
 local del = vim.keymap.del
@@ -17,7 +17,7 @@ local map = vim.keymap.set
 map("n", ";", ":", { desc = "CMD enter command mode" })
 
 map("n", "<leader>fm", function()
-    require("conform").format()
+  require("conform").format()
 end, { desc = "File Format with conform" })
 
 map("i", "jk", "<ESC>", { desc = "Escape insert mode" })
@@ -58,22 +58,22 @@ map("n", "<leader>dq", "<cmd>lua require'dap'.close()<CR>", { desc = "Quit" })
 map("n", "<leader>dw", "<cmd>lua require'dapui'.float_element()<CR>", { desc = "Float Window" })
 
 map("n", "[E", function()
-    vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" } })
+  vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" } }
 end, { desc = "prev error" })
 map("n", "]E", function()
-    vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" } })
+  vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" } }
 end, { desc = "next error" })
 map("n", "[d", function()
-    vim.diagnostic.goto_prev({ float = { border = "rounded" } })
+  vim.diagnostic.goto_prev { float = { border = "rounded" } }
 end, { desc = "prev diagnostic" })
 map("n", "]d", function()
-    vim.diagnostic.goto_next({ float = { border = "rounded" } })
+  vim.diagnostic.goto_next { float = { border = "rounded" } }
 end, { desc = "next diagnostic" })
 map("n", "gI", function()
-    vim.lsp.buf.implementation()
+  vim.lsp.buf.implementation()
 end, { desc = "lsp implementation" })
 map("n", "<leader>la", function()
-    vim.lsp.buf.code_action()
+  vim.lsp.buf.code_action()
 end, { desc = "Code Action" })
 map("n", "<leader>ld", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Buffer Diagnostics" })
 map("n", "<leader>lD", "<cmd>Telescope diagnostics<CR>", { desc = "Workspace Diagnostics" })
@@ -81,16 +81,16 @@ map("n", "<leader>lf", "<cmd>Neoformat<CR>", { desc = "Format" })
 map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Info" })
 map("n", "<leader>lI", "<cmd>Mason<CR>", { desc = "Installer Info" })
 map("n", "<leader>ll", function()
-    vim.lsp.codelens.run()
+  vim.lsp.codelens.run()
 end, { desc = "CodeLens Action" })
 map("n", "<leader>lq", function()
-    vim.diagnostic.setloclist({ severity = vim.diagnostic.severity.ERROR })
+  vim.diagnostic.setloclist { severity = vim.diagnostic.severity.ERROR }
 end, { desc = "Quickfix Document" })
 map("n", "<leader>lQ", function()
-    vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR })
+  vim.diagnostic.setqflist { severity = vim.diagnostic.severity.ERROR }
 end, { desc = "Quickfix Workspace" })
 map("n", "<leader>lr", function()
-    require("nvchad.renamer").open()
+  require("nvchad.renamer").open()
 end, { desc = "Rename" })
 map("n", "<leader>ls", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "Document Symbols" })
 map("n", "<leader>lS", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", { desc = "Workspace Symbols" })
@@ -99,7 +99,7 @@ map("n", "<leader>lO", "<cmd>SymbolsOutline<CR>", { desc = "Symbol Outline" })
 map("n", "<leader>lwa", vim.lsp.buf.add_workspace_folder, { desc = "add workspace folder" })
 map("n", "<leader>lwr", vim.lsp.buf.remove_workspace_folder, { desc = "remove workspace folder" })
 map("n", "<leader>lwl", function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 end, { desc = "list workspace folders" })
 
 map("n", "<leader>gl", "<cmd>lua require 'gitsigns'.blame_line()<cr>", { desc = "Blame" })

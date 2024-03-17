@@ -86,19 +86,8 @@ fi
 
 if check_command xmodmap; then
   modified=$(xmodmap -pm | egrep 'control.+0x42')
-  if [[ -z "$modified" ]]; then
-    # swap caps lock and control
-    conf=$(
-      cat <<EOF
-keycode 66 = Control_R
-keycode 105 = Caps_Lock
-clear lock
-add lock = Caps_Lock
-clear control
-add control = Control_L Control_R
-EOF
-    )
-    echo "$conf" | xmodmap -
+  if [[ ! "$modified" ]] &&  [ -f ~/.Xmodmap ]; then
+    xmodmap ~/.Xmodmap
   fi
 fi
 
