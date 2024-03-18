@@ -89,7 +89,7 @@ return {
             diagnostic.severity = vim.diagnostic.severity.INFO
           end,
           disabled_filetypes = { "NvimTree" },
-          args = { "-L", "crate,ans", "-" },
+          args = { "-L", "crate,ans,ratatui", "-" },
         },
       }
       null_ls.setup {
