@@ -115,8 +115,8 @@ map("n", "<leader>gC", "<cmd>Telescope git_bcommits<cr>", { desc = "Checkout com
 map("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>", { desc = "Git Diff" })
 map("n", "<leader>gg", "<cmd>Git<cr>", { desc = "   gitfutive" })
 
-map("n", "L", "<cmd>bnext<cr>", { desc = "  goto next buffer" })
-map("n", "H", "<cmd>bNext<cr>", { desc = "  goto prev buffer" })
+map("n", "L", "<cmd>lua require('nvchad.tabufline').next()<cr>", { desc = "  goto next buffer" })
+map("n", "H", "<cmd>lua require('nvchad.tabufline').prev()<cr>", { desc = "  goto prev buffer" })
 
 map("n", "B", "<cmd>ReachOpen buffers<CR>", { desc = "buffers" })
 map("n", "M", "<cmd>ReachOpen marks<CR>", { desc = "marks" })
