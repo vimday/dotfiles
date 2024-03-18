@@ -26,8 +26,28 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
+      local conf = require("nvconfig").ui.lsp
+      local map = vim.keymap.set
+
+      local on_attach = function(client, bufnr)
+        local function opts(desc)
+          return { buffer = bufnr, desc = desc }
+        end
+
+        map("n", "K", vim.lsp.buf.hover, opts "Lsp hover information")
+        map("n", "gd", vim.lsp.buf.definition, opts "Lsp Go to definition")
+        map("n", "gi", vim.lsp.buf.implementation, opts "Lsp Go to implementation")
+        map("n", "gr", vim.lsp.buf.references, opts "Lsp Show references")
+        map("n", "gD", vim.lsp.buf.type_definition, opts "Lsp Go to type definition")
+        -- map("n", "gD", vim.lsp.buf.declaration, opts "Lsp Go to declaration")
+
+        -- setup signature popup
+        if conf.signature and client.server_capabilities.signatureHelpProvider then
+          require("nvchad.lsp.signature").setup(client, bufnr)
+        end
+      end
+
       local configs = require "nvchad.configs.lspconfig"
-      local on_attach = configs.on_attach
       local on_init = configs.on_init
       local capabilities = configs.capabilities
 
@@ -791,7 +811,7 @@ return {
     "pmizio/typescript-tools.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     opts = {},
-    ft = {"typescript", "typescriptreact"},
+    ft = { "typescript", "typescriptreact" },
   },
   {
     "danymat/neogen",
