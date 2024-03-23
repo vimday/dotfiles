@@ -25,7 +25,7 @@ local on_attach = function(client, bufnr)
 
   map("n", "K", vim.lsp.buf.hover, opts "Lsp hover information")
   map("n", "gd", vim.lsp.buf.definition, opts "Lsp Go to definition")
-  map("n", "gi", vim.lsp.buf.implementation, opts "Lsp Go to implementation")
+  map("n", "gI", vim.lsp.buf.implementation, opts "Lsp Go to implementation")
   map("n", "gr", vim.lsp.buf.references, opts "Lsp Show references")
   map("n", "gD", vim.lsp.buf.type_definition, opts "Lsp Go to type definition")
   -- map("n", "gD", vim.lsp.buf.declaration, opts "Lsp Go to declaration")
