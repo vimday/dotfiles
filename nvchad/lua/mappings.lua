@@ -7,7 +7,7 @@ del("n", "<leader>wK")
 del("n", "<leader>v")
 del("n", "<leader>h")
 del("n", "<leader>n")
--- del("n", "<C-h>")
+del("n", "<Tab>")
 -- del("n", "<C-l>")
 
 -- add yours here
@@ -19,8 +19,6 @@ map("n", ";", ":", { desc = "CMD enter command mode" })
 map("n", "<leader>fm", function()
   require("conform").format()
 end, { desc = "File Format with conform" })
-
-map("i", "jk", "<ESC>", { desc = "Escape insert mode" })
 
 map("n", "<C-q>", "<cmd>call QuickFixToggle()<CR>", { desc = "Toggle Quickfix" })
 map("n", "<C-w>z", "<cmd>resize | vertical resize<CR>", { desc = "Zoom in window" })
