@@ -216,18 +216,6 @@ return {
     event = "BufRead",
   },
   {
-    "NTBBloodbath/rest.nvim",
-    ft = "http",
-    config = function()
-      require("rest-nvim").setup {}
-      vim.cmd [[
-         nnoremap <leader>rr <Plug>RestNvim
-         nnoremap <leader>rp <Plug>RestNvimPreview
-         nnoremap <leader>rl <Plug>RestNvimLast
-      ]]
-    end,
-  },
-  {
     "stevearc/dressing.nvim",
     event = "VeryLazy",
     dependencies = { "nvim-telescope/telescope.nvim" },
@@ -431,14 +419,16 @@ return {
     "nvim-neotest/neotest",
     event = "BufRead",
     dependencies = {
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
       {
         "vim-test/vim-test",
         config = function()
           vim.cmd 'let test#strategy ="neovim"'
         end,
       },
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
       "nvim-neotest/neotest-plenary",
       "nvim-neotest/neotest-go",
       "nvim-neotest/neotest-vim-test",
