@@ -430,14 +430,15 @@ return {
         end,
       },
       "nvim-neotest/neotest-plenary",
-      "nvim-neotest/neotest-go",
       "nvim-neotest/neotest-vim-test",
+      -- "nvim-neotest/neotest-go",
+      -- "rouge8/neotest-rust",
     },
     config = function()
-      vim.cmd [[let test#strategy ="neovim"]]
       require("neotest").setup {
         adapters = {
-          require "neotest-go",
+          -- require "neotest-rust",
+          -- require "neotest-go",
           require "neotest-plenary",
           require "neotest-vim-test",
         },
