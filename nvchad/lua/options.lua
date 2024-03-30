@@ -52,6 +52,12 @@ local highlights = {
   "hi! DiagnosticVirtualTextInfo guifg=#6ad8eD guibg=#30385f",
   "hi! DiagnosticVirtualTextHint guifg=#bd93f9 guibg=#3d3059",
 
+  -- diagnostics signs
+  "hi! DiagnosticSignError guifg=#FF5555",
+  "hi! DiagnosticSignWarn guifg=#e0af68",
+  "hi! DiagnosticSignInfo guifg=#6ad8ed",
+  "hi! DiagnosticSignHint guifg=#bd93f9",
+
   -- conflict marker
   "highlight ConflictMarkerBegin guibg=#2f7366",
   "highlight ConflictMarkerOurs guibg=#2e5049",
@@ -61,7 +67,7 @@ local highlights = {
 }
 
 local autocmds = {
-  { "UIEnter", "*", table.concat(highlights, " | ") },
+  { "UIEnter",     "*", table.concat(highlights, " | ") },
   { "InsertLeave", "*", ":set relativenumber" },
   { "InsertEnter", "*", ":set norelativenumber" },
   -- { "InsertLeave", "*", ":lua vim.diagnostic.show(nil, 0)" },
@@ -82,7 +88,7 @@ if g.neovide then
   g.neovide_no_idle = true
 
   vim.cmd [[
-    let g:dracula#palette          = {} 
+    let g:dracula#palette          = {}
     let g:dracula#palette.color_0  = '#21222C'
     let g:dracula#palette.color_1  = '#FF5555'
     let g:dracula#palette.color_2  = '#50FA7B'
@@ -115,7 +121,7 @@ if g.neovide then
     map ˙ <a-h>
     map ∆ <a-j>
     map ˚ <a-k>
-    map ¬ <a-l> 
+    map ¬ <a-l>
     map √ <a-v>
     map ˆ <a-i>
     tmap √ <a-v>
