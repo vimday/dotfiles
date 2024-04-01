@@ -158,7 +158,7 @@ return {
       playground = {
         enable = true,
         disable = {},
-        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+        updatetime = 25,         -- Debounced time for highlighting nodes in the playground from source code
         persist_queries = false, -- Whether the query persists across vim sessions
         keybindings = {
           toggle_query_editor = "o",
@@ -476,7 +476,7 @@ return {
     opts = {
       plugins = {
         spelling = {
-          enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+          enabled = true,   -- enabling this will show WhichKey when pressing z= to select spelling suggestions
           suggestions = 20, -- how many suggestions should be shown in the list?
         },
       },
@@ -541,7 +541,7 @@ return {
       vim.keymap.set("t", "jk", [[<C-\><C-n>]])
     end,
   },
-  { "AndrewRadev/bufferize.vim", event = "VeryLazy" },
+  { "AndrewRadev/bufferize.vim",  event = "VeryLazy" },
   {
     "leoluz/nvim-dap-go",
     ft = "go",
@@ -699,4 +699,24 @@ return {
     version = "*",
     event = "VeryLazy",
   },
+  {
+    'kevinhwang91/nvim-hlslens',
+    event = "VeryLazy",
+    config = function()
+      require('hlslens').setup()
+
+      local kopts = { noremap = true, silent = true }
+
+      vim.api.nvim_set_keymap('n', 'n',
+        [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+        kopts)
+      vim.api.nvim_set_keymap('n', 'N',
+        [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+        kopts)
+      vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+    end
+  }
 }
