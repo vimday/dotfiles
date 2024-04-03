@@ -23,21 +23,15 @@ check_file() {
   fi
 }
 
-export ZPLUG_HOME=/home/linuxbrew/.linuxbrew/opt/zplug
+if check_command zplug; then
+  # zplug "spwhitt/nix-zsh-completions"
+  zplug "paulirish/git-open"
+  zplug "zsh-users/zsh-autosuggestions"
+  zplug "zsh-users/zsh-syntax-highlighting"
+  # zplug "jeffreytse/zsh-vi-mode"
 
-if [[ "$cur_shell" == "zsh" ]] && check_file $ZPLUG_HOME/init.zsh; then
-  source $ZPLUG_HOME/init.zsh
-
-  if check_command zplug; then
-    zplug "spwhitt/nix-zsh-completions"
-    zplug "paulirish/git-open"
-    zplug "zsh-users/zsh-autosuggestions"
-    zplug "zsh-users/zsh-syntax-highlighting"
-    # zplug "jeffreytse/zsh-vi-mode"
-
-    # Then, source plugins and add commands to $PATH
-    zplug load
-  fi
+  # Then, source plugins and add commands to $PATH
+  zplug load
 fi
 
 # keymap
@@ -55,7 +49,7 @@ fi
 
 # alias
 alias v=nvim
-if $(which podman >/dev/null 2>&1); then
+if check_command podman; then
   alias lazypodman='DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker'
 fi
 
@@ -86,7 +80,7 @@ fi
 
 if check_command xmodmap; then
   modified=$(xmodmap -pm | egrep 'control.+0x42')
-  if [[ ! "$modified" ]] &&  [ -f ~/.Xmodmap ]; then
+  if [[ ! "$modified" ]] && [ -f ~/.Xmodmap ]; then
     xmodmap ~/.Xmodmap
   fi
 fi
