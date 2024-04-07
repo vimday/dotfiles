@@ -213,7 +213,11 @@ return {
   },
   {
     "tpope/vim-fugitive",
-    event = "BufRead",
+    cmd = {
+      "Git",
+      "G",
+      "Gread"
+    }
   },
   {
     "stevearc/dressing.nvim",
@@ -276,17 +280,8 @@ return {
     end,
   },
   {
-    "simnalamburt/vim-mundo",
-    event = "VeryLazy",
-  },
-  {
     "ellisonleao/glow.nvim",
-    ft = "markdown",
-    config = function()
-      require("glow").setup {
-        width = 120,
-      }
-    end,
+    ft = "markdown"
   },
   {
     "chentoast/marks.nvim",
@@ -541,7 +536,7 @@ return {
       vim.keymap.set("t", "jk", [[<C-\><C-n>]])
     end,
   },
-  { "AndrewRadev/bufferize.vim",  event = "VeryLazy" },
+  { "AndrewRadev/bufferize.vim",  cmd = "Bufferize" },
   {
     "leoluz/nvim-dap-go",
     ft = "go",
@@ -697,7 +692,7 @@ return {
     -- Remove the following line to use development versions,
     -- not just the formal releases
     version = "*",
-    event = "VeryLazy",
+    event = "BufRead",
   },
   {
     'kevinhwang91/nvim-hlslens',
@@ -718,5 +713,9 @@ return {
       vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
       vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
     end
-  }
+  },
+  {
+    'NoahTheDuke/vim-just',
+    ft = 'just',
+  },
 }
