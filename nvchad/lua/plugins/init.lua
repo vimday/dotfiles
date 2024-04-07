@@ -281,7 +281,8 @@ return {
   },
   {
     "ellisonleao/glow.nvim",
-    ft = "markdown"
+    ft = "markdown",
+    config = true,
   },
   {
     "chentoast/marks.nvim",
