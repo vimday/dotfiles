@@ -366,7 +366,7 @@ return {
     end,
   },
   {
-    "mickael-menu/zk-nvim",
+    "zk-org/zk-nvim",
     event = "VeryLazy",
     config = function()
       require("zk").setup {
