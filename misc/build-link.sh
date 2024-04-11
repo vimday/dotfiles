@@ -1,8 +1,5 @@
 #!/bin/zsh
 
-cur_dir=$(dirname $0)
-cd cur_dir
-
 cur_dir=$(pwd)
 
 echo "[$(date)] init dotfiles"

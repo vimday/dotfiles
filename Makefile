@@ -1,4 +1,2 @@
-default: sync
-
-sync:
-	bash _sync.sh
+build-link:
+	./misc/build-link.sh
