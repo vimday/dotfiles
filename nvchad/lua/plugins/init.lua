@@ -158,7 +158,7 @@ return {
       playground = {
         enable = true,
         disable = {},
-        updatetime = 25,         -- Debounced time for highlighting nodes in the playground from source code
+        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
         persist_queries = false, -- Whether the query persists across vim sessions
         keybindings = {
           toggle_query_editor = "o",
@@ -216,8 +216,8 @@ return {
     cmd = {
       "Git",
       "G",
-      "Gread"
-    }
+      "Gread",
+    },
   },
   {
     "stevearc/dressing.nvim",
@@ -323,11 +323,17 @@ return {
   },
   {
     "ray-x/go.nvim",
-    ft = { "go" },
-    dependencies = { "neovim/nvim-lspconfig", "ray-x/guihua.lua" },
+    dependencies = { -- optional packages
+      "ray-x/guihua.lua",
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+    },
     config = function()
       require("go").setup()
     end,
+    event = { "CmdlineEnter" },
+    ft = { "go", "gomod" },
+    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
   {
     "mfussenegger/nvim-dap",
@@ -472,7 +478,7 @@ return {
     opts = {
       plugins = {
         spelling = {
-          enabled = true,   -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+          enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
           suggestions = 20, -- how many suggestions should be shown in the list?
         },
       },
@@ -537,7 +543,7 @@ return {
       vim.keymap.set("t", "jk", [[<C-\><C-n>]])
     end,
   },
-  { "AndrewRadev/bufferize.vim",  cmd = "Bufferize" },
+  { "AndrewRadev/bufferize.vim", cmd = "Bufferize" },
   {
     "leoluz/nvim-dap-go",
     ft = "go",
@@ -696,27 +702,33 @@ return {
     event = "BufRead",
   },
   {
-    'kevinhwang91/nvim-hlslens',
+    "kevinhwang91/nvim-hlslens",
     event = "VeryLazy",
     config = function()
-      require('hlslens').setup()
+      require("hlslens").setup()
 
       local kopts = { noremap = true, silent = true }
 
-      vim.api.nvim_set_keymap('n', 'n',
+      vim.api.nvim_set_keymap(
+        "n",
+        "n",
         [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        kopts)
-      vim.api.nvim_set_keymap('n', 'N',
+        kopts
+      )
+      vim.api.nvim_set_keymap(
+        "n",
+        "N",
         [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        kopts)
-      vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-    end
+        kopts
+      )
+      vim.api.nvim_set_keymap("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+    end,
   },
   {
-    'NoahTheDuke/vim-just',
-    ft = 'just',
+    "NoahTheDuke/vim-just",
+    ft = "just",
   },
 }
