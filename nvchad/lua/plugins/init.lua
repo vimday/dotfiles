@@ -155,31 +155,9 @@ return {
           return vim.api.nvim_buf_line_count(bufnr) > 5000
         end,
       },
-      playground = {
-        enable = true,
-        disable = {},
-        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-        persist_queries = false, -- Whether the query persists across vim sessions
-        keybindings = {
-          toggle_query_editor = "o",
-          toggle_hl_groups = "i",
-          toggle_injected_languages = "t",
-          toggle_anonymous_nodes = "a",
-          toggle_language_display = "I",
-          focus_language = "f",
-          unfocus_language = "F",
-          update = "R",
-          goto_node = "<cr>",
-          show_help = "?",
-        },
-      },
     },
   },
-  { "nvim-treesitter/playground", event = "VeryLazy" },
-  {
-    "rhysd/conflict-marker.vim",
-    event = "BufRead",
-  },
+  { "akinsho/git-conflict.nvim", version = "*", config = true, event = "BufRead" },
   {
     "ggandor/leap.nvim",
     event = "VeryLazy",
@@ -501,7 +479,7 @@ return {
   },
   {
     "smjonas/live-command.nvim",
-    event = "VeryLazy",
+    cmd = "Norm",
     config = function()
       require("live-command").setup {
         commands = {
@@ -668,26 +646,6 @@ return {
         },
       }
       require("telescope").load_extension "yank_history"
-    end,
-  },
-  {
-    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-    event = "VeryLazy",
-    dependencies = "neovim/nvim-lspconfig",
-    config = function()
-      require("lsp_lines").setup()
-      vim.diagnostic.config { virtual_lines = false }
-
-      local function toggle_lsp_lines()
-        local lsp_lines = require "lsp_lines"
-        lsp_lines.toggle()
-
-        local diag_config = vim.diagnostic.config()
-        diag_config.virtual_text = not diag_config.virtual_lines
-        vim.diagnostic.config(diag_config)
-      end
-
-      vim.api.nvim_create_user_command("LspLinesToggle", toggle_lsp_lines, { nargs = 0 })
     end,
   },
   {

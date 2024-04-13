@@ -57,13 +57,6 @@ local highlights = {
   "hi! DiagnosticSignWarn guifg=#e0af68",
   "hi! DiagnosticSignInfo guifg=#6ad8ed",
   "hi! DiagnosticSignHint guifg=#bd93f9",
-
-  -- conflict marker
-  "highlight ConflictMarkerBegin guibg=#2f7366",
-  "highlight ConflictMarkerOurs guibg=#2e5049",
-  "highlight ConflictMarkerTheirs guibg=#344f69",
-  "highlight ConflictMarkerEnd guibg=#2f628e",
-  "highlight ConflictMarkerCommonAncestorsHunk guibg=#754a81",
 }
 
 local autocmds = {
