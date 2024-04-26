@@ -580,12 +580,12 @@ return {
     end,
   },
   { "tpope/vim-repeat", event = "VeryLazy" },
-  {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    opts = {},
-    ft = { "typescript", "typescriptreact" },
-  },
+  -- {
+  --   "pmizio/typescript-tools.nvim",
+  --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+  --   opts = {},
+  --   ft = { "typescript", "typescriptreact" },
+  -- },
   {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",

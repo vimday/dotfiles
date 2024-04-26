@@ -27,7 +27,7 @@ o.foldmethod = "indent"
 o.foldlevelstart = 99
 o.swapfile = false
 o.scrolloff = 8
-o.wrap = false
+o.wrap = true
 o.relativenumber = true
 o.shell = "zsh"
 o.list = true
@@ -60,7 +60,7 @@ local highlights = {
 }
 
 local autocmds = {
-  { "UIEnter",     "*", table.concat(highlights, " | ") },
+  { "UIEnter", "*", table.concat(highlights, " | ") },
   { "InsertLeave", "*", ":set relativenumber" },
   { "InsertEnter", "*", ":set norelativenumber" },
   -- { "InsertLeave", "*", ":lua vim.diagnostic.show(nil, 0)" },
