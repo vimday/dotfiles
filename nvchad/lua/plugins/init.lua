@@ -1,9 +1,36 @@
 return {
   {
     "stevearc/conform.nvim",
-    config = function()
-      require "configs.conform"
-    end,
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    keys = {
+      {
+        -- Customize or remove this keymap to your liking
+        "<leader>fm",
+        function()
+          require("conform").format { async = true, lsp_fallback = true }
+        end,
+        mode = "",
+        desc = "Format buffer",
+      },
+    },
+    -- Everything in opts will be passed to setup()
+    opts = {
+      -- Define your formatters
+      formatters_by_ft = {
+        lua = { "stylua" },
+        python = { "isort", "black" },
+        javascript = { { "prettierd", "prettier" } },
+      },
+      -- Set up format-on-save
+      format_on_save = { timeout_ms = 500, lsp_fallback = true },
+      -- Customize formatters
+      formatters = {
+        shfmt = {
+          prepend_args = { "-i", "2" },
+        },
+      },
+    },
   },
   {
     "nvim-tree/nvim-tree.lua",
@@ -160,7 +187,7 @@ return {
   { "akinsho/git-conflict.nvim", version = "*", config = true, event = "BufRead" },
   {
     "ggandor/leap.nvim",
-    event = "VeryLazy",
+    event = "BufRead",
     config = function()
       require("leap").add_default_mappings()
       vim.cmd [[nnoremap gs <Plug>(leap-from-window)]]
@@ -169,7 +196,7 @@ return {
   },
   {
     "ggandor/flit.nvim",
-    event = "VeryLazy",
+    event = "BufRead",
     config = function()
       require("flit").setup()
     end,
@@ -177,7 +204,7 @@ return {
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
-    event = "VeryLazy",
+    event = "BufRead",
     config = function()
       require("nvim-surround").setup {
         -- Configuration here, or leave empty to use defaults
@@ -187,7 +214,7 @@ return {
   {
     "sindrets/diffview.nvim",
     dependencies = "nvim-lua/plenary.nvim",
-    event = "VeryLazy",
+    event = "BufRead",
   },
   {
     "tpope/vim-fugitive",
@@ -264,7 +291,7 @@ return {
   },
   {
     "chentoast/marks.nvim",
-    event = "VeryLazy",
+    event = "BufRead",
     config = function()
       require("marks").setup {
         default_mappings = false,
@@ -393,7 +420,7 @@ return {
   },
   {
     "wellle/targets.vim",
-    event = "VeryLazy",
+    event = "BufRead",
   },
   {
     "nvim-neotest/neotest",
@@ -425,23 +452,6 @@ return {
       }
     end,
   },
-  {
-    "sbdchd/neoformat",
-    event = "VeryLazy",
-    config = function()
-      vim.g.neoformat_go_gofmt = {
-        exe = "gofmt",
-        args = { "-s" },
-      }
-    end,
-  },
-  -- {
-  --   "chrisbra/csv.vim",
-  --   ft = "csv",
-  --   config = function()
-  --     vim.g.no_csv_maps = 1
-  --   end,
-  -- },
   {
     "mechatroner/rainbow_csv",
     ft = "csv",
@@ -569,7 +579,7 @@ return {
   },
   {
     "dnlhc/glance.nvim",
-    event = "VeryLazy",
+    event = "BufRead",
     config = function()
       require("glance").setup {}
       -- Lua
@@ -579,7 +589,7 @@ return {
       vim.keymap.set("n", "gpi", "<CMD>Glance implementations<CR>")
     end,
   },
-  { "tpope/vim-repeat", event = "VeryLazy" },
+  { "tpope/vim-repeat", event = "BufRead" },
   -- {
   --   "pmizio/typescript-tools.nvim",
   --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
@@ -589,12 +599,12 @@ return {
   {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",
-    event = "VeryLazy",
+    event = "BufRead",
     config = true,
   },
   -- {
   --   "github/copilot.vim",
-  --   event = "VeryLazy",
+  --   event = "BufRead",
   --   config = function()
   --     vim.cmd [[
   --       imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
@@ -649,17 +659,6 @@ return {
     end,
   },
   {
-    "andrewferrier/debugprint.nvim",
-    opts = {
-      create_keymaps = true,
-      create_commands = true,
-    },
-    -- Remove the following line to use development versions,
-    -- not just the formal releases
-    version = "*",
-    event = "BufRead",
-  },
-  {
     "kevinhwang91/nvim-hlslens",
     event = "VeryLazy",
     config = function()
@@ -688,5 +687,51 @@ return {
   {
     "NoahTheDuke/vim-just",
     ft = "just",
+  },
+  {
+    "ThePrimeagen/refactoring.nvim",
+    cmd = "Refactor",
+    event = "BufRead",
+    keys = {
+      {
+        "<leader>rr",
+        function()
+          require("refactoring").select_refactor()
+        end,
+        mode = "n",
+        desc = "Refactor",
+      },
+      {
+        "<leader>rp",
+        function()
+          require("refactoring").debug.printf { below = true }
+        end,
+        mode = "n",
+        desc = "Refactor print",
+      },
+      {
+        "<leader>rv",
+        function()
+          require("refactoring").debug.print_var()
+        end,
+        mode = "n",
+        desc = "Refactor print var",
+      },
+      {
+        "<leader>rc",
+        function()
+          require("refactoring").debug.cleanup {}
+        end,
+        mode = "n",
+        desc = "Refactor cleanup",
+      },
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("refactoring").setup()
+    end,
   },
 }
