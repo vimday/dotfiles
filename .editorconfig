@@ -28,7 +28,7 @@ indent_style = space
 indent_size = 2
 
 # For FW Convention
-[*.{js,ts,jsx,tsx,sh,proto,yml,yaml,json}]
+[*.{js,sh,proto,yml,yaml,json,lua,ts,tsx,md,jsx}]
 indent_style = space
 indent_size = 2
 

@@ -66,18 +66,6 @@ return {
       local b = null_ls.builtins
 
       local sources = {
-        b.formatting.shfmt,
-        b.formatting.black,
-        -- b.formatting.clang_format.with {
-        --   filetypes = { "proto" },
-        -- },
-        b.formatting.pg_format,
-        b.formatting.prettier.with {
-          disabled_filetypes = { "json" },
-        },
-        b.completion.spell.with {
-          filetypes = { "markdown" },
-        },
         b.diagnostics.codespell.with {
           diagnostics_postprocess = function(diagnostic)
             diagnostic.severity = vim.diagnostic.severity.INFO

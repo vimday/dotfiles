@@ -8,6 +8,9 @@ M.ui = {
     DiffChange = { fg = "orange" },
     WildMenu = { fg = "#6ad8eD", bg = "#30385f" },
     IncSearch = { bg = "#e0af68", fg = "#373640" },
+    ["@keyword"] = { italic = true },
+    ["@keyword.function"] = { italic = true },
+    ["@keyword.return"] = { italic = true },
   },
 }
 
