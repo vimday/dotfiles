@@ -243,7 +243,7 @@ return {
   },
   {
     "editorconfig/editorconfig-vim",
-    event = "VeryLazy",
+    event = "BufRead",
     config = function()
       vim.g.EditorConfig_exclude_patterns = { "fugitive://.*", "scp://.*", "term://*" }
     end,
@@ -318,9 +318,7 @@ return {
     config = function()
       require("go").setup()
     end,
-    event = { "CmdlineEnter" },
     ft = { "go", "gomod" },
-    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
   {
     "mfussenegger/nvim-dap",
@@ -340,17 +338,7 @@ return {
       require("nvim-dap-virtual-text").setup {}
     end,
   },
-  {
-    "padde/jump.vim",
-    event = "VeryLazy",
-    config = function()
-      vim.g.autojump_vim_command = "tcd"
-    end,
-  }, -- use for autojump
-  {
-    "tpope/vim-unimpaired",
-    event = "VeryLazy",
-  },
+  { "tpope/vim-unimpaired", event = "BufRead" },
   {
     "windwp/nvim-ts-autotag",
     event = "BufRead",
@@ -642,7 +630,7 @@ return {
   },
   {
     "kevinhwang91/nvim-hlslens",
-    event = "VeryLazy",
+    event = "BufRead",
     config = function()
       require("hlslens").setup()
 
@@ -741,11 +729,22 @@ return {
             },
             {
               desc = " Old Files",
-              group = "Number",
-              action = "Telescope old_files",
+              group = "@keyword",
+              action = "lua require('telescope.builtin').oldfiles{ cwd = vim.fn.getcwd() }",
               key = "o",
             },
+            {
+              desc = " All Old Files",
+              group = "Number",
+              action = "Telescope oldfiles",
+              key = "O",
+            },
             { desc = "󰊳 Update", group = "@property", action = "Lazy update", key = "u" },
+            {
+              desc = " Quit",
+              key = "q",
+              action = "qall",
+            }
           },
         },
       }
