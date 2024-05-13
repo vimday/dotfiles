@@ -2,3 +2,4 @@ sessions/
 .config/lvim/plugin/
 *.spl
 .DS_Store
+Session.vim

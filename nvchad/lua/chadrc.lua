@@ -12,6 +12,10 @@ M.ui = {
     ["@keyword.function"] = { italic = true },
     ["@keyword.return"] = { italic = true },
   },
+  -- lazyload it when there are 1+ buffers
+  tabufline = {
+    lazyload = false,
+  },
 }
 
 return M

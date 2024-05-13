@@ -9,7 +9,7 @@ local servers = {
   "jsonls",
   "yamlls",
   "taplo",
-  "prosemd_lsp",
+  -- "prosemd_lsp",
   "eslint",
   "rust_analyzer",
   "tailwindcss",

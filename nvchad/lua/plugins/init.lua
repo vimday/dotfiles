@@ -714,15 +714,22 @@ return {
           week_header = {
             enable = true,
           },
+          project = {
+            limit = 10,
+          },
+          mru = {
+            limit = 17,
+            cwd_only = true,
+          },
           shortcut = {
             {
-              desc = " New File",
+              desc = " New File",
               group = "Include",
               action = "enew",
               key = "e",
             },
             {
-              desc = " Files",
+              desc = " Files",
               group = "DiagnosticInfo",
               action = "Telescope find_files",
               key = "f",
@@ -730,7 +737,9 @@ return {
             {
               desc = " Old Files",
               group = "@keyword",
-              action = "lua require('telescope.builtin').oldfiles{ cwd = vim.fn.getcwd() }",
+              action = function(path)
+                require("telescope.builtin").oldfiles { cwd = path }
+              end,
               key = "o",
             },
             {
@@ -739,16 +748,26 @@ return {
               action = "Telescope oldfiles",
               key = "O",
             },
-            { desc = "󰊳 Update", group = "@property", action = "Lazy update", key = "u" },
+            { desc = "󰚰 Update", group = "@property", action = "Lazy update", key = "u" },
             {
-              desc = " Quit",
+              desc = "󰩈 Quit",
               key = "q",
               action = "qall",
-            }
+            },
           },
         },
       }
     end,
     dependencies = { { "nvim-tree/nvim-web-devicons" } },
+  },
+  -- Minimal configuration
+  {
+    "David-Kunz/gen.nvim",
+    cmd = "Gen",
+    opts = {
+      model = "llama3",
+      -- display_mode = "split",
+      -- debug = true
+    },
   },
 }

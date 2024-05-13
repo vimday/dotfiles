@@ -35,6 +35,7 @@ o.list = true
 -- opt.timeoutlen = 400
 -- o.spell = true
 -- o.spelloptions = "camel,noplainbuffer"
+o.sessionoptions = "buffers,curdir,folds,tabpages,winpos,winsize"
 
 g.conflict_marker_enable_mappings = 0
 g.loaded_python3_provider = nil
