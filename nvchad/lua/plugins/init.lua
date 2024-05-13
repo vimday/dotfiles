@@ -43,14 +43,14 @@ return {
     "folke/trouble.nvim",
     event = "BufRead",
   },
-  {
-    "goolord/alpha-nvim",
-    lazy = false,
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("alpha").setup(require("alpha.themes.startify").config)
-    end,
-  },
+  -- {
+  --   "goolord/alpha-nvim",
+  --   lazy = false,
+  --   dependencies = { "nvim-tree/nvim-web-devicons" },
+  --   config = function()
+  --     require("alpha").setup(require("alpha.themes.startify").config)
+  --   end,
+  -- },
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -213,14 +213,7 @@ return {
       "Gread",
     },
   },
-  {
-    "stevearc/dressing.nvim",
-    event = "VeryLazy",
-    dependencies = { "nvim-telescope/telescope.nvim" },
-    config = function()
-      require("dressing").setup {}
-    end,
-  },
+  { "stevearc/dressing.nvim", opts = {} },
   {
     "kevinhwang91/nvim-bqf",
     ft = "qf",
@@ -722,5 +715,41 @@ return {
     config = function()
       require("refactoring").setup()
     end,
+  },
+  {
+    "nvimdev/dashboard-nvim",
+    event = "VimEnter",
+    config = function()
+      require("dashboard").setup {
+        theme = "hyper",
+        config = {
+          week_header = {
+            enable = true,
+          },
+          shortcut = {
+            { desc = "󰊳 Update", group = "@property", action = "Lazy update", key = "u" },
+            {
+              desc = " Files",
+              group = "DiagnosticInfo",
+              action = "Telescope find_files",
+              key = "f",
+            },
+            {
+              desc = " Old Files",
+              group = "DiagnosticWarn",
+              action = "Telescope old_files",
+              key = "o",
+            },
+            -- {
+            --   desc = " dotfiles",
+            --   group = "Number",
+            --   action = "Telescope dotfiles",
+            --   key = "",
+            -- },
+          },
+        },
+      }
+    end,
+    dependencies = { { "nvim-tree/nvim-web-devicons" } },
   },
 }
