@@ -727,25 +727,25 @@ return {
             enable = true,
           },
           shortcut = {
-            { desc = "󰊳 Update", group = "@property", action = "Lazy update", key = "u" },
             {
-              desc = " Files",
+              desc = " New File",
+              group = "Include",
+              action = "enew",
+              key = "e",
+            },
+            {
+              desc = " Files",
               group = "DiagnosticInfo",
               action = "Telescope find_files",
               key = "f",
             },
             {
               desc = " Old Files",
-              group = "DiagnosticWarn",
+              group = "Number",
               action = "Telescope old_files",
               key = "o",
             },
-            -- {
-            --   desc = " dotfiles",
-            --   group = "Number",
-            --   action = "Telescope dotfiles",
-            --   key = "",
-            -- },
+            { desc = "󰊳 Update", group = "@property", action = "Lazy update", key = "u" },
           },
         },
       }
