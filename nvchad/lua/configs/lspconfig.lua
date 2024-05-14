@@ -11,7 +11,7 @@ local servers = {
   "taplo",
   -- "prosemd_lsp",
   "eslint",
-  "rust_analyzer",
+  -- "rust_analyzer",
   "tailwindcss",
 }
 
@@ -38,6 +38,7 @@ local on_attach = function(client, bufnr)
   if client.server_capabilities.documentSymbolProvider then
     navic.attach(client, bufnr)
   end
+  client.server_capabilities.semanticTokensProvider = nil
 end
 
 local configs = require "nvchad.configs.lspconfig"
@@ -78,3 +79,5 @@ lspconfig.lua_ls.setup {
     },
   },
 }
+
+return { on_attach = on_attach }

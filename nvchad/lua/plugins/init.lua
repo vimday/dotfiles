@@ -417,6 +417,7 @@ return {
           -- require "neotest-rust",
           -- require "neotest-go",
           require "neotest-plenary",
+          -- require "rustaceanvim.neotest",
           require "neotest-vim-test",
         },
       }
@@ -769,5 +770,27 @@ return {
       -- display_mode = "split",
       -- debug = true
     },
+  },
+  {
+    "mrcjkb/rustaceanvim",
+    version = "^4", -- Recommended
+    ft = "rust",
+    config = function()
+      local lspconfig = require "configs.lspconfig"
+      vim.g.rustaceanvim = {
+        -- Plugin configuration
+        tools = {},
+        -- LSP configuration
+        server = {
+          on_attach = lspconfig.on_attach,
+          default_settings = {
+            -- rust-analyzer language server configuration
+            ["rust-analyzer"] = {},
+          },
+        },
+        -- DAP configuration
+        dap = {},
+      }
+    end,
   },
 }
