@@ -213,7 +213,7 @@ return {
       "Gread",
     },
   },
-  { "stevearc/dressing.nvim", opts = {} },
+  { "stevearc/dressing.nvim", opts = {}, event = "VeryLazy" },
   {
     "kevinhwang91/nvim-bqf",
     ft = "qf",
