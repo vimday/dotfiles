@@ -12,7 +12,7 @@ local servers = {
   -- "prosemd_lsp",
   "eslint",
   -- "rust_analyzer",
-  "tailwindcss",
+  -- "tailwindcss",
 }
 
 local conf = require("nvconfig").ui.lsp

@@ -709,55 +709,8 @@ return {
     "nvimdev/dashboard-nvim",
     event = "VimEnter",
     config = function()
-      require("dashboard").setup {
-        theme = "hyper",
-        config = {
-          week_header = {
-            enable = true,
-          },
-          project = {
-            limit = 10,
-          },
-          mru = {
-            limit = 17,
-            cwd_only = true,
-          },
-          shortcut = {
-            {
-              desc = " New File",
-              group = "Include",
-              action = "enew",
-              key = "e",
-            },
-            {
-              desc = " Files",
-              group = "DiagnosticInfo",
-              action = "Telescope find_files",
-              key = "f",
-            },
-            {
-              desc = " Old Files",
-              group = "@keyword",
-              action = function(path)
-                require("telescope.builtin").oldfiles { cwd = path }
-              end,
-              key = "o",
-            },
-            {
-              desc = " All Old Files",
-              group = "Number",
-              action = "Telescope oldfiles",
-              key = "O",
-            },
-            { desc = "󰚰 Update", group = "@property", action = "Lazy update", key = "u" },
-            {
-              desc = "󰩈 Quit",
-              key = "q",
-              action = "qall",
-            },
-          },
-        },
-      }
+      local conf = require "configs.dashboard"
+      require("dashboard").setup(conf)
     end,
     dependencies = { { "nvim-tree/nvim-web-devicons" } },
   },
@@ -792,5 +745,22 @@ return {
         dap = {},
       }
     end,
+  },
+  -- Lua
+  {
+    "olimorris/persisted.nvim",
+    config = function()
+      require("persisted").setup {
+        should_autosave = function()
+          local ft = vim.bo.filetype
+          -- do not autosave if the alpha dashboard is the current filetype
+          if ft == "alpha" or ft == "dashboard" then
+            return false
+          end
+          return true
+        end,
+      }
+    end,
+    cmd = { "SessionLoad", "SessionSave", "SessionLoadLast" },
   },
 }
