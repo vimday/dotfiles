@@ -1,10 +1,10 @@
 local function load_session_for_cwd()
   require("persisted").load()
   if not vim.g.persisted_exists then
-    vim.notify("No session found", vim.log.levels.INFO, { title = "Session" })
+    vim.notify("No session found", vim.log.levels.WARN, { title = "Session" })
     return false
   else
-    vim.notify("Session loaded", vim.log.levels.INFO, { title = "Session" })
+    print("Session loaded" .. vim.g.persisted_loaded_session)
     return true
   end
 end

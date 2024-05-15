@@ -10,7 +10,7 @@ return {
         function()
           require("conform").format { async = true, lsp_fallback = true }
         end,
-        mode = "",
+        mode = "n",
         desc = "Format buffer",
       },
     },
@@ -39,18 +39,7 @@ return {
       git = { enable = true },
     },
   },
-  {
-    "folke/trouble.nvim",
-    event = "BufRead",
-  },
-  -- {
-  --   "goolord/alpha-nvim",
-  --   lazy = false,
-  --   dependencies = { "nvim-tree/nvim-web-devicons" },
-  --   config = function()
-  --     require("alpha").setup(require("alpha.themes.startify").config)
-  --   end,
-  -- },
+  { "folke/trouble.nvim", event = "BufRead" },
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -561,31 +550,18 @@ return {
     end,
   },
   { "tpope/vim-repeat", event = "BufRead" },
-  -- {
-  --   "pmizio/typescript-tools.nvim",
-  --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-  --   opts = {},
-  --   ft = { "typescript", "typescriptreact" },
-  -- },
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+    ft = { "typescript", "typescriptreact" },
+  },
   {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",
     event = "BufRead",
     config = true,
   },
-  -- {
-  --   "github/copilot.vim",
-  --   event = "BufRead",
-  --   config = function()
-  --     vim.cmd [[
-  --       imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
-  --       let g:copilot_no_tab_map = v:true
-  --     ]]
-  --     vim.api.nvim_set_var("copilot_filetypes", {
-  --       ["dap-repl"] = false,
-  --     })
-  --   end,
-  -- },
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
@@ -749,19 +725,45 @@ return {
   -- Lua
   {
     "olimorris/persisted.nvim",
+    event = "VeryLazy",
     config = function()
       require("persisted").setup {
         follow_cwd = false,
         should_autosave = function()
           local ft = vim.bo.filetype
           -- do not autosave if the alpha dashboard is the current filetype
-          if ft == "alpha" or ft == "dashboard" then
+          if ft == "alpha" or ft == "dashboard" or ft == "fugitive" then
             return false
           end
           return true
         end,
       }
     end,
-    cmd = { "SessionLoad", "SessionSave", "SessionLoadLast" },
+  },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    event = "BufRead",
+    dependencies = {
+      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+    },
+    keys = {
+      {
+        "<leader>ai",
+        function()
+          vim.cmd "CopilotChatToggle"
+        end,
+        mode = "n",
+        desc = "AI",
+      },
+    },
+    opts = {
+      debug = true, -- Enable debugging
+      window = {
+        layout = "float",
+        width = 0.75,
+        height = 0.75,
+      },
+    },
   },
 }
