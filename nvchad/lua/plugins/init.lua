@@ -751,6 +751,7 @@ return {
     "olimorris/persisted.nvim",
     config = function()
       require("persisted").setup {
+        follow_cwd = false,
         should_autosave = function()
           local ft = vim.bo.filetype
           -- do not autosave if the alpha dashboard is the current filetype

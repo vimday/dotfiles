@@ -1,3 +1,14 @@
+local function load_session_for_cwd()
+  require("persisted").load()
+  if not vim.g.persisted_exists then
+    vim.notify("No session found", vim.log.levels.INFO, { title = "Session" })
+    return false
+  else
+    vim.notify("Session loaded", vim.log.levels.INFO, { title = "Session" })
+    return true
+  end
+end
+
 return {
   theme = "hyper",
   -- shortcut_type = "number",
@@ -8,11 +19,8 @@ return {
     project = {
       limit = 10,
       action = function(path)
-        vim.cmd "SessionLoad"
-        if not vim.g.persisted_exists then
+        if not load_session_for_cwd() then
           require("telescope.builtin").find_files { cwd = path }
-        else
-          vim.notify(path, vim.log.levels.INFO, { title = "Project Loaded" })
         end
       end,
     },
@@ -41,9 +49,7 @@ return {
       {
         desc = " Load Session",
         group = "Number",
-        action = function()
-          vim.cmd "SessionLoad"
-        end,
+        action = load_session_for_cwd,
         key = "l",
       },
       { desc = "󰚰 Update", group = "@property", action = "Lazy update", key = "u" },
