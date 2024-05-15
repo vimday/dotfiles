@@ -8,7 +8,6 @@ return {
     project = {
       limit = 10,
       action = function(path)
-        local _ = require "persisted"
         vim.cmd "SessionLoad"
         if not vim.g.persisted_exists then
           require("telescope.builtin").find_files { cwd = path }
@@ -40,10 +39,12 @@ return {
         key = "o",
       },
       {
-        desc = " All Old Files",
+        desc = " Load Session",
         group = "Number",
-        action = "Telescope oldfiles",
-        key = "O",
+        action = function()
+          vim.cmd "SessionLoad"
+        end,
+        key = "l",
       },
       { desc = "󰚰 Update", group = "@property", action = "Lazy update", key = "u" },
       {
