@@ -4,7 +4,11 @@ local function load_session_for_cwd()
     vim.notify("No session found", vim.log.levels.WARN, { title = "Session" })
     return false
   else
-    print("Session loaded" .. vim.g.persisted_loaded_session)
+    print("Session loaded " .. vim.g.persisted_loaded_session)
+    local ft = vim.bo.filetype
+    if ft == "dashboard" then
+      vim.cmd "bd"
+    end
     return true
   end
 end
