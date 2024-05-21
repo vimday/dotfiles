@@ -192,7 +192,7 @@ return {
   {
     "sindrets/diffview.nvim",
     dependencies = "nvim-lua/plenary.nvim",
-    event = "BufRead",
+    cmd = { "DiffviewOpen" },
   },
   {
     "tpope/vim-fugitive",

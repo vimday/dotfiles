@@ -86,7 +86,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 -- GUI
 if g.neovide then
-  o.guifont = "JetBrainsMono Nerd Font:h11"
+  o.guifont = "JetBrainsMono Nerd Font"
   g.neovide_remember_window_size = true
   g.neovide_cursor_vfx_mode = "railgun"
   g.neovide_confirm_quit = true
