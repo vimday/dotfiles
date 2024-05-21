@@ -766,4 +766,30 @@ return {
       },
     },
   },
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = { "hrsh7th/cmp-cmdline" }, -- XXX: will this override the default cmdline completion?
+    config = function(_, opts)
+      local cmp = require "cmp"
+      cmp.setup(opts)
+
+      cmp.setup.cmdline({ "/", "?" }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "buffer" },
+        },
+      })
+
+      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(), -- <C-y> select current
+        sources = cmp.config.sources({
+          { name = "path" },
+        }, {
+          { name = "cmdline" },
+        }),
+        matching = { disallow_symbol_nonprefix_matching = false },
+      })
+    end,
+  },
 }
