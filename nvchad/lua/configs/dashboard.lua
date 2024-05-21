@@ -21,14 +21,14 @@ return {
       enable = true,
     },
     project = {
-      limit = 10,
+      -- limit = 8,
       action = function(path)
         if not load_session_for_cwd() then
           require("telescope.builtin").find_files { cwd = path }
         end
       end,
     },
-    mru = { limit = 17 },
+    -- mru = { limit = 10 },
     shortcut = {
       {
         desc = " New File",
