@@ -32,7 +32,7 @@ return {
     shortcut = {
       {
         desc = " New File",
-        group = "Include",
+        group = "DiagnosticWarn",
         action = "enew",
         key = "e",
       },
@@ -44,7 +44,7 @@ return {
       },
       {
         desc = " Old Files",
-        group = "@keyword",
+        group = "@attribute",
         action = function(path)
           require("telescope.builtin").oldfiles { cwd = path, cwd_only = true }
         end,
@@ -52,7 +52,7 @@ return {
       },
       {
         desc = " Load Session",
-        group = "Number",
+        group = "DiagnosticSignOK",
         action = load_session_for_cwd,
         key = "l",
       },
@@ -61,6 +61,7 @@ return {
         desc = "󰩈 Quit",
         key = "q",
         action = "qall",
+        group = "DiagnosticError",
       },
     },
     footer = {
