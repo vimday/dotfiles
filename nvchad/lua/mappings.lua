@@ -8,6 +8,10 @@ del("n", "<leader>v")
 del("n", "<leader>h")
 del("n", "<leader>n")
 del("n", "<Tab>")
+del('i', '<C-l>')
+del('i', '<C-h>')
+del('i', '<C-j>')
+del('i', '<C-k>')
 -- del("n", "<C-l>")
 
 -- add yours here
