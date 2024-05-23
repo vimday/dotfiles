@@ -768,6 +768,7 @@ return {
   },
   {
     "hrsh7th/nvim-cmp",
+    event = 'CmdlineEnter',
     dependencies = { "hrsh7th/cmp-cmdline" }, -- XXX: will this override the default cmdline completion?
     config = function(_, opts)
       local cmp = require "cmp"
