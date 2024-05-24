@@ -589,7 +589,18 @@ return {
     "rcarriga/nvim-notify",
     event = "VeryLazy",
     config = function()
-      vim.notify = require "notify"
+      local noti = require "notify"
+      local blacklist = { "textDocument/" }
+
+      vim.notify = function(msg, level, opts)
+        for _, v in ipairs(blacklist) do
+          if msg:find(v) then
+            print("Blacklisted notification: " .. msg)
+            return
+          end
+        end
+        noti(msg, level, opts)
+      end
     end,
   },
   {
@@ -768,7 +779,7 @@ return {
   },
   {
     "hrsh7th/nvim-cmp",
-    event = 'CmdlineEnter',
+    event = "CmdlineEnter",
     dependencies = { "hrsh7th/cmp-cmdline" }, -- XXX: will this override the default cmdline completion?
     config = function(_, opts)
       local cmp = require "cmp"
