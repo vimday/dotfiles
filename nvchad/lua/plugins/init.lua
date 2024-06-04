@@ -196,11 +196,8 @@ return {
   },
   {
     "tpope/vim-fugitive",
-    cmd = {
-      "Git",
-      "G",
-      "Gread",
-    },
+    cmd = { "Git", "G" },
+    event = "BufRead",
   },
   { "stevearc/dressing.nvim", opts = {}, event = "VeryLazy" },
   {

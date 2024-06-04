@@ -3,7 +3,7 @@ local M = {}
 M.ui = {
   theme = "chadracula",
   hl_override = {
-    DiffAdd = { fg = "green" },
+    DiffAdd = { fg = "green", bg = '#123b1a' },
     DiffDelete = { fg = "red" },
     DiffChange = { fg = "orange" },
     WildMenu = { fg = "#6ad8eD", bg = "#30385f" },

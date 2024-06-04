@@ -28,7 +28,7 @@ map("n", "<leader>w", "<cmd>update<CR>", { desc = "save" })
 map("n", "<leader>.", ":<Up><CR>", { desc = "last cmd" })
 map("n", "<leader>;", "<cmd>Dashboard<CR>", { desc = "open dashboard" })
 map("n", "<leader>S", "<cmd>lua require('spectre').open()<CR>", { desc = "spectre" })
-map("n", "<leader>tp", "<cmd>TroubleToggle<CR>", { desc = "problems" })
+map("n", "<leader>tp", "<cmd>Trouble diagnostics toggle<CR>", { desc = "problems" })
 map("n", "<leader>b", "<cmd>b#<CR>", { desc = "last buffer" })
 map("n", "<Esc>", "<cmd>nohl<CR>", { desc = "nohl" })
 
