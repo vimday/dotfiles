@@ -39,7 +39,7 @@ return {
       git = { enable = true },
     },
   },
-  { "folke/trouble.nvim", event = "BufRead" },
+  { "folke/trouble.nvim", cmd = "Trouble", opts = {} },
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -458,10 +458,6 @@ return {
     end,
   },
   {
-    "rafcamlet/nvim-luapad",
-    dependencies = "antoinemadec/FixCursorHold.nvim",
-  },
-  {
     "michaelb/sniprun",
     enabled = false,
     build = "bash ./install.sh",
@@ -586,13 +582,14 @@ return {
     "rcarriga/nvim-notify",
     event = "VeryLazy",
     config = function()
+      local builtin_notify = vim.notify
       local noti = require "notify"
       local blacklist = { "textDocument/" }
 
       vim.notify = function(msg, level, opts)
         for _, v in ipairs(blacklist) do
           if msg:find(v) then
-            print("Blacklisted notification: " .. msg)
+            builtin_notify("Blacklisted notification: " .. msg, vim.log.levels.DEBUG)
             return
           end
         end
