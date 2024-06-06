@@ -19,6 +19,7 @@ del('i', '<C-k>')
 local map = vim.keymap.set
 
 map("n", ";", ":", { desc = "CMD enter command mode" })
+map("t", "jk", [[<C-\><C-n>]]) -- jk to escape in terminal mode
 
 map("n", "<C-q>", "<cmd>call QuickFixToggle()<CR>", { desc = "Toggle Quickfix" })
 map("n", "<C-w>z", "<cmd>resize | vertical resize<CR>", { desc = "Zoom in window" })

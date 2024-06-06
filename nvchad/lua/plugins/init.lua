@@ -384,7 +384,6 @@ return {
     dependencies = {
       "nvim-neotest/nvim-nio",
       "nvim-lua/plenary.nvim",
-      "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
       {
         "vim-test/vim-test",
@@ -471,18 +470,18 @@ return {
     "akinsho/toggleterm.nvim",
     version = "*",
     event = "VeryLazy",
-    config = function()
-      require("toggleterm").setup {
-        open_mapping = [[<c-\>]],
-        -- start_in_insert = false,
-        shade_terminals = true,
-        auto_scroll = false,
-        float_opts = {
-          border = "curved",
-        },
-      }
-      vim.keymap.set("t", "jk", [[<C-\><C-n>]])
-    end,
+    opts = {
+      open_mapping = [[<c-\>]],
+      -- start_in_insert = false,
+      shade_terminals = true,
+      auto_scroll = false,
+      float_opts = {
+        border = "curved",
+      },
+      winbar = {
+        enabled = true,
+      },
+    },
   },
   { "AndrewRadev/bufferize.vim", cmd = "Bufferize" },
   {
@@ -778,13 +777,6 @@ return {
     config = function(_, opts)
       local cmp = require "cmp"
       cmp.setup(opts)
-
-      cmp.setup.cmdline({ "/", "?" }, {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" },
-        },
-      })
 
       -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
       cmp.setup.cmdline(":", {
