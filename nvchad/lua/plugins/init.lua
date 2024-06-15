@@ -473,14 +473,15 @@ return {
     opts = {
       open_mapping = [[<c-\>]],
       -- start_in_insert = false,
+      size = 20,
       shade_terminals = true,
       auto_scroll = false,
-      float_opts = {
-        border = "curved",
-      },
-      winbar = {
-        enabled = true,
-      },
+      -- float_opts = {
+      --   border = "curved",
+      -- },
+      -- winbar = {
+      --   enabled = true,
+      -- },
     },
   },
   { "AndrewRadev/bufferize.vim", cmd = "Bufferize" },
@@ -770,24 +771,24 @@ return {
       },
     },
   },
-  {
-    "hrsh7th/nvim-cmp",
-    event = "CmdlineEnter",
-    dependencies = { "hrsh7th/cmp-cmdline" }, -- XXX: will this override the default cmdline completion?
-    config = function(_, opts)
-      local cmp = require "cmp"
-      cmp.setup(opts)
-
-      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(), -- <C-y> select current
-        sources = cmp.config.sources({
-          { name = "path" },
-        }, {
-          { name = "cmdline" },
-        }),
-        matching = { disallow_symbol_nonprefix_matching = false },
-      })
-    end,
-  },
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   event = "CmdlineEnter",
+  --   dependencies = { "hrsh7th/cmp-cmdline" }, -- XXX: will this override the default cmdline completion?
+  --   config = function(_, opts)
+  --     local cmp = require "cmp"
+  --     cmp.setup(opts)
+  --
+  --     -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  --     cmp.setup.cmdline(":", {
+  --       mapping = cmp.mapping.preset.cmdline(), -- <C-y> select current
+  --       sources = cmp.config.sources({
+  --         { name = "path" },
+  --       }, {
+  --         { name = "cmdline" },
+  --       }),
+  --       matching = { disallow_symbol_nonprefix_matching = false },
+  --     })
+  --   end,
+  -- },
 }
