@@ -15,7 +15,6 @@ local servers = {
   -- "tailwindcss",
 }
 
-local conf = require("nvconfig").ui.lsp
 local map = vim.keymap.set
 local navic = require "nvim-navic"
 
@@ -35,7 +34,7 @@ local on_attach = function(client, bufnr)
   end, opts "Lsp Inlay hints")
 
   -- setup signature popup
-  if conf.signature and client.server_capabilities.signatureHelpProvider then
+  if client.server_capabilities.signatureHelpProvider then
     require("nvchad.lsp.signature").setup(client, bufnr)
   end
 
