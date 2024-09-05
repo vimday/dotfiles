@@ -59,7 +59,7 @@ return {
           diagnostics_postprocess = function(diagnostic)
             diagnostic.severity = vim.diagnostic.severity.INFO
           end,
-          disabled_filetypes = { "NvimTree" },
+          disabled_filetypes = { "NvimTree", "csv" },
           args = { "-L", "crate,ans,ratatui", "-" },
         },
       }
@@ -565,12 +565,6 @@ return {
     end,
   },
   { "tpope/vim-repeat", event = "BufRead" },
-  {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    opts = {},
-    ft = { "typescript", "typescriptreact" },
-  },
   {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",
