@@ -571,29 +571,29 @@ return {
     event = "BufRead",
     config = true,
   },
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup {
-        suggestion = {
-          enabled = true,
-          auto_trigger = true,
-          keymap = {
-            accept = "<C-j>",
-          },
-        },
-        filetypes = {
-          yaml = true,
-          markdown = true,
-          gitcommit = true,
-          gitrebase = true,
-          ["dap-repl"] = false,
-        },
-      }
-    end,
-  },
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   event = "InsertEnter",
+  --   config = function()
+  --     require("copilot").setup {
+  --       suggestion = {
+  --         enabled = true,
+  --         auto_trigger = true,
+  --         keymap = {
+  --           accept = "<C-j>",
+  --         },
+  --       },
+  --       filetypes = {
+  --         yaml = true,
+  --         markdown = true,
+  --         gitcommit = true,
+  --         gitrebase = true,
+  --         ["dap-repl"] = false,
+  --       },
+  --     }
+  --   end,
+  -- },
   {
     "rcarriga/nvim-notify",
     event = "VeryLazy",
@@ -761,32 +761,32 @@ return {
       }
     end,
   },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    event = "BufRead",
-    dependencies = {
-      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
-    },
-    keys = {
-      {
-        "<leader>ai",
-        function()
-          vim.cmd "CopilotChatToggle"
-        end,
-        mode = "n",
-        desc = "CopilotChat",
-      },
-    },
-    opts = {
-      debug = true, -- Enable debugging
-      window = {
-        layout = "float",
-        width = 0.75,
-        height = 0.75,
-      },
-    },
-  },
+  -- {
+  --   "CopilotC-Nvim/CopilotChat.nvim",
+  --   event = "BufRead",
+  --   dependencies = {
+  --     { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+  --     { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+  --   },
+  --   keys = {
+  --     {
+  --       "<leader>ai",
+  --       function()
+  --         vim.cmd "CopilotChatToggle"
+  --       end,
+  --       mode = "n",
+  --       desc = "CopilotChat",
+  --     },
+  --   },
+  --   opts = {
+  --     debug = true, -- Enable debugging
+  --     window = {
+  --       layout = "float",
+  --       width = 0.75,
+  --       height = 0.75,
+  --     },
+  --   },
+  -- },
   {
     "NvChad/nvim-colorizer.lua",
     config = function()
