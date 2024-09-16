@@ -110,28 +110,6 @@ return {
     },
   },
   {
-    "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "bash-language-server",
-        "black",
-        "codelldb",
-        "codespell",
-        "css-lsp",
-        "json-lsp",
-        "lua-language-server",
-        "prettier",
-        "prosemd-lsp",
-        "pyright",
-        "shfmt",
-        "stylua",
-        "yaml-language-server",
-        "zk",
-        "vim-language-server",
-      },
-    },
-  },
-  {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {

@@ -5,7 +5,7 @@ local servers = {
   "bashls",
   "pyright",
   "gopls",
-  "tsserver",
+  "ts_ls",
   "jsonls",
   "yamlls",
   "taplo",
