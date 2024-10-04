@@ -536,7 +536,7 @@ return {
           enabled = true,
           auto_trigger = true,
           keymap = {
-            accept = "<C-j>",
+            accept = "<M-o>",
           },
         },
         filetypes = {
