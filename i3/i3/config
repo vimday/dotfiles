@@ -109,6 +109,7 @@ bindsym $mod+plus split h
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
+bindsym $mod+s sticky toggle
 
 # change container layout (stacked, tabbed, toggle split)
 # bindsym $mod+s layout stacking
@@ -122,11 +123,19 @@ bindsym $mod+Shift+f floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+Shift+space focus mode_toggle
 
-# hide | show window
+# hide/show window
 bindsym $mod+n move scratchpad
 bindsym $mod+Shift+n scratchpad show
 
-set $mode_layout select: horizontal(H) vertical(V) stacking(S) tabbed(T) cancel(Esc)
+# mark/unmark window
+# 读取 1 个字符并用该字符标记当前窗口
+bindsym $mod+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
+bindsym $mod+Shift+m unmark
+# 读取 1 个字符并转到带有该字符的窗口
+bindsym $mod+apostrophe exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
+
+# change container layout
+set $mode_layout change layout: horizontal(H) vertical(V) stacking(S) tabbed(T) cancel(Esc)
 bindsym $mod+c mode "$mode_layout"
 mode "$mode_layout" {
     bindsym h layout splith
@@ -152,12 +161,12 @@ bindsym $mod+a focus parent
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1:  "
 set $ws2 "2:  "
-set $ws3 "3: "
+set $ws3 "3:  "
 set $ws4 "4:  "
 set $ws5 "5:  "
 set $ws6 "6:  "
 set $ws7 "7:  "
-set $ws8 "8: ♫ "
+set $ws8 "8: 󰊠 "
 set $ws9 "9:  "
 set $ws0 "10:  "
 
@@ -225,8 +234,12 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 #===window rules===
-for_window [class="copyq"] floating enable
-for_window [class="LANDrop"] floating enable
+# copyq floating and position
+for_window [class="copyq"] floating enable, move position center
+for_window [class="LANDrop"] floating enable, move position center
+
+#===app===
+bindsym $mod+backslash [class="kitty"] scratchpad show
 
 #===power manager===
 set $mode_system select: lock(L) exit(E) reboot(R) poweroff(O) cancel(Esc)
