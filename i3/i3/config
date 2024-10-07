@@ -118,14 +118,14 @@ bindsym $mod+s sticky toggle
 
 # toggle tiling / floating
 # bindsym $mod+Shift+space floating toggle
-bindsym $mod+Shift+f floating toggle
+# bindsym $mod+Shift+f floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+Shift+space focus mode_toggle
 
 # hide/show window
-bindsym $mod+n move scratchpad
-bindsym $mod+Shift+n scratchpad show
+# bindsym $mod+n move scratchpad
+# bindsym $mod+Shift+n scratchpad show
 
 # mark/unmark window
 # 读取 1 个字符并用该字符标记当前窗口
@@ -134,14 +134,23 @@ bindsym $mod+Shift+m unmark
 # 读取 1 个字符并转到带有该字符的窗口
 bindsym $mod+apostrophe exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
 
-# change container layout
-set $mode_layout change layout: horizontal(H) vertical(V) stacking(S) tabbed(T) cancel(Esc)
-bindsym $mod+c mode "$mode_layout"
-mode "$mode_layout" {
-    bindsym h layout splith
-    bindsym v layout splitv
-    bindsym s layout stacking
-    bindsym t layout tabbed
+# change container attributes
+set $mode_change_attr attr: split(h) split(v) (s)tack (t)ab (b)order stic(k)y (f)loat scratch(p)ad
+bindsym $mod+c mode "$mode_change_attr"
+mode "$mode_change_attr" {
+    bindsym h layout splith, mode "default"
+    bindsym v layout splitv, mode "default"
+    bindsym s layout stacking, mode "default"
+    bindsym t layout tabbed, mode "default"
+
+    bindsym b border toggle
+    bindsym k sticky toggle, mode "default"
+    bindsym f floating toggle, mode "default"
+
+    bindsym p move scratchpad
+    bindsym Shift+p scratchpad show
+
+    bindsym $mod+c mode "default"
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
@@ -149,7 +158,7 @@ mode "$mode_layout" {
 # change border style
 # bindsym $mod+u border none
 # bindsym $mod+o border 1pixel
-bindsym $mod+b border toggle
+# bindsym $mod+b border toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -216,8 +225,8 @@ mode "resize" {
     # Pressing down will grow the window’s height.
     bindsym j resize shrink height 10 px or 10 ppt
     bindsym k resize grow height 10 px or 10 ppt
-    bindsym l resize shrink width 10 px or 10 ppt
-    bindsym h resize grow width 10 px or 10 ppt
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
 
     # same bindings, but for the arrow keys
     bindsym Left resize shrink width 10 px or 10 ppt
@@ -237,6 +246,7 @@ bindsym $mod+r mode "resize"
 # copyq floating and position
 for_window [class="copyq"] floating enable, move position center
 for_window [class="LANDrop"] floating enable, move position center
+for_window [class=".*"] title_format "%title [%class]"
 
 #===app===
 bindsym $mod+backslash [class="kitty"] scratchpad show
@@ -267,7 +277,7 @@ bar {
         active_workspace   #282A36 #44475A #F8F8F2
         inactive_workspace #282A36 #282A36 #BFBFBF
         urgent_workspace   #FF5555 #FF5555 #F8F8F2
-        binding_mode       #FF5555 #FF5555 #F8F8F2
+        binding_mode       #50fa7b #282A36 #50fa7b
     }
 }
 
