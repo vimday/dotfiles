@@ -1,6 +1,6 @@
 local M = {}
 
-M.ui = {
+M.base46 = {
   theme = "chadracula",
   hl_override = {
     DiffAdd = { fg = "green", bg = "#123b1a" },
@@ -12,7 +12,10 @@ M.ui = {
     ["@keyword.function"] = { italic = true },
     ["@keyword.return"] = { italic = true },
   },
-  -- lazyload it when there are 1+ buffers
+}
+
+M.ui = {
+    -- lazyload it when there are 1+ buffers
   tabufline = {
     lazyload = false,
   },
