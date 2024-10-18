@@ -109,7 +109,6 @@ bindsym $mod+plus split h
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
-bindsym $mod+s sticky toggle
 
 # change container layout (stacked, tabbed, toggle split)
 # bindsym $mod+s layout stacking
@@ -135,9 +134,12 @@ bindsym $mod+Shift+m unmark
 bindsym $mod+apostrophe exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
 
 # change container attributes
-set $mode_change_attr attr: split(h) split(v) (s)tack (t)ab (b)order stic(k)y (f)loat scratch(p)ad
-bindsym $mod+c mode "$mode_change_attr"
+set $mode_change_attr >>> split(h) split(v) (s)tack (t)ab (b)order stic(k)y (f)loat scratch(P)ad p(a)rent chil(d)
+bindsym $mod+a mode "$mode_change_attr"
 mode "$mode_change_attr" {
+    bindsym a focus parent, mode "default"
+    bindsym d focus child, mode "default"
+
     bindsym h layout splith, mode "default"
     bindsym v layout splitv, mode "default"
     bindsym s layout stacking, mode "default"
@@ -147,7 +149,7 @@ mode "$mode_change_attr" {
     bindsym k sticky toggle, mode "default"
     bindsym f floating toggle, mode "default"
 
-    bindsym p move scratchpad
+    bindsym p move scratchpad, mode "default"
     bindsym Shift+p scratchpad show
 
     bindsym $mod+c mode "default"
@@ -161,7 +163,7 @@ mode "$mode_change_attr" {
 # bindsym $mod+b border toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+# bindsym $mod+a focus parent
 
 # focus the child container
 # bindsym $mod+d focus child
@@ -176,7 +178,7 @@ set $ws5 "5:  "
 set $ws6 "6:  "
 set $ws7 "7:  "
 set $ws8 "8: 󰊠 "
-set $ws9 "9:  "
+set $ws9 "9: 󰱱 "
 set $ws0 "10:  "
 
 
@@ -246,19 +248,25 @@ bindsym $mod+r mode "resize"
 # copyq floating and position
 for_window [class="copyq"] floating enable, move position center
 for_window [class="LANDrop"] floating enable, move position center
+for_window [class="Clash.*"] floating enable, move position center
 for_window [class=".*"] title_format "%title [%class]"
+# class contains "Meeting"
+for_window [class="Bytedance-feishu"] border normal
+for_window [title=".*飞书会议.*"] floating enable
 
 #===app===
 bindsym $mod+backslash [class="kitty"] scratchpad show
+bindsym Mod1+space exec --no-startup-id sh -c 'word=$(rofi -dmenu -p "Dict.sh:") && ~/repos/my-busybox/bin/dict.sh "$word" | xargs -I{} notify-send "Dict.sh" "{}"'
 
 #===power manager===
-set $mode_system select: lock(L) exit(E) reboot(R) poweroff(O) cancel(Esc)
+set $mode_system system: (l)ock (e)xit (r)eboot p(o)weroff (s)uspend
 bindsym $mod+Shift+q mode "$mode_system"
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3lock -c '#000000', mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
     bindsym o exec --no-startup-id systemctl poweroff, mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
     bindsym Escape mode "default"
 }
 
@@ -282,6 +290,7 @@ bar {
 }
 
 # startup apps
+exec_always --no-startup-id picom -b --log-file /tmp/picom.log --log-level warn
 exec --no-startup-id ~/scripts/set_display.sh && feh --bg-fill /home/hrli/Pictures/Wallpaper/jinx.jpg
 # exec_always feh --bg-fill /home/hrli/Pictures/Wallpaper/jinx.jpg
 # exec_always --no-startup-id i3-auto-layout
