@@ -259,7 +259,7 @@ bindsym $mod+backslash [class="kitty"] scratchpad show
 bindsym Mod1+space exec --no-startup-id sh -c 'word=$(rofi -dmenu -p "Dict.sh:") && ~/repos/my-busybox/bin/dict.sh "$word" | xargs -I{} notify-send "Dict.sh" "{}"'
 
 #===power manager===
-set $mode_system system: (l)ock (e)xit (r)eboot p(o)weroff (s)uspend
+set $mode_system SYS: (l)ock (e)xit (r)eboot p(o)weroff (s)uspend
 bindsym $mod+Shift+q mode "$mode_system"
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3lock -c '#000000', mode "default"
@@ -281,7 +281,7 @@ bar {
         statusline #F8F8F2
         separator  #44475A
 
-        focused_workspace  #44475A #44475A #F8F8F2
+        focused_workspace  #a8a8a2 #44475A #F8F8F2
         active_workspace   #282A36 #44475A #F8F8F2
         inactive_workspace #282A36 #282A36 #BFBFBF
         urgent_workspace   #FF5555 #FF5555 #F8F8F2
