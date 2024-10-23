@@ -2,6 +2,7 @@ local M = {}
 
 M.base46 = {
   theme = "chadracula",
+  -- transparency = true,
   hl_override = {
     DiffAdd = { fg = "green", bg = "#123b1a" },
     DiffDelete = { fg = "red" },
@@ -12,10 +13,11 @@ M.base46 = {
     ["@keyword.function"] = { italic = true },
     ["@keyword.return"] = { italic = true },
   },
+  theme_toggle = { "chadracula", "one_light" },
 }
 
 M.ui = {
-    -- lazyload it when there are 1+ buffers
+  -- lazyload it when there are 1+ buffers
   tabufline = {
     lazyload = false,
   },

@@ -22,6 +22,7 @@ return {
         python = { "isort", "black" },
         javascript = { "prettierd", "prettier", stop_after_first = true },
         go = { "goimports", "gofmt", "golines" },
+        sql = { "sql-formatter" },
       },
       -- Set up format-on-save
       -- format_on_save = { timeout_ms = 500, lsp_fallback = true },
