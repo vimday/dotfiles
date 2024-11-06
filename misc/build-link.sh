@@ -60,6 +60,7 @@ link2dot_configs=(
   i3/i3
   i3/i3blocks
   picom.conf
+  containers
 )
 
 for file in $link2dot_configs; do

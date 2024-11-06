@@ -98,6 +98,11 @@ if [[ $TERM == "xterm-kitty" ]] && check_command kitty; then
   alias icat='kitty +kitten icat'
 fi
 
+if check_command zoxide; then
+   eval "$(zoxide init zsh)"
+   alias j=z
+fi
+
 # environment
 export GOPROXY=https://goproxy.cn
 export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
