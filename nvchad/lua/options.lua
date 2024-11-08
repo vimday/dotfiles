@@ -134,3 +134,10 @@ if g.neovide then
     tmap ˆ <a-i>
   ]]
 end
+
+-- tmux
+vim.cmd [[
+  if has("termguicolors")
+    set termguicolors
+  endif
+]]

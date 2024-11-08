@@ -1,0 +1,14 @@
+# clickhouse.container
+[Container]
+ContainerName=clickhouse
+Image=clickhouse/clickhouse-server
+PublishPort=8123:8123
+PublishPort=9000:9000
+Ulimit=nofile=262144:262144
+Volume=ch_data:/var/lib/clickhouse
+
+[Service]
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

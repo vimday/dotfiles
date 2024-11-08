@@ -13,6 +13,7 @@ local servers = {
   "eslint",
   -- "rust_analyzer",
   -- "tailwindcss",
+  "rnix",
 }
 
 local map = vim.keymap.set
