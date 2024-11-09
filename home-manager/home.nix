@@ -38,14 +38,14 @@
     pkgs.curl
     pkgs.git
     pkgs.htop
-    pkgs.mcfly
+    pkgs.mcfly # desc: A replacement for ctrl-r with context-aware filtering and improved search
     pkgs.neovim
     pkgs.podlet
     pkgs.python3
-    pkgs.starship
+    pkgs.starship # desc: The minimal, blazing-fast, and infinitely customizable prompt for any shell!
     pkgs.todo-txt-cli
     pkgs.trash-cli
-    pkgs.zoxide
+    pkgs.zoxide # desc: A faster way to navigate your filesystem
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     pkgs.lazygit
     pkgs.lazydocker
@@ -54,6 +54,14 @@
     pkgs.fd
     pkgs.tmux
     pkgs.nodejs_20
+    pkgs.duf
+    pkgs.dust
+    pkgs.delta
+    pkgs.gping
+    pkgs.dogdns
+    pkgs.git-open
+    pkgs.whois
+    pkgs.pup # desc: HTML parsing tool
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -126,6 +134,7 @@
         "git"
         "sudo"
         "fancy-ctrl-z"
+        "tmux"
       ];
     };
     initExtraBeforeCompInit = ''

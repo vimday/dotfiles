@@ -155,9 +155,11 @@ return {
     "ggandor/leap.nvim",
     event = "BufRead",
     config = function()
-      require("leap").add_default_mappings()
-      vim.cmd [[nnoremap gs <Plug>(leap-from-window)]]
+      -- require("leap").add_default_mappings()
+      -- vim.cmd [[nnoremap gs <Plug>(leap-from-window)]]
       vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" }) -- or some grey
+      vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
+      vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
     end,
   },
   {
@@ -817,19 +819,6 @@ return {
     end,
   },
   {
-    "m4xshen/hardtime.nvim",
-    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-    opts = {
-      disabled_keys = {
-        ["<Up>"] = {},
-        ["<Down>"] = {},
-        ["<Left>"] = {},
-        ["<Right>"] = {},
-      },
-    },
-    event = "VeryLazy",
-  },
-  {
     "yetone/avante.nvim",
     event = "VeryLazy",
     lazy = false,
@@ -877,4 +866,5 @@ return {
       },
     },
   },
+  { "danilamihailov/beacon.nvim", event = "BufRead" },
 }
