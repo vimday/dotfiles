@@ -6,6 +6,7 @@ PublishPort=8123:8123
 PublishPort=9000:9000
 Ulimit=nofile=262144:262144
 Volume=ch_data:/var/lib/clickhouse
+Volume=ch_config:/etc/clickhouse-server
 
 [Service]
 Restart=on-failure

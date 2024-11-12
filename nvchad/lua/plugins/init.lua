@@ -358,13 +358,6 @@ return {
     ft = "markdown",
   },
   {
-    "jbyuki/nabla.nvim",
-    ft = "markdown",
-    config = function()
-      vim.cmd "command! Nabla :lua require('nabla').popup()<CR>[]"
-    end,
-  },
-  {
     "wellle/targets.vim",
     event = "BufRead",
   },
@@ -408,7 +401,8 @@ return {
   {
     "folke/which-key.nvim",
     enabled = true,
-    keys = { "<leader>", '"', "'", "`", "z", "g" },
+    event = "VeryLazy",
+    -- keys = { "<leader>", '"', "'", "`", "z", "g" },
     opts = {
       plugins = {
         spelling = {
@@ -417,21 +411,6 @@ return {
         },
       },
     },
-  },
-  -- {
-  --   "nvim-treesitter/nvim-treesitter-context",
-  --   event = "BufRead",
-  --   config = function()
-  --     vim.cmd [[hi TreesitterContextBottom gui=underline guisp=Grey]]
-  --     require("treesitter-context").setup {}
-  --   end,
-  -- },
-  {
-    "j-hui/fidget.nvim",
-    enabled = false,
-    config = function()
-      require("fidget").setup {}
-    end,
   },
   {
     "smjonas/live-command.nvim",
@@ -701,7 +680,6 @@ return {
       }
     end,
   },
-  -- Lua
   {
     "olimorris/persisted.nvim",
     event = "VeryLazy",
@@ -777,26 +755,6 @@ return {
       }
     end,
   },
-  -- {
-  --   "hrsh7th/nvim-cmp",
-  --   event = "CmdlineEnter",
-  --   dependencies = { "hrsh7th/cmp-cmdline" }, -- XXX: will this override the default cmdline completion?
-  --   config = function(_, opts)
-  --     local cmp = require "cmp"
-  --     cmp.setup(opts)
-  --
-  --     -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  --     cmp.setup.cmdline(":", {
-  --       mapping = cmp.mapping.preset.cmdline(), -- <C-y> select current
-  --       sources = cmp.config.sources({
-  --         { name = "path" },
-  --       }, {
-  --         { name = "cmdline" },
-  --       }),
-  --       matching = { disallow_symbol_nonprefix_matching = false },
-  --     })
-  --   end,
-  -- },
   {
     "linrongbin16/gitlinker.nvim",
     cmd = "GitLink",

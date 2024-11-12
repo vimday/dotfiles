@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, fonts, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -14,6 +14,7 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
+  fonts.fontconfig.enable = true;
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -40,13 +41,18 @@
     pkgs.htop
     pkgs.mcfly # desc: A replacement for ctrl-r with context-aware filtering and improved search
     pkgs.neovim
-    pkgs.podlet
+    pkgs.podlet # desc: use to gengerate podman systemd service (quadlet)
     pkgs.python3
     pkgs.starship # desc: The minimal, blazing-fast, and infinitely customizable prompt for any shell!
     pkgs.todo-txt-cli
     pkgs.trash-cli
     pkgs.zoxide # desc: A faster way to navigate your filesystem
-    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    (pkgs.nerdfonts.override {
+      fonts = [
+        "JetBrainsMono"
+        "CascadiaCode"
+      ];
+    })
     pkgs.lazygit
     pkgs.lazydocker
     pkgs.fzf
@@ -62,6 +68,11 @@
     pkgs.git-open
     pkgs.whois
     pkgs.pup # desc: HTML parsing tool
+    pkgs.zk # desc: A CLI for Zettelkasten note taking
+    pkgs.glow # desc: Render markdown on the CLI, with pizzazz!
+    pkgs.httpie # desc: A user-friendly command-line HTTP client for the API era
+    pkgs.yazi
+    pkgs.bottom # desc: A cross-platform graphical process/system monitor with a customizable interface and a multitude of features
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -87,6 +98,7 @@
     ".config/picom.conf".source = ~/.config/home-manager/d/picom.conf;
     ".config/starship.toml".source = ~/.config/home-manager/d/starship.toml;
     ".config/kitty/kitty.conf".source = ~/.config/home-manager/d/kitty.conf;
+    ".config/wezterm".source = ~/.config/home-manager/d/wezterm;
   };
 
   # Home Manager can also manage your environment variables through
@@ -141,7 +153,7 @@
       todo.sh list
     '';
     initExtra = ''
-      eval "$(/home/hrli/miniconda3/bin/conda shell.zsh hook)"
+      eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
     '';
     # initExtraFirst = '' '';
     envExtra = ''
