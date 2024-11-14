@@ -825,4 +825,11 @@ return {
     },
   },
   { "danilamihailov/beacon.nvim", event = "BufRead" },
+  {
+    "j-hui/fidget.nvim",
+    opts = {
+      -- options
+    },
+    event = "BufRead",
+  },
 }

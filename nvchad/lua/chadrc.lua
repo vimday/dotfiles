@@ -21,6 +21,9 @@ M.ui = {
   tabufline = {
     lazyload = false,
   },
+  cmp = {
+    style = "atom_colored",
+  },
 }
 
 M.mason = {
