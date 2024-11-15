@@ -19,6 +19,10 @@ local servers = {
 local map = vim.keymap.set
 local navic = require "nvim-navic"
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = "rounded",
+})
+
 local on_attach = function(client, bufnr)
   local function opts(desc)
     return { buffer = bufnr, desc = desc }
@@ -30,13 +34,14 @@ local on_attach = function(client, bufnr)
   map("n", "gr", vim.lsp.buf.references, opts "Lsp Show references")
   map("n", "gD", vim.lsp.buf.type_definition, opts "Lsp Go to type definition")
   -- map("n", "gD", vim.lsp.buf.declaration, opts "Lsp Go to declaration")
-  map("n", "<leader>lh", function()
+  map("n", "<leader>lth", function()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-  end, opts "Lsp Inlay hints")
+  end, opts "Toggle Lsp Inlay hints")
 
   -- setup signature popup
   if client.server_capabilities.signatureHelpProvider then
     require("nvchad.lsp.signature").setup(client, bufnr)
+    map("n", "<leader>lh", vim.lsp.buf.signature_help, opts "Lsp Signature help")
   end
 
   if client.server_capabilities.documentSymbolProvider then
