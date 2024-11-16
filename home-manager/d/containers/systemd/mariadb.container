@@ -4,7 +4,7 @@
 ContainerName=mariadb
 Environment=MYSQL_ROOT_PASSWORD=root
 Image=mariadb
-PublishPort=3306:3306
+PublishPort=127.0.0.1:3306:3306
 Volume=mariadb_data:/var/lib/mysql
 
 [Service]

@@ -73,6 +73,7 @@
     pkgs.httpie # desc: A user-friendly command-line HTTP client for the API era
     pkgs.yazi
     pkgs.bottom # desc: A cross-platform graphical process/system monitor with a customizable interface and a multitude of features
+    pkgs.progress # desc: Coreutils progress viewer
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -119,6 +120,8 @@
   #
   home.sessionVariables = {
     EDITOR = "nvim";
+    MCFLY_RESULTS = "50";
+    PATH="$HOME/.local/bin:$HOME/repos/my-busybox/bin:$PATH";
   };
 
   # Let Home Manager install and manage itself.
@@ -131,10 +134,9 @@
     shellAliases = {
       v = "nvim";
       j = "z";
-      t = "todo.sh";
-      rm = "trash";
-      code = "flatpak run com.visualstudio.code ";
       lazypodman = "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
+      docker = "podman";
+      docker-compose = "podman-compose";
     };
     syntaxHighlighting = {
       enable = true;
@@ -149,16 +151,15 @@
         "tmux"
       ];
     };
+    envExtra = ''
+      . $HOME/.cargo/env
+    '';
     initExtraBeforeCompInit = ''
       todo.sh list
     '';
+    # initExtraFirst = '' '';
     initExtra = ''
       eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
-    '';
-    # initExtraFirst = '' '';
-    envExtra = ''
-      . $HOME/.cargo/env
-      export PATH=$HOME/.local/bin:$HOME/repos/my-busybox/bin:$PATH
     '';
   };
   programs.mcfly = {
