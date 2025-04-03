@@ -11,7 +11,7 @@ return {
     opts = {
       provider = "copilot",
       copilot = {
-        model = "claude-3.5-sonnet",
+        model = "claude-3.7-sonnet",
       },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
@@ -107,7 +107,7 @@ return {
             return require("codecompanion.adapters").extend("copilot", {
               schema = {
                 model = {
-                  default = "claude-3.5-sonnet",
+                  default = "claude-3.7-sonnet",
                 },
               },
             })

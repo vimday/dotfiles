@@ -76,29 +76,29 @@ in
   # '';
   home.file =
     let
-      hmDir = ~/.config/home-manager/d;
+      d = ~/.config/home-manager/d;
     in
     {
       ".cache/hm-current-config.nix".source = ~/.config/home-manager/home.nix;
 
-      ".editorconfig".source = hmDir + "/.editorconfig";
-      ".condarc".source = hmDir + "/.condarc";
-      ".tmux.conf".source = hmDir + "/.tmux.conf";
-      ".todo.cfg".source = hmDir + "/.todo.cfg";
-      ".vimrc".source = hmDir + "/.vimrc";
-      ".config/containers/registries.conf".source = hmDir + "/containers/registries.conf";
-      ".config/starship.toml".source = hmDir + "/starship.toml";
-      ".config/wezterm".source = hmDir + "/wezterm";
-      ".cargo/config.toml".source = hmDir + "/cargo.toml";
-      ".pip/pip.conf".source = hmDir + "/pip.conf";
-      ".config/alacritty/alacritty.toml".source = hmDir + "/alacritty.toml";
-      ".gitmux.conf".source = hmDir + "/.gitmux.conf";
+      ".editorconfig".source = d + "/.editorconfig";
+      ".condarc".source = d + "/.condarc";
+      ".tmux.conf".source = d + "/.tmux.conf";
+      ".todo.cfg".source = d + "/.todo.cfg";
+      ".vimrc".source = d + "/.vimrc";
+      ".config/containers/registries.conf".source = d + "/containers/registries.conf";
+      ".config/starship.toml".source = d + "/starship.toml";
+      ".config/wezterm".source = d + "/wezterm";
+      ".cargo/config.toml".source = d + "/cargo.toml";
+      ".pip/pip.conf".source = d + "/pip.conf";
+      ".config/alacritty/alacritty.toml".source = d + "/alacritty.toml";
+      ".gitmux.conf".source = d + "/.gitmux.conf";
     } // (if isLinux then {
-      ".config/picom.conf".source = hmDir + "/picom.conf";
-      ".config/rofi".source = hmDir + "/rofi";
-      ".Xresources".source = hmDir + "/.Xresources";
-      ".config/kitty/kitty.conf".source = hmDir + "/kitty.conf";
-      ".gitconfig".source = hmDir + "/.gitconfig";
+      ".config/picom.conf".source = d + "/picom.conf";
+      ".config/rofi".source = d + "/rofi";
+      ".Xresources".source = d + "/.Xresources";
+      ".config/kitty/kitty.conf".source = d + "/kitty.conf";
+      ".gitconfig".source = d + "/.gitconfig";
     } else { });
 
   home.sessionVariables = {
@@ -118,46 +118,48 @@ in
     ZK_NOTEBOOK_DIR = "$HOME/notes";
   };
 
-  programs.zsh = {
-    enable = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-    shellAliases = {
-      v = "nvim";
-      j = "z";
-      rm = "trash";
-      lazypodman = "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
-      lg = "lazygit";
-      gmt = "go mod tidy";
-      # docker = "podman";
-      # docker-compose = "podman-compose";
-    };
-    defaultKeymap = "emacs";
-    oh-my-zsh = {
+  programs = {
+    zsh = {
       enable = true;
-      plugins = [
-        "git"
-        "gitignore" # gi command to generate .gitignore
-        "sudo"
-        "fancy-ctrl-z"
-        "tmux"
-      ];
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+      shellAliases = {
+        v = "nvim";
+        j = "z";
+        rm = "trash";
+        lazypodman = "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
+        lg = "lazygit";
+        gmt = "go mod tidy";
+        # docker = "podman";
+        # docker-compose = "podman-compose";
+      };
+      defaultKeymap = "emacs";
+      oh-my-zsh = {
+        enable = true;
+        plugins = [
+          "git"
+          "gitignore" # gi command to generate .gitignore
+          "sudo"
+          "fancy-ctrl-z"
+          "tmux"
+        ];
+      };
+      envExtra = ''
+        export LD_LIBRARY_PATH=/opt/cuda/lib64:$LD_LIBRARY_PATH
+      '';
+      initExtraBeforeCompInit = ''
+        command -v motd.sh &>/dev/null && motd.sh
+      '';
     };
-    envExtra = ''
-      export LD_LIBRARY_PATH=/opt/cuda/lib64:$LD_LIBRARY_PATH
-    '';
-    initExtraBeforeCompInit = ''
-      command -v motd.sh &>/dev/null && motd.sh
-    '';
-  };
-  programs.fzf = {
-    enable = true;
-    tmux = {
-      enableShellIntegration = true;
+    fzf = {
+      enable = true;
+      tmux = {
+        enableShellIntegration = true;
+      };
     };
+    starship.enable = true;
+    zoxide.enable = true;
   };
-  programs.starship.enable = true;
-  programs.zoxide.enable = true;
 
   services = { };
 
