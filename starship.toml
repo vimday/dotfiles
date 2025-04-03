@@ -1,4 +1,0 @@
-[custom.http_proxy]
-command = 'echo $http_proxy'
-when = 'test -n "$http_proxy"'
-format = '🪜 [$output]($style) '
