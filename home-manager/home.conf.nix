@@ -6,11 +6,12 @@ in
 
 {
   home.packages = with pkgs; [
-    # lang
-    nodejs_22
-    zsh
+    # Languages
+    nodejs
     uv # venv manager for python
-    # cli
+
+    # Terminal Utilities
+    zsh
     curl
     unzip
     git
@@ -23,40 +24,54 @@ in
     zoxide # A faster way to navigate your filesystem
     nerd-fonts.jetbrains-mono
     nerd-fonts.caskaydia-cove
+
+    # Git Tools
     lazygit
     lazydocker
+    delta # A syntax-highlighter for git and diff output
+    git-open
+    gh # GitHub CLI
+    gitmux
+
+    # Search & Navigation
     fzf
     ripgrep
     fd # A simple, fast and user-friendly alternative to 'find'
     tmux
+    yazi
+
+    # System Monitoring
     duf # Disk Usage/Free Utility
     dust # A more intuitive version of du in rust
-    delta # A syntax-highlighter for git and diff output
     tree
     gping
-    dogdns
-    git-open
-    whois
-    pup # HTML parsing tool
-    zk # A CLI for Zettelkasten note taking
-    glow # Render markdown on the CLI, with pizzazz!
-    httpie # A user-friendly command-line HTTP client for the API era
-    yazi
     bottom # A cross-platform graphical process/system monitor with a customizable interface and a multitude of features
     progress # Coreutils progress viewer
-    mycli
-    gh # GitHub CLI
     hyperfine # A command-line benchmarking tool
     fastfetch # A command-line system information tool written in Rust
-    # superfile
-    gitmux
-    just # A handy way to save and run project-specific commands
+
+    # Network & Web Tools
+    dogdns
+    whois
+    pup # HTML parsing tool
+    httpie # A user-friendly command-line HTTP client for the API era
+    mycli
+
+    # Document & Content Tools
+    zk # A CLI for Zettelkasten note taking
+    glow # Render markdown on the CLI, with pizzazz!
     chafa # Image-to-text converter supporting ANSI, ASCII and HTML
+
+    # Development Tools
+    # superfile # A command-line tool to manage and manipulate files
+    just # A handy way to save and run project-specific commands
     ast-grep
     devbox # A development environment manager
   ] ++ (if isLinux then [
+    # Languages
     go
     rustup
+    # GUI Applications
     copyq # Clipboard manager with advanced features
     flameshot # Powerful yet simple to use screenshot software
   ] else [ ]);
@@ -130,8 +145,6 @@ in
         lazypodman = "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
         lg = "lazygit";
         gmt = "go mod tidy";
-        # docker = "podman";
-        # docker-compose = "podman-compose";
       };
       defaultKeymap = "emacs";
       oh-my-zsh = {
@@ -146,6 +159,7 @@ in
       };
       envExtra = ''
         export LD_LIBRARY_PATH=/opt/cuda/lib64:$LD_LIBRARY_PATH
+        eval "$(devbox global shellenv)"
       '';
       initExtraBeforeCompInit = ''
         command -v motd.sh &>/dev/null && motd.sh
