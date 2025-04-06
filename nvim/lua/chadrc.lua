@@ -5,7 +5,7 @@ local cyan = "#8be9fd"
 local green = "#50fa7b"
 
 M.base46 = {
-  theme = "chadracula",
+  theme = "jabuti",
   -- transparency = true,
   hl_override = {
     DiffAdd = { fg = "green", bg = "#123b1a" },
@@ -19,7 +19,7 @@ M.base46 = {
     FloatTitle = { bg = cyan, fg = "#000000" },
     -- FloatBorder = { fg = cyan },
   },
-  theme_toggle = { "chadracula", "one_light" },
+  theme_toggle = { "jabuti", "chadracula", "one_light" },
 }
 
 M.ui = {
@@ -55,6 +55,11 @@ M.nvdash = {
       no_gap = true,
     },
     { txt = "─", hl = "NvDashFooter", no_gap = true, rep = true },
+    {
+      txt = "💎🙌 ₿ Ξ It's time to build!",
+      hl = "NvDashFooter",
+      no_gap = true,
+    },
   },
 }
 
