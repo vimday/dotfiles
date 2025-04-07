@@ -106,7 +106,7 @@ lspconfig.lua_ls.setup {
   settings = {
     Lua = {
       diagnostics = {
-        globals = { "vim" },
+        globals = { "vim", "Snacks" },
       },
       workspace = {
         library = {
@@ -114,6 +114,7 @@ lspconfig.lua_ls.setup {
           [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
           [vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
           [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+          [vim.fn.stdpath "data" .. "/lazy/snacks.nvim/lua/snacks"] = true,
         },
         maxPreload = 100000,
         preloadFileSize = 10000,

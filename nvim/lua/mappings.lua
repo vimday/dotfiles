@@ -27,7 +27,6 @@ del("n", "<C-c>")
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("n", "P", '"0p', { desc = "paste from yank register" })
 map("t", "<C-n>", [[<C-\><C-n>]]) -- jk to escape in terminal mode
-map("n", "<leader>:", "<cmd>Telescope commands<cr>", { desc = "Telescope commands" })
 
 map("n", "<C-q>", "<cmd>call QuickFixToggle()<CR>", { desc = "Toggle Quickfix" })
 map("n", "<C-w>z", "<cmd>resize | vertical resize<CR>", { desc = "Zoom in window" })
