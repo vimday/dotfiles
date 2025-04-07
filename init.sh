@@ -2,70 +2,44 @@
 
 cd "$(dirname "$0")"
 
-# Function to print error messages
-error() {
-  local message="$1"
-  echo -e "\033[31m  $message\033[0m" # Red color
-}
+# Simple colored output functions
+print_msg() { echo -e "\033[${1}m$2\033[0m"; }
 
-# Function to print warning messages
-warn() {
-  local message="$1"
-  echo -e "\033[33m  $message\033[0m" # Yellow color
-}
+error() { print_msg "31" "  $1"; } # Red
+warn() { print_msg "33" "  $1"; }  # Yellow
+info() { print_msg "32" "  $1"; }  # Green
 
-# Function to print info messages
-info() {
-  local message="$1"
-  echo -e "\033[32m  $message\033[0m" # Green color
-}
-
-# Function to handle linking files or directories
+# Link a dotfile/directory to the appropriate location
 mkln() {
   local src=$(realpath "$1")
-  local dest="$2"
+  local dst="${2:-$HOME/.config/$(basename "$src")}"
   local name=$(basename "$src")
-  local text="$3"
+  local desc="$3"
 
-  # check if src is empty directory
   if [ ! -e "$src" ]; then
     error "$name does not exist"
     return 1
   fi
 
-  # check if src is an empty directory
-  if [ -d "$src" ] && [ -z "$(ls -A "$src")" ]; then
-    warn "$name is an empty directory"
-    return 1
+  if [ ! -e "$dst" ]; then
+    ln -s "$src" "$dst"
+    info "$name -> $dst"
+    [ -n "$desc" ] && echo "$desc"
+  else
+    warn "$name already exists"
   fi
-
-  # if target is empty, use the .config directory
-  if [ -z "$dest" ]; then
-    dest=~/.config/$(basename "$src")
-  fi
-
-  if [ ! -e "$dest" ]; then
-    ln -s "$src" "$dest"
-    info "$name -> $dest"
-    [ ! -z "$text" ] && echo "$text"
-    return 0 # Successfully linked
-  fi
-
-  warn "$name already exists"
-  return 1 # Already exists
 }
 
-# Install TPM
-target=~/.tmux/plugins/tpm
-if [ ! -d $target ]; then
-  git clone https://github.com/tmux-plugins/tpm $target
-  info "TPM linked"
+# Install TPM (Tmux Plugin Manager)
+tpm_path="$HOME/.tmux/plugins/tpm"
+if [ ! -d "$tpm_path" ]; then
+  git clone https://github.com/tmux-plugins/tpm "$tpm_path"
+  info "TPM installed"
 else
   warn "TPM already exists"
 fi
 
-# Link configurations
-desc="Run 'home-manager init' to initialize home-manager. Then follow home-manager/README.md to modify the home.nix."
-mkln "./home-manager" '' "$desc"
+# Link configuration directories
+mkln "./home-manager" "" "Run 'home-manager init' to initialize home-manager. Then follow home-manager/README.md to modify the home.nix."
 mkln "./awesome"
 mkln "./nvim"

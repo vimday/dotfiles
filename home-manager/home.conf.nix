@@ -2,6 +2,7 @@
 
 let
   isLinux = builtins.match ".*-linux" builtins.currentSystem != null;
+  hasSystemd = lib.pathExists "/run/systemd/system";
 in
 
 {
@@ -177,15 +178,21 @@ in
     zoxide.enable = true;
   };
 
-  services = { };
+  services =
+    if isLinux then {
+      home-manager.autoExpire = {
+        enable = true;
+      };
+    } else { };
 
-  # imports = [ ./custom/systemd.nix ];
-  # custom.systemd =
-  #   if isLinux then {
-  #     podman.enable = false;
-  #     mariadb.enable = false;
-  #     ddns-go.enable = false;
-  #     # gotify.enable = true;
-  #     clickhouse.enable = false;
-  #   } else { };
+  imports = [ ./custom/systemd.nix ];
+  custom.systemd =
+    if hasSystemd then {
+      podman.enable = true;
+      mariadb.enable = false;
+      ddns-go.enable = false;
+      # gotify.enable = true;
+      clickhouse.enable = false;
+      samba.enable = true;
+    } else { };
 }
