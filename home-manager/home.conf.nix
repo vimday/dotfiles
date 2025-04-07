@@ -159,6 +159,8 @@ in
       };
       envExtra = ''
         export LD_LIBRARY_PATH=/opt/cuda/lib64:$LD_LIBRARY_PATH
+      '';
+      initContent = ''
         eval "$(devbox global shellenv)"
       '';
       initExtraBeforeCompInit = ''
