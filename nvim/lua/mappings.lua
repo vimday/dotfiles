@@ -35,12 +35,7 @@ map("n", "<leader>Q", "<cmd>qall<CR>", { desc = "quit all" })
 map("n", "<leader>w", "<cmd>update<CR>", { desc = "save" })
 map("n", "<leader>.", ":@:<CR>", { noremap = true, silent = true, desc = "repeat last command" })
 
-map(
-  "n",
-  "<leader>tp",
-  "<cmd>Trouble diagnostics toggle filter = { severity=vim.diagnostic.severity.ERROR }<CR>",
-  { desc = "Problems" }
-) -- show only errors
+map("n", "<leader>tp", "<cmd>Trouble diagnostics toggle<CR>", { desc = "Problems" }) -- show only errors
 map("n", "<leader>b", "<cmd>b#<CR>", { desc = "last buffer" })
 map("n", "<Esc>", "<cmd>nohl<CR>", { desc = "nohl" })
 
@@ -84,16 +79,16 @@ map("n", "<leader>dw", "<cmd>lua require'dapui'.float_element()<CR>", { desc = "
 -- Diagnostic mappings
 -- ===========================
 map("n", "[E", function()
-  vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" } }
+  vim.diagnostic.jump { severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" }, count = -1 }
 end, { desc = "prev error" })
 map("n", "]E", function()
-  vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" } }
+  vim.diagnostic.jump { severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" }, count = 1 }
 end, { desc = "next error" })
 map("n", "[d", function()
-  vim.diagnostic.goto_prev { float = { border = "rounded" } }
+  vim.diagnostic.jump { float = { border = "rounded" }, count = -1 }
 end, { desc = "prev diagnostic" })
 map("n", "]d", function()
-  vim.diagnostic.goto_next { float = { border = "rounded" } }
+  vim.diagnostic.jump { float = { border = "rounded" }, count = 1 }
 end, { desc = "next diagnostic" })
 
 -- ===========================
