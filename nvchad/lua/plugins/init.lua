@@ -844,7 +844,24 @@ return {
     event = "VeryLazy",
     -- lazy = false,
     opts = {
-      provider = "copilot",
+      provider = "copilot",           -- 指定 Copilot 作为主要提供者
+      auto_suggestions_provider = "copilot", -- 可选：用于自动建议的提供者
+      copilot = {
+        endpoint = "https://api.githubcopilot.com", -- Copilot API 端点
+        model = "gpt-4o-2024-08-06",        -- 默认模型，可根据需要调整
+        timeout = 30000,                    -- 请求超时（毫秒）
+        temperature = 0,                    -- 控制生成内容的随机性
+        max_tokens = 4096,                  -- 最大 token 数
+      },
+      behaviour = {
+        auto_suggestions = false,          -- 是否启用自动建议（可选）
+        auto_apply_diff_after_generation = false, -- 生成后是否自动应用差异
+        auto_set_keymaps = true,           -- 自动设置默认按键映射
+      },
+      windows = {
+        position = "right",                -- 侧边栏位置
+        width = 30,                        -- 侧边栏宽度（百分比）
+      },
     },
     build = ":AvanteBuild", -- This is optional, recommended tho. Also note that this will block the startup for a bit since we are compiling bindings in Rust.
     dependencies = {
