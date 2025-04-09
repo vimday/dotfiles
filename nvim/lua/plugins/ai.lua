@@ -9,9 +9,23 @@ return {
     event = "VeryLazy",
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
     opts = {
-      provider = "copilot",
+      provider = "copilot",           -- 指定 Copilot 作为主要提供者
+      auto_suggestions_provider = "copilot", -- 可选：用于自动建议的提供者
       copilot = {
-        model = "claude-3.5-sonnet",
+        endpoint = "https://api.githubcopilot.com", -- Copilot API 端点
+        model = "gpt-4o",        -- 默认模型，可根据需要调整
+        timeout = 30000,                    -- 请求超时（毫秒）
+        temperature = 0,                    -- 控制生成内容的随机性
+        max_tokens = 4096,                  -- 最大 token 数
+      },
+      behaviour = {
+        auto_suggestions = false,          -- 是否启用自动建议（可选）
+        auto_apply_diff_after_generation = false, -- 生成后是否自动应用差异
+        auto_set_keymaps = true,           -- 自动设置默认按键映射
+      },
+      windows = {
+        position = "right",                -- 侧边栏位置
+        width = 30,                        -- 侧边栏宽度（百分比）
       },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
