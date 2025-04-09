@@ -63,7 +63,7 @@ return {
   },
   {
     "ggandor/leap.nvim",
-    event = "BufRead",
+    event = "VeryLazy",
     config = function()
       -- require("leap").add_default_mappings()
       -- vim.cmd [[nnoremap gs <Plug>(leap-from-window)]]
@@ -74,7 +74,7 @@ return {
   },
   {
     "ggandor/flit.nvim",
-    event = "BufRead",
+    event = "VeryLazy",
     config = function()
       require("flit").setup()
     end,

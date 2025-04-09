@@ -2,6 +2,8 @@
 -- views can only be fully collapsed with the global statusline
 vim.opt.laststatus = 3
 
+local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub" }
+
 ---@type LazySpec
 return {
   {
@@ -12,6 +14,9 @@ return {
       provider = "copilot",
       copilot = {
         model = "claude-3.7-sonnet",
+      },
+      behaviour = {
+        enable_claude_text_editor_tool_mode = true,
       },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
@@ -33,30 +38,12 @@ return {
         -- Make sure to set this up properly if you have lazy=true
         "MeanderingProgrammer/render-markdown.nvim",
         opts = {
-          file_types = { "markdown", "Avante", "codecompanion" },
+          file_types = render_md_ft,
         },
-        ft = { "markdown", "Avante", "codecompanion" },
+        ft = render_md_ft,
       },
     },
   },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    event = "BufRead",
-    dependencies = {
-      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
-    },
-    build = "make tiktoken", -- Only on MacOS or Linux
-    opts = {
-      -- debug = true, -- Enable debugging
-      -- window = {
-      --   layout = "float",
-      --   width = 0.75,
-      --   height = 0.75,
-      -- },
-    },
-  },
-
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
@@ -94,6 +81,21 @@ return {
         strategies = {
           chat = {
             adapter = "copilot",
+            roles = {
+              llm = function(adapter)
+                return "  CodeCompanion (" .. adapter.formatted_name .. ")"
+              end,
+              user = "  Me",
+            },
+            tools = {
+              ["mcp"] = {
+                -- calling it in a function would prevent mcphub from being loaded before it's needed
+                callback = function()
+                  return require "mcphub.extensions.codecompanion"
+                end,
+                description = "Call tools and resources from the MCP Servers",
+              },
+            },
           },
           inline = {
             adapter = "copilot",
@@ -138,79 +140,21 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     init = function()
-      -- lua/plugins/codecompanion/fidget-spinner.lua
-
-      local progress = require "fidget.progress"
-
-      local M = {}
-
-      function M:init()
-        local group = vim.api.nvim_create_augroup("CodeCompanionFidgetHooks", {})
-
-        vim.api.nvim_create_autocmd({ "User" }, {
-          pattern = "CodeCompanionRequestStarted",
-          group = group,
-          callback = function(request)
-            local handle = M:create_progress_handle(request)
-            M:store_progress_handle(request.data.id, handle)
-          end,
-        })
-
-        vim.api.nvim_create_autocmd({ "User" }, {
-          pattern = "CodeCompanionRequestFinished",
-          group = group,
-          callback = function(request)
-            local handle = M:pop_progress_handle(request.data.id)
-            if handle then
-              M:report_exit_status(handle, request)
-              handle:finish()
-            end
-          end,
-        })
-      end
-
-      M.handles = {}
-
-      function M:store_progress_handle(id, handle)
-        M.handles[id] = handle
-      end
-
-      function M:pop_progress_handle(id)
-        local handle = M.handles[id]
-        M.handles[id] = nil
-        return handle
-      end
-
-      function M:create_progress_handle(request)
-        return progress.handle.create {
-          title = " Requesting assistance (" .. request.data.strategy .. ")",
-          message = "In progress...",
-          lsp_client = {
-            name = M:llm_role_title(request.data.adapter),
-          },
-        }
-      end
-
-      function M:llm_role_title(adapter)
-        local parts = {}
-        table.insert(parts, adapter.formatted_name)
-        if adapter.model and adapter.model ~= "" then
-          table.insert(parts, "(" .. adapter.model .. ")")
-        end
-        return table.concat(parts, " ")
-      end
-
-      function M:report_exit_status(handle, request)
-        if request.data.status == "success" then
-          handle.message = "Completed"
-        elseif request.data.status == "error" then
-          handle.message = " Error"
-        else
-          handle.message = "󰜺 Cancelled"
-        end
-      end
-
-      M:init()
+      require("configs.codecompanion").init()
+    end,
+  },
+  {
+    "ravitemer/mcphub.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required for Job and HTTP requests
+    },
+    -- comment the following line to ensure hub will be ready at the earliest
+    cmd = "MCPHub", -- lazy load by default
+    build = "npm install -g mcp-hub@latest", -- Installs required mcp-hub npm module
+    -- uncomment this if you don't want mcp-hub to be available globally or can't use -g
+    -- build = "bundled_build.lua",  -- Use this and set use_bundled_binary = true in opts  (see Advanced configuration)
+    config = function()
+      require("mcphub").setup()
     end,
   },
 }
