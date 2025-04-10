@@ -33,32 +33,6 @@ return {
       vim.g.db_ui_use_nerd_fonts = 1
     end,
   },
-
-  -- 自定义插件
-  {
-    dir = "~/.config/nvim/lua/custom/bufferjump",
-    dependencies = { "MunifTanjim/nui.nvim" },
-    keys = {
-      {
-        "B",
-        function()
-          require("custom.bufferjump").bufferjump()
-        end,
-        mode = "n",
-        desc = "Buffer Jump",
-      },
-    },
-  },
-  {
-    dir = "~/.config/nvim/lua/custom/betternoti",
-    dependencies = { "rcarriga/nvim-notify" },
-    event = "VeryLazy",
-    config = function()
-      local bt = require "custom.betternoti"
-      bt.setup { blacklist = { "textDocument/" } }
-      vim.notify = bt.notify
-    end,
-  },
   {
     "folke/snacks.nvim",
     priority = 1000,
@@ -123,8 +97,6 @@ return {
       { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
       { "<leader>sc", function() Snacks.picker.command_history() end, desc = "Command History" },
       { "<leader>sC", function() Snacks.picker.commands() end, desc = "Commands" },
-      { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
-      { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
       { "<leader>sh", function() Snacks.picker.help() end, desc = "Help Pages" },
       { "<leader>sH", function() Snacks.picker.highlights() end, desc = "Highlights" },
       { "<leader>si", function() Snacks.picker.icons() end, desc = "Icons" },
@@ -141,10 +113,12 @@ return {
       -- lsp
       { "<leader>ls", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
       { "<leader>lS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
+      { "<leader>ld", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
+      { "<leader>lD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
 
        -- Other
       -- { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
-      { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
+      { "<C-w>z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
       { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
       { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
       -- stylua: ignore end

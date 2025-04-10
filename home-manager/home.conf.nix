@@ -25,6 +25,8 @@ in
     zoxide # A faster way to navigate your filesystem
     nerd-fonts.jetbrains-mono
     nerd-fonts.caskaydia-cove
+    jq # A lightweight and flexible command-line JSON processor
+    yq-go # A lightweight and portable command-line YAML processor
 
     # Git Tools
     lazygit

@@ -337,4 +337,26 @@ return {
       require("telescope").load_extension "zoxide"
     end,
   },
+  {
+    "voxelprismatic/rabbit.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("rabbit").setup {
+        default_keys = {
+          open = { "B" },
+        },
+      }
+    end,
+  },
+  -- 自定义插件
+  {
+    dir = "~/.config/nvim/lua/custom/betternoti",
+    dependencies = { "rcarriga/nvim-notify" },
+    event = "VeryLazy",
+    config = function()
+      local bt = require "custom.betternoti"
+      bt.setup { blacklist = { "textDocument/" } }
+      vim.notify = bt.notify
+    end,
+  },
 }

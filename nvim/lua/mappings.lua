@@ -29,7 +29,7 @@ map("n", "P", '"0p', { desc = "paste from yank register" })
 map("t", "<C-n>", [[<C-\><C-n>]]) -- jk to escape in terminal mode
 
 map("n", "<C-q>", "<cmd>call QuickFixToggle()<CR>", { desc = "Toggle Quickfix" })
-map("n", "<C-w>z", "<cmd>resize | vertical resize<CR>", { desc = "Zoom in window" })
+-- map("n", "<C-w>z", "<cmd>resize | vertical resize<CR>", { desc = "Zoom in window" })
 map("n", "<leader>q", "<cmd>q<CR>", { desc = "quit" })
 map("n", "<leader>Q", "<cmd>qall<CR>", { desc = "quit all" })
 map("n", "<leader>w", "<cmd>update<CR>", { desc = "save" })
@@ -104,8 +104,8 @@ end, { desc = "Code Action" })
 
 map("n", "<leader>lA", lsputil.action.source, { desc = "Src action" })
 
-map("n", "<leader>ld", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Buffer Diagnostics" })
-map("n", "<leader>lD", "<cmd>Telescope diagnostics<CR>", { desc = "Workspace Diagnostics" })
+-- map("n", "<leader>ld", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Buffer Diagnostics" })
+-- map("n", "<leader>lD", "<cmd>Telescope diagnostics<CR>", { desc = "Workspace Diagnostics" })
 map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Info" })
 map("n", "<leader>lI", "<cmd>Mason<CR>", { desc = "Installer Info" })
 map("n", "<leader>ll", function()
