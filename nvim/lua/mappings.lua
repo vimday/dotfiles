@@ -94,13 +94,9 @@ end, { desc = "next diagnostic" })
 -- ===========================
 -- LSP (Language Server Protocol) mappings
 -- ===========================
-map("n", "gI", function()
-  vim.lsp.buf.implementation()
-end, { desc = "lsp implementation" })
+map("n", "gI", vim.lsp.buf.implementation, { desc = "lsp implementation" })
 
-map("n", "<leader>la", function()
-  vim.lsp.buf.code_action()
-end, { desc = "Code Action" })
+map("n", "<leader>la", vim.lsp.buf.code_action, { desc = "Code Action" })
 
 map("n", "<leader>lA", lsputil.action.source, { desc = "Src action" })
 
@@ -126,7 +122,7 @@ map("n", "<leader>lO", "<cmd>SymbolsOutline<CR>", { desc = "Symbol Outline" })
 map("n", "<leader>lwa", vim.lsp.buf.add_workspace_folder, { desc = "add workspace folder" })
 map("n", "<leader>lwr", vim.lsp.buf.remove_workspace_folder, { desc = "remove workspace folder" })
 map("n", "<leader>lwl", function()
-  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  vim.print(vim.lsp.buf.list_workspace_folders())
 end, { desc = "list workspace folders" })
 
 -- ===========================
