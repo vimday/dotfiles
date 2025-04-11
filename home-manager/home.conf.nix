@@ -6,6 +6,8 @@ let
 in
 
 {
+  fonts.fontconfig.enable = true;
+
   home.packages = with pkgs; [
     # Languages
     nodejs
@@ -25,6 +27,10 @@ in
     zoxide # A faster way to navigate your filesystem
     nerd-fonts.jetbrains-mono
     nerd-fonts.caskaydia-cove
+    # Maple Mono (Ligature TTF unhinted)
+    maple-mono.truetype
+    # Maple Mono NF CN (Ligature unhinted)
+    maple-mono.NF-CN-unhinted
     jq # A lightweight and flexible command-line JSON processor
     yq-go # A lightweight and portable command-line YAML processor
 
