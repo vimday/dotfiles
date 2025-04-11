@@ -18,6 +18,21 @@ return {
         default_mappings = false,
       }
     end,
+    init = function()
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "GitConflictDetected",
+        callback = function()
+          local opts = { buffer = true }
+          local map = vim.keymap.set
+          map("n", "co", "<Plug>(git-conflict-ours)", opts)
+          map("n", "ct", "<Plug>(git-conflict-theirs)", opts)
+          map("n", "cb", "<Plug>(git-conflict-both)", opts)
+          map("n", "c0", "<Plug>(git-conflict-none)", opts)
+          map("n", "[x", "<Plug>(git-conflict-prev-conflict)", opts)
+          map("n", "]x", "<Plug>(git-conflict-next-conflict)", opts)
+        end,
+      })
+    end,
     event = "BufRead",
   },
   {
