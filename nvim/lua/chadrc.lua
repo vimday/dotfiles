@@ -14,8 +14,10 @@ M.base46 = {
     WildMenu = { fg = "#6ad8eD", bg = "#30385f" },
     IncSearch = { bg = "#e0af68", fg = "#373640" },
     ["@keyword"] = { italic = true },
-    ["@keyword.function"] = { italic = true },
-    ["@keyword.return"] = { italic = true },
+    ["@keyword.function"] = { link = "@keyword" },
+    ["@keyword.return"] = { link = "@keyword" },
+    ["@keyword.conditional"] = { link = "@keyword" },
+    ["@keyword.repeat"] = { link = "@keyword" },
     FloatTitle = { bg = cyan, fg = "#000000" },
     -- FloatBorder = { fg = cyan },
   },
@@ -28,7 +30,7 @@ M.ui = {
     lazyload = true,
   },
   cmp = {
-    style = "atom_colored",
+    style = "atom_colored", -- default/flat_light/flat_dark/atom/atom_colored
   },
 }
 
@@ -61,25 +63,50 @@ M.nvdash = {
 M.mason = {
   cmd = true,
   pkgs = {
+    -- LSP servers
     "bash-language-server",
-    "codelldb",
     "css-lsp",
+    "eslint-lsp",
+    "gopls",
+    "helm-ls",
+    "html-lsp",
     "json-lsp",
     "lua-language-server",
+    "nil",
     "prosemd-lsp",
     "pyright",
+    "rnix-lsp",
+    "rust-analyzer",
+    "tailwindcss-language-server",
+    "typescript-language-server",
+    "vim-language-server",
+    "vue-language-server",
+    "vtsls",
     "yaml-language-server",
     "zk",
-    "vim-language-server",
-    "rust_analyzer",
-    -- formatter
-    "gofumpt",
+
+    -- DAP
+    "codelldb",
+
+    -- Formatters
     "black",
+    "gofumpt",
+    "goimports",
+    "golines",
+    "isort",
     "prettier",
+    "prettierd",
     "shfmt",
+    "sqlfluff",
     "stylua",
-    -- lint
+    "taplo",
+
+    -- Linters
+    "ast-grep",
     "codespell",
+    "golangci-lint",
+    "golangci-lint-langserver",
+    "ruff",
   },
 }
 
