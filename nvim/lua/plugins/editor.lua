@@ -206,11 +206,11 @@ return {
     opts = {
       open_mapping = [[<c-\>]],
       -- start_in_insert = false,
+      -- shade_terminals = true,
       size = 20,
-      shade_terminals = true,
       auto_scroll = false,
       float_opts = {
-        border = "single",
+        border = "curved",
       },
       winbar = {
         -- enabled = true,
@@ -344,6 +344,18 @@ return {
       require("rabbit").setup {
         default_keys = {
           open = { "B" },
+        },
+      }
+    end,
+  },
+  {
+    "petertriho/nvim-scrollbar",
+    event = "VeryLazy",
+    config = function()
+      require("scrollbar").setup {
+        hide_if_all_visible = true,
+        marks = {
+          Cursor = { text = "🐭" },
         },
       }
     end,

@@ -188,19 +188,6 @@ return {
       require("zk").setup {
         picker = "telescope",
       }
-
-      local function new_note()
-        vim.ui.input({
-          prompt = "Title",
-        }, function(title)
-          if title then
-            require("zk.commands").get "ZkNew" { title = title }
-          end
-        end)
-      end
-
-      vim.keymap.set("n", "<leader>nn", new_note, { desc = "New Note" })
-      vim.api.nvim_set_keymap("n", "<leader>nl", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", { desc = "Note List" })
     end,
   },
 

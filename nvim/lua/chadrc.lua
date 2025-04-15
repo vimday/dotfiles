@@ -37,9 +37,9 @@ M.ui = {
 M.nvdash = {
   load_on_startup = true,
   buttons = {
-    { txt = "  Find File", keys = "ff", cmd = "Telescope find_files" },
-    { txt = "  Recent Files", keys = "fo", cmd = "Telescope oldfiles" },
-    { txt = "󰈭  Find Word", keys = "fw", cmd = "Telescope live_grep" },
+    { txt = "  Find File", keys = "f", cmd = "lua Snacks.picker.files()" },
+    { txt = "  Recent Files", keys = "r", cmd = "lua Snacks.picker.recent()" },
+    { txt = "󰈭  Find Word", keys = "w", cmd = "lua Snacks.picker.grep()" },
     -- { txt = "󱥚  Themes", keys = "th", cmd = ":lua require('nvchad.themes').open()" },
     -- { txt = "  Mappings", keys = "ch", cmd = "NvCheatsheet" },
     { txt = "󰒲  lazy", keys = "L", cmd = "Lazy" },
@@ -57,6 +57,15 @@ M.nvdash = {
       no_gap = true,
     },
     { txt = "─", hl = "NvDashFooter", no_gap = true, rep = true },
+  },
+}
+
+M.term = {
+  float = {
+    row = 0.1,
+    col = 0.1,
+    width = 0.8,
+    height = 0.8,
   },
 }
 

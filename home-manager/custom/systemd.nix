@@ -111,7 +111,8 @@ in
         enable = config.custom.systemd.samba.enable;
         name = "samba";
         params = ''
-          -p 1445:445 -e "USER=samba" -e 'PASS=123465!' -v samba_data:/storage dockurr/samba
+          -p 1445:445 -e "USER=smbuser" -e 'PASS=123465!' -v samba_data:/storage \
+          dockurr/samba
         '';
         autoStart = true;
       };

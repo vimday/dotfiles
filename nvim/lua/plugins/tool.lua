@@ -171,8 +171,8 @@ return {
       -- Set some highlights
       vim.api.nvim_set_hl(0, "SnacksPickerTitle", { link = "TelescopePromptTitle" })
       vim.api.nvim_set_hl(0, "SnacksPickerPreviewTitle", { link = "TelescopePreviewTitle" })
-      -- vim.api.nvim_set_hl(0, "SnacksPickerPrompt", { link = "TelescopePromptPrefix" })
-      -- vim.api.nvim_set_hl(0, "SnacksPickerInput", { link = "TelescopePromptNormal" })
+      vim.api.nvim_set_hl(0, "SnacksPickerPrompt", { link = "TelescopePromptPrefix" })
+      vim.api.nvim_set_hl(0, "SnacksPickerInput", { link = "TelescopePromptNormal" })
       -- vim.api.nvim_set_hl(0, "SnacksPickerBorder", { link = "TelescopeBorder" })
     end,
   },
