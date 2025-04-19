@@ -13,7 +13,7 @@ return {
     opts = {
       provider = "copilot",
       copilot = {
-        model = "claude-3.5-sonnet",
+        model = "claude-3.7-sonnet",
       },
       behaviour = {
         enable_claude_text_editor_tool_mode = true,
@@ -24,7 +24,6 @@ return {
     -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
@@ -109,7 +108,7 @@ return {
             return require("codecompanion.adapters").extend("copilot", {
               schema = {
                 model = {
-                  default = "claude-3.7-sonnet",
+                  -- default = "claude-3.7-sonnet",
                 },
               },
             })
@@ -148,13 +147,24 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim", -- Required for Job and HTTP requests
     },
+    event = "VeryLazy",
     -- comment the following line to ensure hub will be ready at the earliest
     cmd = "MCPHub", -- lazy load by default
-    build = "npm install -g mcp-hub@latest", -- Installs required mcp-hub npm module
+    -- build = "npm install -g mcp-hub@latest", -- Installs required mcp-hub npm module
     -- uncomment this if you don't want mcp-hub to be available globally or can't use -g
-    -- build = "bundled_build.lua",  -- Use this and set use_bundled_binary = true in opts  (see Advanced configuration)
+    build = "bundled_build.lua", -- Use this and set use_bundled_binary = true in opts  (see Advanced configuration)
     config = function()
-      require("mcphub").setup()
+      require("mcphub").setup {
+        use_bundled_binary = true, -- Set to true if you want to use the bundled mcp-hub binary
+        extensions = {
+          codecompanion = {
+            -- Show the mcp tool result in the chat buffer
+            show_result_in_chat = true,
+            make_vars = true, -- make chat #variables from MCP server resources
+            make_slash_commands = true, -- make /slash_commands from MCP server prompts
+          },
+        },
+      }
     end,
   },
 }

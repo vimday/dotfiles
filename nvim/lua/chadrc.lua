@@ -1,8 +1,6 @@
 local M = {}
 
--- dracula colors
-local cyan = "#8be9fd"
-local green = "#50fa7b"
+local telescopeInputFg = "pink"
 
 M.base46 = {
   theme = "chadracula",
@@ -11,15 +9,14 @@ M.base46 = {
     DiffAdd = { fg = "green", bg = "#123b1a" },
     DiffDelete = { fg = "red" },
     DiffChange = { fg = "orange" },
-    WildMenu = { fg = "#6ad8eD", bg = "#30385f" },
-    IncSearch = { bg = "#e0af68", fg = "#373640" },
     ["@keyword"] = { italic = true },
     ["@keyword.function"] = { link = "@keyword" },
     ["@keyword.return"] = { link = "@keyword" },
     ["@keyword.conditional"] = { link = "@keyword" },
     ["@keyword.repeat"] = { link = "@keyword" },
-    FloatTitle = { bg = cyan, fg = "#000000" },
-    -- FloatBorder = { fg = cyan },
+    TelescopePromptTitle = { bg = telescopeInputFg, fg = "#000000" },
+    TelescopePromptPrefix = { fg = telescopeInputFg },
+    NvDashFooter = { fg = "blue" },
   },
   theme_toggle = { "chadracula", "one_light" },
 }
@@ -37,6 +34,7 @@ M.ui = {
 M.nvdash = {
   load_on_startup = true,
   buttons = {
+    { txt = "  New File", keys = "n", cmd = "enew" },
     { txt = "  Find File", keys = "f", cmd = "lua Snacks.picker.files()" },
     { txt = "  Recent Files", keys = "r", cmd = "lua Snacks.picker.recent()" },
     { txt = "󰈭  Find Word", keys = "w", cmd = "lua Snacks.picker.grep()" },

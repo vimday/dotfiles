@@ -90,19 +90,6 @@ return {
     end,
   },
   {
-    "stevearc/dressing.nvim",
-    opts = {},
-    event = "VeryLazy",
-    config = function()
-      require("dressing").setup {
-        input = {
-          border = "single",
-          title_pos = "center",
-        },
-      }
-    end,
-  },
-  {
     "kevinhwang91/nvim-bqf",
     ft = "qf",
     config = function()

@@ -46,7 +46,7 @@ return {
       quickfile = { enabled = true },
       -- scroll = { enabled = true },
       indent = { enabled = true },
-      -- input = { enabled = true }, -- already have dressing.nvim
+      input = { enabled = true },
       lazygit = { enabled = true },
       scope = { enabled = true },
       -- statuscolumn = { enabled = true },
@@ -70,6 +70,14 @@ return {
               { win = "preview", title = "{preview}", border = "solid", width = 0.5 },
             },
           },
+        },
+      },
+      styles = {
+        input = {
+          backdrop = true,
+          row = -3,
+          width = 45,
+          relative = "cursor",
         },
       },
     },
@@ -173,7 +181,10 @@ return {
       vim.api.nvim_set_hl(0, "SnacksPickerPreviewTitle", { link = "TelescopePreviewTitle" })
       vim.api.nvim_set_hl(0, "SnacksPickerPrompt", { link = "TelescopePromptPrefix" })
       vim.api.nvim_set_hl(0, "SnacksPickerInput", { link = "TelescopePromptNormal" })
+
       -- vim.api.nvim_set_hl(0, "SnacksPickerBorder", { link = "TelescopeBorder" })
+      vim.api.nvim_set_hl(0, "SnacksInputTitle", { link = "TelescopePromptTitle" })
+      vim.api.nvim_set_hl(0, "SnacksInputBorder", { link = "TelescopeBorder" })
     end,
   },
 }
