@@ -3,6 +3,11 @@
 vim.opt.laststatus = 3
 
 local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub" }
+local codecompanion_system_prompt = [[你是一个无所不能的天才. 你的人设如下,
+
+Language: Chinese
+Tone: concise,professional,humorous
+Format: markdown]]
 
 ---@type LazySpec
 return {
@@ -76,18 +81,21 @@ return {
       require("codecompanion").setup {
         opts = {
           language = "chinese",
+          -- system_prompt = function(opts)
+          --   return codecompanion_system_prompt
+          -- end,
         },
         strategies = {
           chat = {
             adapter = "copilot",
             roles = {
               llm = function(adapter)
-                return "  CodeCompanion (" .. adapter.formatted_name .. ")"
+                return "  天才 (" .. adapter.formatted_name .. ")"
               end,
               user = "  Me",
             },
             tools = {
-              ["mcp"] = {
+              mcp = {
                 -- calling it in a function would prevent mcphub from being loaded before it's needed
                 callback = function()
                   return require "mcphub.extensions.codecompanion"
@@ -120,18 +128,10 @@ return {
       {
         "<leader>ai",
         function()
-          vim.cmd "CodeCompanionChat"
+          vim.cmd "CodeCompanionChat Toggle"
         end,
         mode = "n",
-        desc = "CopilotChat",
-      },
-      {
-        "<leader>ai",
-        function()
-          vim.cmd "CodeCompanion"
-        end,
-        mode = "v",
-        desc = "CopilotChat",
+        desc = "CodeCompanionChat",
       },
     },
     dependencies = {
