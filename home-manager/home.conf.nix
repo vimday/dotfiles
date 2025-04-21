@@ -34,6 +34,7 @@ in
     jq # A lightweight and flexible command-line JSON processor
     jqp # jq with a terminal UI
     yq-go # A lightweight and portable command-line YAML processor
+    atuin # A shell history assistant that helps you find and reuse commands
 
     # Git Tools
     lazygit
@@ -82,7 +83,7 @@ in
     go
     rustup
     # GUI Applications
-    copyq # Clipboard manager with advanced features
+    # copyq # Clipboard manager with advanced features
     flameshot # Powerful yet simple to use screenshot software
   ] else [ ]);
 
@@ -177,12 +178,7 @@ in
         command -v motd.sh &>/dev/null && motd.sh
       '';
     };
-    fzf = {
-      enable = true;
-      tmux = {
-        enableShellIntegration = true;
-      };
-    };
+    atuin.enable = true;
     starship.enable = true;
     zoxide.enable = true;
   };
