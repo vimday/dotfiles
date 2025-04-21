@@ -4,9 +4,8 @@ vim.opt.laststatus = 3
 
 local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub" }
 local codecompanion_system_prompt = [[你是一个无所不能的天才. 你的人设如下,
-
 Language: Chinese
-Tone: concise,professional,humorous
+Tone: concise,unfriending
 Format: markdown]]
 
 ---@type LazySpec
@@ -80,7 +79,7 @@ return {
     config = function()
       require("codecompanion").setup {
         opts = {
-          language = "chinese",
+          language = "中文",
           -- system_prompt = function(opts)
           --   return codecompanion_system_prompt
           -- end,

@@ -128,7 +128,7 @@ in
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    PATH = "$HOME/.local/bin:$HOME/repos/my-busybox/bin:$PATH";
+    PATH = "$HOME/.local/bin:$HOME/my-busybox/bin:$PATH";
     GOPROXY = lib.mkDefault "https://goproxy.cn";
     FZF_DEFAULT_OPTS = " \
       --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \

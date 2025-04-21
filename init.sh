@@ -39,6 +39,14 @@ else
   warn "TPM already exists"
 fi
 
+my_busybox_path="$HOME/my-busybox"
+if [ ! -d "$my_busybox_path" ]; then
+  git clone https://github.com/Crescent617/my-busybox.git "$my_busybox_path"
+  info "my-busybox installed"
+else
+  warn "my-busybox already exists"
+fi
+
 # Link configuration directories
 mkln "./home-manager" "" "Run 'home-manager init' to initialize home-manager. Then follow home-manager/README.md to modify the home.nix."
 mkln "./awesome"
