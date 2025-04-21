@@ -32,6 +32,7 @@ in
     # Maple Mono NF CN (Ligature unhinted)
     maple-mono.NF-CN-unhinted
     jq # A lightweight and flexible command-line JSON processor
+    jqp # jq with a terminal UI
     yq-go # A lightweight and portable command-line YAML processor
 
     # Git Tools

@@ -30,6 +30,7 @@ return {
         typescriptreact = frontend_formatter,
         go = { "goimports", "gofumpt" },
         sql = { "sql-formatter" },
+        json = frontend_formatter,
       },
       -- Set up format-on-save
       -- format_on_save = { timeout_ms = 500, lsp_fallback = true },

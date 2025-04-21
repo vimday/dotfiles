@@ -34,10 +34,11 @@ M.ui = {
 M.nvdash = {
   load_on_startup = true,
   buttons = {
+    { txt = "  AI Chat", keys = "a", cmd = "lua vim.cmd'CodeCompanionChat Toggle'; vim.cmd'wincmd p | q'" },
     { txt = "  New File", keys = "n", cmd = "enew" },
     { txt = "  Find File", keys = "f", cmd = "lua Snacks.picker.files()" },
-    { txt = "  Recent Files", keys = "r", cmd = "lua Snacks.picker.recent()" },
     { txt = "󰈭  Find Word", keys = "w", cmd = "lua Snacks.picker.grep()" },
+    -- { txt = "  Recent Files", keys = "r", cmd = "lua Snacks.picker.recent()" },
     -- { txt = "󱥚  Themes", keys = "th", cmd = ":lua require('nvchad.themes').open()" },
     -- { txt = "  Mappings", keys = "ch", cmd = "NvCheatsheet" },
     { txt = "󰒲  lazy", keys = "L", cmd = "Lazy" },
