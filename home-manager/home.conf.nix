@@ -46,6 +46,7 @@ in
 
     # Search & Navigation
     fzf
+    fzf-git-sh # fzf git shortcuts
     ripgrep
     fd # A simple, fast and user-friendly alternative to 'find'
     tmux
@@ -166,6 +167,7 @@ in
           "sudo"
           "fancy-ctrl-z"
           "tmux"
+          "zsh-interactive-cd"
         ];
       };
       envExtra = ''
@@ -173,6 +175,8 @@ in
       '';
       initContent = ''
         eval "$(devbox global shellenv)"
+        eval "$(gh copilot alias -- zsh)"
+        source ~/.nix-profile/share/fzf-git-sh/fzf-git.sh
       '';
       initExtraBeforeCompInit = ''
         command -v motd.sh &>/dev/null && motd.sh
