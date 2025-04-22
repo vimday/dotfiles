@@ -8,6 +8,8 @@ Language: Chinese
 Tone: concise,unfriending
 Format: markdown]]
 
+local copilot_model = "gpt-4o" -- gpt-3.5-turbo gpt-4o-mini gpt-4 gpt-4o o1 o3-mini o3-mini-paygo claude-3.5-sonnet claude-3.7-sonnet claude-3.7-sonnet-thought gemini-2.5-pro o4-mini gpt-4.1
+
 ---@type LazySpec
 return {
   {
@@ -17,7 +19,7 @@ return {
     opts = {
       provider = "copilot",
       copilot = {
-        model = "claude-3.7-sonnet",
+        model = copilot_model,
       },
       behaviour = {
         enable_claude_text_editor_tool_mode = true,
@@ -103,35 +105,20 @@ return {
               },
             },
           },
-          inline = {
-            adapter = "copilot",
-          },
-          cmd = {
-            adapter = "copilot",
-          },
+          inline = { adapter = "copilot" },
+          cmd = { adapter = "copilot" },
         },
         adapters = {
           copilot = function()
             return require("codecompanion.adapters").extend("copilot", {
-              schema = {
-                model = {
-                  -- default = "o4-mini",
-                },
-              },
+              schema = { model = { default = copilot_model } },
             })
           end,
         },
       }
     end,
     keys = {
-      {
-        "<leader>ai",
-        function()
-          vim.cmd "CodeCompanionChat Toggle"
-        end,
-        mode = "n",
-        desc = "CodeCompanionChat",
-      },
+      { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanionChat" },
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
