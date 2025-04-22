@@ -70,10 +70,10 @@ local highlights = {
   { "DiagnosticVirtualTextHint", { fg = colors.purple, bg = colors.purple_bg } },
 
   -- diagnostics signs
-  { "DiagnosticSignError", { fg = colors.red } },
-  { "DiagnosticSignWarn", { fg = colors.yellow } },
-  { "DiagnosticSignInfo", { fg = colors.cyan } },
-  { "DiagnosticSignHint", { fg = colors.purple } },
+  { "DiagnosticError", { fg = colors.red } },
+  { "DiagnosticWarn", { fg = colors.yellow } },
+  { "DiagnosticInfo", { fg = colors.cyan } },
+  { "DiagnosticHint", { fg = colors.purple } },
 }
 
 local function set_highlights()

@@ -144,10 +144,10 @@ return {
       local sources = {
         b.diagnostics.codespell.with {
           diagnostics_postprocess = function(diagnostic)
-            diagnostic.severity = vim.diagnostic.severity.INFO
+            diagnostic.severity = vim.diagnostic.severity.HINT
           end,
           disabled_filetypes = { "NvimTree", "csv" },
-          args = { "-L", "crate,ans,ratatui", "-" },
+          args = { "-L", "crate,ans,ratatui,enew", "-" },
         },
       }
       null_ls.setup {
