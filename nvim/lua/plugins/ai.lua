@@ -3,12 +3,12 @@
 vim.opt.laststatus = 3
 
 local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub" }
-local codecompanion_system_prompt = [[你是一个无所不能的天才. 你的人设如下,
+local pure_prompt = [[你是一个无所不能的天才. 你的人设如下,
 Language: Chinese
-Tone: concise,unfriending
+Tone: concise,unfriendly,like mocking others
 Format: markdown]]
 
-local copilot_model = "gpt-4o" -- gpt-3.5-turbo gpt-4o-mini gpt-4 gpt-4o o1 o3-mini o3-mini-paygo claude-3.5-sonnet claude-3.7-sonnet claude-3.7-sonnet-thought gemini-2.5-pro o4-mini gpt-4.1
+local copilot_model = "claude-3.5-sonnet" -- gpt-3.5-turbo gpt-4o-mini gpt-4 gpt-4o o1 o3-mini o3-mini-paygo claude-3.5-sonnet claude-3.7-sonnet claude-3.7-sonnet-thought gemini-2.5-pro o4-mini gpt-4.1
 
 ---@type LazySpec
 return {
@@ -85,6 +85,25 @@ return {
           -- system_prompt = function(opts)
           --   return codecompanion_system_prompt
           -- end,
+        },
+        prompt_library = {
+          ["Pure Prompt"] = {
+            strategy = "chat",
+            description = "天才",
+            opts = {
+              ignore_system_prompt = true,
+            },
+            prompts = {
+              {
+                role = "system",
+                content = pure_prompt,
+              },
+              {
+                role = "user",
+                content = "",
+              },
+            },
+          },
         },
         strategies = {
           chat = {

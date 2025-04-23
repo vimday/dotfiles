@@ -25,15 +25,13 @@ return {
       vim.api.nvim_create_autocmd("User", {
         pattern = "GitConflictDetected",
         callback = function()
-          vim.notify("Conflict detected in " .. vim.fn.expand "<afile>")
           local opts = { buffer = true }
-          local map = vim.keymap.set
-          map("n", "co", "<Plug>(git-conflict-ours)", opts)
-          map("n", "ct", "<Plug>(git-conflict-theirs)", opts)
-          map("n", "cb", "<Plug>(git-conflict-both)", opts)
-          map("n", "c0", "<Plug>(git-conflict-none)", opts)
-          map("n", "[x", "<Plug>(git-conflict-prev-conflict)", opts)
-          map("n", "]x", "<Plug>(git-conflict-next-conflict)", opts)
+          vim.keymap.set("n", "co", "<Plug>(git-conflict-ours)", opts)
+          vim.keymap.set("n", "ct", "<Plug>(git-conflict-theirs)", opts)
+          vim.keymap.set("n", "cb", "<Plug>(git-conflict-both)", opts)
+          vim.keymap.set("n", "c0", "<Plug>(git-conflict-none)", opts)
+          vim.keymap.set("n", "[x", "<Plug>(git-conflict-prev-conflict)", opts)
+          vim.keymap.set("n", "]x", "<Plug>(git-conflict-next-conflict)", opts)
         end,
       })
     end,

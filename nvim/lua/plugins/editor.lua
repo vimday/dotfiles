@@ -347,6 +347,11 @@ return {
       }
     end,
   },
+  {
+    "chrisgrieser/nvim-origami",
+    event = "VeryLazy",
+    opts = { foldtextWithLineCount = { template = "    •••••••  %s lines  •••••••  " } }, -- needed even when using default config
+  },
   -- 自定义插件
   {
     dir = "~/.config/nvim/lua/custom/betternoti",
