@@ -11,7 +11,6 @@ end
 
 ---@type LazySpec
 return {
-  -- {{ breadcrumbs
   {
     "SmiteshP/nvim-navic",
     dependencies = "neovim/nvim-lspconfig",
@@ -41,7 +40,6 @@ return {
     end,
     event = "VeryLazy",
   },
-  -- }}
   {
     "folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",
@@ -350,7 +348,12 @@ return {
   {
     "chrisgrieser/nvim-origami",
     event = "VeryLazy",
-    opts = { foldtextWithLineCount = { template = "    •••••••  %s lines  •••••••  " } }, -- needed even when using default config
+    opts = {
+      foldtextWithLineCount = {
+        template = "    •••••••  %s lines  •••••••  ",
+        hlgroupForCount = "Folded",
+      },
+    }, -- needed even when using default config
   },
   -- 自定义插件
   {

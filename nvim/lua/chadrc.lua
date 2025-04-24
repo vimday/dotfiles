@@ -9,6 +9,7 @@ M.base46 = {
     DiffAdd = { fg = "green", bg = "#123b1a" },
     DiffDelete = { fg = "red" },
     DiffChange = { fg = "orange" },
+    Folded = { link = "DiagnosticVirtualTextInfo" },
     ["@keyword"] = { italic = true },
     ["@keyword.function"] = { link = "@keyword" },
     ["@keyword.return"] = { link = "@keyword" },
@@ -28,6 +29,13 @@ M.ui = {
   },
   cmp = {
     style = "atom_colored", -- default/flat_light/flat_dark/atom/atom_colored
+  },
+  statusline = {
+    modules = {
+      lsp_msg = function()
+        return "Take it lazy 󰒲 "
+      end,
+    },
   },
 }
 
@@ -61,10 +69,11 @@ M.nvdash = {
 
 M.term = {
   float = {
-    row = 0.1,
-    col = 0.1,
-    width = 0.8,
-    height = 0.8,
+    row = 0.01,
+    col = 0,
+    width = 1,
+    height = 0.9,
+    border = "rounded",
   },
 }
 

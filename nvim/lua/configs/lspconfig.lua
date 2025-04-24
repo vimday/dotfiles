@@ -37,6 +37,7 @@ local servers = {
   rnix = {},
   volar = { disable_default = true },
   helm_ls = {},
+  golangci_lint_ls = {},
 }
 
 -- ======================= LSP HANDLER =======================
