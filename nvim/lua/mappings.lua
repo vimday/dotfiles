@@ -145,10 +145,7 @@ map("n", "<leader>gf", "<cmd>lua Snacks.picker.git_log_file()<cr>", { desc = "Gi
 map("n", "<leader>gD", "<cmd>lua Snacks.picker.git_diff()<cr>", { desc = "Git Diff (Hunks)" })
 
 -- map("n", "<leader>gg", "<cmd>Git<cr>", { desc = "gitfutive" })
-map("n", "<leader>gg", function()
-  Snacks.lazygit()
-end, { desc = "LazyGit" })
--- }}
+map("n", "<leader>gg", "<cmd>lua Snacks.lazygit()<cr>", { desc = "LazyGit" })
 
 -- ===========================
 -- Buffer navigation mappings
