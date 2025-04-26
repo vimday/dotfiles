@@ -2,7 +2,6 @@ local frontend_formatter = { "prettierd", "prettier", stop_after_first = true }
 
 ---@type LazySpec
 return {
-  { "folke/trouble.nvim", cmd = "Trouble", opts = {} },
   {
     "stevearc/conform.nvim",
     event = { "BufWritePre" },

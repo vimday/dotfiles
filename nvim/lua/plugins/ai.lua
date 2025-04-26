@@ -8,7 +8,10 @@ Language: Chinese
 Tone: concise,unfriendly,like mocking others
 Format: markdown]]
 
-local copilot_model = "claude-3.5-sonnet" -- gpt-3.5-turbo gpt-4o-mini gpt-4 gpt-4o o1 o3-mini o3-mini-paygo claude-3.5-sonnet claude-3.7-sonnet claude-3.7-sonnet-thought gemini-2.5-pro o4-mini gpt-4.1
+-- gpt-3.5-turbo gpt-4o-mini gpt-4 gpt-4o o1 o3-mini o3-mini-paygo
+-- claude-3.5-sonnet claude-3.7-sonnet claude-3.7-sonnet-thought
+-- gemini-2.5-pro o4-mini gpt-4.1
+local copilot_model = "claude-3.7-sonnet"
 
 ---@type LazySpec
 return {

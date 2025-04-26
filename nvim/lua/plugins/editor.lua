@@ -12,6 +12,14 @@ end
 ---@type LazySpec
 return {
   {
+    "folke/trouble.nvim",
+    cmd = "Trouble",
+    opts = {},
+    keys = {
+      { "<leader>P", "<cmd>Trouble diagnostics toggle<cr>", desc = "Problems (Diagnostics)" },
+    },
+  },
+  {
     "SmiteshP/nvim-navic",
     dependencies = "neovim/nvim-lspconfig",
   },

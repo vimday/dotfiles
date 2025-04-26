@@ -35,6 +35,7 @@ in
     jqp # jq with a terminal UI
     yq-go # A lightweight and portable command-line YAML processor
     atuin # A shell history assistant that helps you find and reuse commands
+    boxes # A command-line tool for creating ASCII art boxes around text
 
     # Git Tools
     lazygit
@@ -51,6 +52,7 @@ in
     fd # A simple, fast and user-friendly alternative to 'find'
     tmux
     yazi
+    television
 
     # System Monitoring
     duf # Disk Usage/Free Utility
@@ -193,14 +195,7 @@ in
       };
     } else { };
 
-  imports = [ ./custom/systemd.nix ];
-  custom.systemd =
-    if hasSystemd then {
-      podman.enable = true;
-      mariadb.enable = false;
-      ddns-go.enable = false;
-      # gotify.enable = true;
-      clickhouse.enable = false;
-      samba.enable = true;
-    } else { };
+  imports =
+    if hasSystemd then
+      [ ./custom/systemd.nix ] else [ ];
 }
