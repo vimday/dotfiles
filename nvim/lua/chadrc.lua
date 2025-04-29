@@ -33,7 +33,13 @@ M.ui = {
   statusline = {
     modules = {
       lsp_msg = function()
-        return "Take it lazy 󰒲 "
+        local clients = vim.lsp.get_clients { bufnr = 0 }
+        for _, client in ipairs(clients) do
+          if client.name == "copilot" then
+            return "  Take it lazy 󰒲 "
+          end
+        end
+        return "  Take it easy !"
       end,
     },
   },

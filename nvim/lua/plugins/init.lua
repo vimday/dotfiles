@@ -64,6 +64,10 @@ local M = {
       })
     end,
   },
+  {
+    "rafamadriz/friendly-snippets",
+    enabled = false,
+  },
 }
 
 for _, g in ipairs(plugin_groups) do
