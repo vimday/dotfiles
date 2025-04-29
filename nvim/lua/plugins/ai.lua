@@ -164,6 +164,7 @@ return {
     config = function()
       require("mcphub").setup {
         use_bundled_binary = true, -- Set to true if you want to use the bundled mcp-hub binary
+        auto_approve = true,
         extensions = {
           codecompanion = {
             -- Show the mcp tool result in the chat buffer
