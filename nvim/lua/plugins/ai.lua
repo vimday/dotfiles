@@ -151,6 +151,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      "echasnovski/mini.diff",
     },
     init = function()
       require("configs.codecompanion").init()
