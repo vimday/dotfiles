@@ -11,7 +11,7 @@ Format: markdown]]
 -- gpt-3.5-turbo gpt-4o-mini gpt-4 gpt-4o o1 o3-mini o3-mini-paygo
 -- claude-3.5-sonnet claude-3.7-sonnet claude-3.7-sonnet-thought
 -- gemini-2.5-pro o4-mini gpt-4.1
-local copilot_model = "claude-3.7-sonnet"
+local copilot_model = "gpt-4o"
 
 ---@type LazySpec
 return {
@@ -23,7 +23,11 @@ return {
       provider = "copilot",           -- 指定 Copilot 作为主要提供者
       auto_suggestions_provider = "copilot", -- 可选：用于自动建议的提供者
       copilot = {
-        model = copilot_model,
+        endpoint = "https://api.githubcopilot.com", -- Copilot API 端点
+        model = "gpt-4o",        -- 默认模型，可根据需要调整
+        timeout = 30000,                    -- 请求超时（毫秒）
+        temperature = 0,                    -- 控制生成内容的随机性
+        max_tokens = 4096, 
       },
       behaviour = {
         enable_claude_text_editor_tool_mode = true,
