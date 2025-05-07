@@ -186,6 +186,7 @@ in
     atuin.enable = true;
     starship.enable = true;
     zoxide.enable = true;
+    yazi.enable = true;
   };
 
   services =
