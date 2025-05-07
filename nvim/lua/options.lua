@@ -21,14 +21,8 @@ vim.cmd [[
   endfunction
 ]]
 
--- [[ custom
-require "custom.command" -- TODO: use lazy.nvim to load this
--- ]]
-
 o.cmdheight = 1 -- more space in the neovim command line for displaying messages
 o.confirm = true
-o.foldmethod = "indent"
-o.foldlevelstart = 99
 o.swapfile = false
 o.scrolloff = 8
 o.wrap = true
@@ -39,11 +33,35 @@ o.list = true
 -- opt.timeoutlen = 400
 -- o.spell = true
 -- o.spelloptions = "camel,noplainbuffer"
-o.sessionoptions = "buffers,curdir,folds,tabpages,winpos,winsize"
+o.sessionoptions = "buffers,curdir,tabpages,winpos,winsize"
 o.jumpoptions = "stack"
 
-g.conflict_marker_enable_mappings = 0
+-- [[ fold settings
+o.foldenable = true
+o.foldlevelstart = 99
+local disable_expr_fold_ft = { "codecompanion", "Avante" }
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    if vim.tbl_contains(disable_expr_fold_ft, vim.bo[args.buf].filetype) then
+      return
+    end
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local win = vim.api.nvim_get_current_win()
+    vim.wo[win][0].foldmethod = "expr"
+    if client and client:supports_method "textDocument/foldingRange" then
+      vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+    else
+      vim.wo[win][0].foldexpr = "nvim_treesitter#foldexpr()"
+    end
+  end,
+})
+-- ]]
+
 g.loaded_python3_provider = nil
+
+-- [[ custom
+require "custom.command" -- TODO: use lazy.nvim to load this
+-- ]]
 
 local colors = {
   red = "#FF6555",
@@ -70,10 +88,10 @@ local highlights = {
   { "DiagnosticVirtualTextHint", { fg = colors.purple, bg = colors.purple_bg } },
 
   -- diagnostics signs
-  { "DiagnosticSignError", { fg = colors.red } },
-  { "DiagnosticSignWarn", { fg = colors.yellow } },
-  { "DiagnosticSignInfo", { fg = colors.cyan } },
-  { "DiagnosticSignHint", { fg = colors.purple } },
+  { "DiagnosticError", { fg = colors.red } },
+  { "DiagnosticWarn", { fg = colors.yellow } },
+  { "DiagnosticInfo", { fg = colors.cyan } },
+  { "DiagnosticHint", { fg = colors.purple } },
 }
 
 local function set_highlights()

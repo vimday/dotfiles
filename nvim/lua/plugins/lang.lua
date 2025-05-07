@@ -2,7 +2,6 @@ local frontend_formatter = { "prettierd", "prettier", stop_after_first = true }
 
 ---@type LazySpec
 return {
-  { "folke/trouble.nvim", cmd = "Trouble", opts = {} },
   {
     "stevearc/conform.nvim",
     event = { "BufWritePre" },
@@ -28,8 +27,9 @@ return {
         typescript = frontend_formatter,
         javascriptreact = frontend_formatter,
         typescriptreact = frontend_formatter,
-        go = { "goimports", "gofumpt" },
+        go = { "goimports", "gofmt" },
         sql = { "sql-formatter" },
+        json = frontend_formatter,
       },
       -- Set up format-on-save
       -- format_on_save = { timeout_ms = 500, lsp_fallback = true },
@@ -143,10 +143,10 @@ return {
       local sources = {
         b.diagnostics.codespell.with {
           diagnostics_postprocess = function(diagnostic)
-            diagnostic.severity = vim.diagnostic.severity.INFO
+            diagnostic.severity = vim.diagnostic.severity.HINT
           end,
           disabled_filetypes = { "NvimTree", "csv" },
-          args = { "-L", "crate,ans,ratatui", "-" },
+          args = { "-L", "crate,ans,ratatui,enew", "-" },
         },
       }
       null_ls.setup {
@@ -188,19 +188,6 @@ return {
       require("zk").setup {
         picker = "telescope",
       }
-
-      local function new_note()
-        vim.ui.input({
-          prompt = "Title",
-        }, function(title)
-          if title then
-            require("zk.commands").get "ZkNew" { title = title }
-          end
-        end)
-      end
-
-      vim.keymap.set("n", "<leader>nn", new_note, { desc = "New Note" })
-      vim.api.nvim_set_keymap("n", "<leader>nl", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", { desc = "Note List" })
     end,
   },
 

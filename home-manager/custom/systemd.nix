@@ -3,8 +3,7 @@
 with lib;
 
 let
-  srvPrefix = "hm-"; # Home Manager
-  conSrvPrefix = "hmc-"; # Home Manager Container
+  prefix = "hm-"; # Home Manager
   ociCmd = config.custom.ociCmd;
   serviceConfig = { enable, desc, startCmd, stopCmd, autoStart, ... }: mkIf enable {
     Unit.Description = "${desc}";
@@ -18,7 +17,7 @@ let
   };
 
   containerConfig = { enable, name, params, autoStart, ... }:
-    let cName = "${conSrvPrefix}${name}"; in
+    let cName = "${prefix}${name}"; in
     mkIf enable {
       Unit.Description = "${cName} container";
       Unit.After = [ "network.target" ];
@@ -45,12 +44,13 @@ in
       gotify.enable = mkEnableOption "Gotify container";
       clickhouse.enable = mkEnableOption "ClickHouse container";
       ddns-go.enable = mkEnableOption "DDNS-Go container";
+      samba.enable = mkEnableOption "Samba container";
     };
   };
 
   config = {
     systemd.user.services = {
-      "${srvPrefix}podman" = serviceConfig {
+      "${prefix}podman" = serviceConfig {
         enable = config.custom.systemd.podman.enable;
         desc = "Podman service";
         startCmd = "/usr/bin/podman system service --time 0";
@@ -58,7 +58,7 @@ in
         autoStart = true;
       };
 
-      "${conSrvPrefix}mariadb" = containerConfig {
+      "${prefix}mariadb" = containerConfig {
         enable = config.custom.systemd.mariadb.enable;
         name = "mariadb";
         params = ''
@@ -70,7 +70,7 @@ in
         autoStart = true;
       };
 
-      "${conSrvPrefix}gotify" = containerConfig {
+      "${prefix}gotify" = containerConfig {
         enable = config.custom.systemd.gotify.enable;
         name = "gotify";
         params = ''
@@ -81,7 +81,7 @@ in
         autoStart = true;
       };
 
-      "${conSrvPrefix}clickhouse" = containerConfig {
+      "${prefix}clickhouse" = containerConfig {
         enable = config.custom.systemd.clickhouse.enable;
         name = "clickhouse";
         params = ''
@@ -96,13 +96,23 @@ in
         autoStart = false;
       };
 
-      "${conSrvPrefix}ddns-go" = containerConfig {
+      "${prefix}ddns-go" = containerConfig {
         enable = config.custom.systemd.ddns-go.enable;
         name = "ddns-go";
         params = ''
           --network host \
           -v ddns-go-data:/root \
           jeessy/ddns-go
+        '';
+        autoStart = true;
+      };
+
+      "${prefix}samba" = containerConfig {
+        enable = config.custom.systemd.samba.enable;
+        name = "samba";
+        params = ''
+          -p 1445:445 -e "USER=smbuser" -e 'PASS=123465!' -v samba_data:/storage \
+          dockurr/samba
         '';
         autoStart = true;
       };

@@ -2,6 +2,17 @@
 -- views can only be fully collapsed with the global statusline
 vim.opt.laststatus = 3
 
+local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub" }
+local pure_prompt = [[你是一个无所不能的天才. 你的人设如下,
+Language: Chinese
+Tone: concise,unfriendly,like mocking others
+Format: markdown]]
+
+-- gpt-3.5-turbo gpt-4o-mini gpt-4 gpt-4o o1 o3-mini o3-mini-paygo
+-- claude-3.5-sonnet claude-3.7-sonnet claude-3.7-sonnet-thought
+-- gemini-2.5-pro o4-mini gpt-4.1
+local copilot_model = "claude-3.7-sonnet"
+
 ---@type LazySpec
 return {
   {
@@ -12,20 +23,10 @@ return {
       provider = "copilot",           -- 指定 Copilot 作为主要提供者
       auto_suggestions_provider = "copilot", -- 可选：用于自动建议的提供者
       copilot = {
-        endpoint = "https://api.githubcopilot.com", -- Copilot API 端点
-        model = "gpt-4o",        -- 默认模型，可根据需要调整
-        timeout = 30000,                    -- 请求超时（毫秒）
-        temperature = 0,                    -- 控制生成内容的随机性
-        max_tokens = 4096,                  -- 最大 token 数
+        model = copilot_model,
       },
       behaviour = {
-        auto_suggestions = false,          -- 是否启用自动建议（可选）
-        auto_apply_diff_after_generation = false, -- 生成后是否自动应用差异
-        auto_set_keymaps = true,           -- 自动设置默认按键映射
-      },
-      windows = {
-        position = "right",                -- 侧边栏位置
-        width = 30,                        -- 侧边栏宽度（百分比）
+        enable_claude_text_editor_tool_mode = true,
       },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
@@ -33,7 +34,6 @@ return {
     -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
@@ -47,30 +47,12 @@ return {
         -- Make sure to set this up properly if you have lazy=true
         "MeanderingProgrammer/render-markdown.nvim",
         opts = {
-          file_types = { "markdown", "Avante", "codecompanion" },
+          file_types = render_md_ft,
         },
-        ft = { "markdown", "Avante", "codecompanion" },
+        ft = render_md_ft,
       },
     },
   },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    event = "BufRead",
-    dependencies = {
-      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
-    },
-    build = "make tiktoken", -- Only on MacOS or Linux
-    opts = {
-      -- debug = true, -- Enable debugging
-      -- window = {
-      --   layout = "float",
-      --   width = 0.75,
-      --   height = 0.75,
-      -- },
-    },
-  },
-
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
@@ -81,7 +63,9 @@ return {
           enabled = true,
           auto_trigger = true,
           keymap = {
-            accept = "<M-o>",
+            accept = "<M-p>",
+            accept_line = "<M-o>",
+            accept_word = "<M-w>",
           },
         },
         filetypes = {
@@ -94,7 +78,11 @@ return {
           ["grug-far-history"] = false,
           ["grug-far-help"] = false,
         },
+        copilot_model = "gpt-4o-copilot",
       }
+      -- set highlight group for copilot
+      local comment_hl = vim.api.nvim_get_hl(0, { name = "Comment" })
+      vim.api.nvim_set_hl(0, "CopilotSuggestion", { italic = true, fg = comment_hl.fg })
     end,
   },
   {
@@ -103,128 +91,97 @@ return {
     config = function()
       require("codecompanion").setup {
         opts = {
-          language = "chinese",
+          language = "中文",
+          -- system_prompt = function(opts)
+          --   return codecompanion_system_prompt
+          -- end,
+        },
+        prompt_library = {
+          ["Pure Prompt"] = {
+            strategy = "chat",
+            description = "天才",
+            opts = {
+              ignore_system_prompt = true,
+            },
+            prompts = {
+              {
+                role = "system",
+                content = pure_prompt,
+              },
+              {
+                role = "user",
+                content = "",
+              },
+            },
+          },
         },
         strategies = {
           chat = {
             adapter = "copilot",
+            roles = {
+              llm = function(adapter)
+                return "  天才 (" .. adapter.formatted_name .. ")"
+              end,
+              user = "  Me",
+            },
+            tools = {
+              mcp = {
+                -- calling it in a function would prevent mcphub from being loaded before it's needed
+                callback = function()
+                  return require "mcphub.extensions.codecompanion"
+                end,
+                description = "Call tools and resources from the MCP Servers",
+              },
+            },
           },
-          inline = {
-            adapter = "copilot",
-          },
-          cmd = {
-            adapter = "copilot",
-          },
+          inline = { adapter = "copilot" },
+          cmd = { adapter = "copilot" },
         },
         adapters = {
           copilot = function()
             return require("codecompanion.adapters").extend("copilot", {
-              schema = {
-                model = {
-                  default = "claude-3.5-sonnet",
-                },
-              },
+              schema = { model = { default = copilot_model } },
             })
           end,
         },
       }
     end,
     keys = {
-      {
-        "<leader>ai",
-        function()
-          vim.cmd "CodeCompanionChat"
-        end,
-        mode = "n",
-        desc = "CopilotChat",
-      },
-      {
-        "<leader>ai",
-        function()
-          vim.cmd "CodeCompanion"
-        end,
-        mode = "v",
-        desc = "CopilotChat",
-      },
+      { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanionChat" },
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      "echasnovski/mini.diff",
     },
     init = function()
-      -- lua/plugins/codecompanion/fidget-spinner.lua
-
-      local progress = require "fidget.progress"
-
-      local M = {}
-
-      function M:init()
-        local group = vim.api.nvim_create_augroup("CodeCompanionFidgetHooks", {})
-
-        vim.api.nvim_create_autocmd({ "User" }, {
-          pattern = "CodeCompanionRequestStarted",
-          group = group,
-          callback = function(request)
-            local handle = M:create_progress_handle(request)
-            M:store_progress_handle(request.data.id, handle)
-          end,
-        })
-
-        vim.api.nvim_create_autocmd({ "User" }, {
-          pattern = "CodeCompanionRequestFinished",
-          group = group,
-          callback = function(request)
-            local handle = M:pop_progress_handle(request.data.id)
-            if handle then
-              M:report_exit_status(handle, request)
-              handle:finish()
-            end
-          end,
-        })
-      end
-
-      M.handles = {}
-
-      function M:store_progress_handle(id, handle)
-        M.handles[id] = handle
-      end
-
-      function M:pop_progress_handle(id)
-        local handle = M.handles[id]
-        M.handles[id] = nil
-        return handle
-      end
-
-      function M:create_progress_handle(request)
-        return progress.handle.create {
-          title = " Requesting assistance (" .. request.data.strategy .. ")",
-          message = "In progress...",
-          lsp_client = {
-            name = M:llm_role_title(request.data.adapter),
+      require("configs.codecompanion").init()
+    end,
+  },
+  {
+    "ravitemer/mcphub.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required for Job and HTTP requests
+    },
+    event = "VeryLazy",
+    -- comment the following line to ensure hub will be ready at the earliest
+    cmd = "MCPHub", -- lazy load by default
+    -- build = "npm install -g mcp-hub@latest", -- Installs required mcp-hub npm module
+    -- uncomment this if you don't want mcp-hub to be available globally or can't use -g
+    build = "bundled_build.lua", -- Use this and set use_bundled_binary = true in opts  (see Advanced configuration)
+    config = function()
+      require("mcphub").setup {
+        use_bundled_binary = true, -- Set to true if you want to use the bundled mcp-hub binary
+        auto_approve = true,
+        extensions = {
+          codecompanion = {
+            -- Show the mcp tool result in the chat buffer
+            show_result_in_chat = true,
+            make_vars = true, -- make chat #variables from MCP server resources
+            make_slash_commands = true, -- make /slash_commands from MCP server prompts
           },
-        }
-      end
-
-      function M:llm_role_title(adapter)
-        local parts = {}
-        table.insert(parts, adapter.formatted_name)
-        if adapter.model and adapter.model ~= "" then
-          table.insert(parts, "(" .. adapter.model .. ")")
-        end
-        return table.concat(parts, " ")
-      end
-
-      function M:report_exit_status(handle, request)
-        if request.data.status == "success" then
-          handle.message = "Completed"
-        elseif request.data.status == "error" then
-          handle.message = " Error"
-        else
-          handle.message = "󰜺 Cancelled"
-        end
-      end
-
-      M:init()
+        },
+      }
     end,
   },
 }

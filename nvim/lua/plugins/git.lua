@@ -5,10 +5,13 @@ return {
     event = "BufRead",
     opts = {
       enabled = true, -- if you want to enable the plugin
-      message_template = "    <author> • <summary> • <<sha>> at <date>", -- template for the blame message, check the Message template section for more options
-      date_format = "%Y-%m-%d %H:%M", -- template for the date, check Date format section for more options
+      message_template = "   <author> • <summary> • <<sha>> <date>", -- template for the blame message, check the Message template section for more options
+      date_format = "%r", -- template for the date, check Date format section for more options
       virtual_text_column = 1, -- virtual text start column, check Start virtual text at column section for more options
     },
+    init = function()
+      vim.g.gitblame_message_when_not_committed = "   Not committed..."
+    end,
   },
   {
     "akinsho/git-conflict.nvim",
@@ -17,6 +20,20 @@ return {
       require("git-conflict").setup {
         default_mappings = false,
       }
+    end,
+    init = function()
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "GitConflictDetected",
+        callback = function()
+          local opts = { buffer = true }
+          vim.keymap.set("n", "co", "<Plug>(git-conflict-ours)", opts)
+          vim.keymap.set("n", "ct", "<Plug>(git-conflict-theirs)", opts)
+          vim.keymap.set("n", "cb", "<Plug>(git-conflict-both)", opts)
+          vim.keymap.set("n", "c0", "<Plug>(git-conflict-none)", opts)
+          vim.keymap.set("n", "[x", "<Plug>(git-conflict-prev-conflict)", opts)
+          vim.keymap.set("n", "]x", "<Plug>(git-conflict-next-conflict)", opts)
+        end,
+      })
     end,
     event = "BufRead",
   },

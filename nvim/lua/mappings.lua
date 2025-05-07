@@ -24,24 +24,18 @@ del("n", "<C-c>")
 -- ===========================
 -- General mappings
 -- ===========================
-map("n", ";", ":", { desc = "CMD enter command mode" })
+map({ "n", "x" }, ";", ":", { desc = "CMD enter command mode" })
 map("n", "P", '"0p', { desc = "paste from yank register" })
 map("t", "<C-n>", [[<C-\><C-n>]]) -- jk to escape in terminal mode
-map("n", "<leader>:", "<cmd>Telescope commands<cr>", { desc = "Telescope commands" })
 
 map("n", "<C-q>", "<cmd>call QuickFixToggle()<CR>", { desc = "Toggle Quickfix" })
-map("n", "<C-w>z", "<cmd>resize | vertical resize<CR>", { desc = "Zoom in window" })
+-- map("n", "<C-w>z", "<cmd>resize | vertical resize<CR>", { desc = "Zoom in window" })
 map("n", "<leader>q", "<cmd>q<CR>", { desc = "quit" })
 map("n", "<leader>Q", "<cmd>qall<CR>", { desc = "quit all" })
 map("n", "<leader>w", "<cmd>update<CR>", { desc = "save" })
 map("n", "<leader>.", ":@:<CR>", { noremap = true, silent = true, desc = "repeat last command" })
 
-map(
-  "n",
-  "<leader>tp",
-  "<cmd>Trouble diagnostics toggle filter = { severity=vim.diagnostic.severity.ERROR }<CR>",
-  { desc = "Problems" }
-) -- show only errors
+map("n", "<leader>tp", "<cmd>Trouble diagnostics toggle<CR>", { desc = "Problems" }) -- show only errors
 map("n", "<leader>b", "<cmd>b#<CR>", { desc = "last buffer" })
 map("n", "<Esc>", "<cmd>nohl<CR>", { desc = "nohl" })
 
@@ -85,33 +79,29 @@ map("n", "<leader>dw", "<cmd>lua require'dapui'.float_element()<CR>", { desc = "
 -- Diagnostic mappings
 -- ===========================
 map("n", "[E", function()
-  vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" } }
+  vim.diagnostic.jump { severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" }, count = -1 }
 end, { desc = "prev error" })
 map("n", "]E", function()
-  vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" } }
+  vim.diagnostic.jump { severity = vim.diagnostic.severity.ERROR, float = { border = "rounded" }, count = 1 }
 end, { desc = "next error" })
 map("n", "[d", function()
-  vim.diagnostic.goto_prev { float = { border = "rounded" } }
+  vim.diagnostic.jump { float = { border = "rounded" }, count = -1 }
 end, { desc = "prev diagnostic" })
 map("n", "]d", function()
-  vim.diagnostic.goto_next { float = { border = "rounded" } }
+  vim.diagnostic.jump { float = { border = "rounded" }, count = 1 }
 end, { desc = "next diagnostic" })
 
 -- ===========================
 -- LSP (Language Server Protocol) mappings
 -- ===========================
-map("n", "gI", function()
-  vim.lsp.buf.implementation()
-end, { desc = "lsp implementation" })
+map("n", "gI", vim.lsp.buf.implementation, { desc = "lsp implementation" })
 
-map("n", "<leader>la", function()
-  vim.lsp.buf.code_action()
-end, { desc = "Code Action" })
+map("n", "<leader>la", vim.lsp.buf.code_action, { desc = "Code Action" })
 
 map("n", "<leader>lA", lsputil.action.source, { desc = "Src action" })
 
-map("n", "<leader>ld", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Buffer Diagnostics" })
-map("n", "<leader>lD", "<cmd>Telescope diagnostics<CR>", { desc = "Workspace Diagnostics" })
+-- map("n", "<leader>ld", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Buffer Diagnostics" })
+-- map("n", "<leader>lD", "<cmd>Telescope diagnostics<CR>", { desc = "Workspace Diagnostics" })
 map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Info" })
 map("n", "<leader>lI", "<cmd>Mason<CR>", { desc = "Installer Info" })
 map("n", "<leader>ll", function()
@@ -125,14 +115,14 @@ map("n", "<leader>lQ", function()
 end, { desc = "Quickfix Workspace" })
 -- map("n", "<leader>lr", require "nvchad.lsp.renamer", { desc = "Rename" })
 map("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename" })
-map("n", "<leader>ls", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "Document Symbols" })
-map("n", "<leader>lS", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", { desc = "Workspace Symbols" })
+-- map("n", "<leader>ls", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "Document Symbols" })
+-- map("n", "<leader>lS", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", { desc = "Workspace Symbols" })
 map("n", "<leader>lO", "<cmd>SymbolsOutline<CR>", { desc = "Symbol Outline" })
 
 map("n", "<leader>lwa", vim.lsp.buf.add_workspace_folder, { desc = "add workspace folder" })
 map("n", "<leader>lwr", vim.lsp.buf.remove_workspace_folder, { desc = "remove workspace folder" })
 map("n", "<leader>lwl", function()
-  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  vim.print(vim.lsp.buf.list_workspace_folders())
 end, { desc = "list workspace folders" })
 
 -- ===========================
@@ -143,17 +133,19 @@ map("n", "<leader>gr", "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", { desc = 
 map("n", "<leader>gR", "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", { desc = "Reset Buffer" })
 map("n", "<leader>gs", "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", { desc = "Stage Hunk" })
 map("n", "<leader>gu", "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", { desc = "Undo Stage Hunk" })
-map("n", "<leader>go", "<cmd>Telescope git_status<cr>", { desc = "Open changed file" })
-map("n", "<leader>gc", "<cmd>Telescope git_bcommits<cr>", { desc = "Checkout commit (Cur File)" })
-map("n", "<leader>gC", "<cmd>Telescope git_commits<cr>", { desc = "Checkout commit" })
+-- map("n", "<leader>go", "<cmd>Telescope git_status<cr>", { desc = "Open changed file" })
+-- map("n", "<leader>gc", "<cmd>Telescope git_bcommits<cr>", { desc = "Checkout commit (Cur File)" })
+-- map("n", "<leader>gC", "<cmd>Telescope git_commits<cr>", { desc = "Checkout commit" })
 map("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>", { desc = "Git Diff" })
 map("n", "<leader>gb", "<cmd>lua Snacks.git.blame_line()<cr>", { desc = "Blame Line" })
+map("n", "<leader>gl", "<cmd>lua Snacks.picker.git_log()<cr>", { desc = "Git Log" })
+map("n", "<leader>gL", "<cmd>lua Snacks.picker.git_log_line()<cr>", { desc = "Git Log Line" })
+map("n", "<leader>gS", "<cmd>lua Snacks.picker.git_stash()<cr>", { desc = "Git Stash" })
+map("n", "<leader>gf", "<cmd>lua Snacks.picker.git_log_file()<cr>", { desc = "Git Log File" })
+map("n", "<leader>gD", "<cmd>lua Snacks.picker.git_diff()<cr>", { desc = "Git Diff (Hunks)" })
 
 -- map("n", "<leader>gg", "<cmd>Git<cr>", { desc = "gitfutive" })
-map("n", "<leader>gg", function()
-  Snacks.lazygit()
-end, { desc = "LazyGit" })
--- }}
+map("n", "<leader>gg", "<cmd>lua Snacks.lazygit()<cr>", { desc = "LazyGit" })
 
 -- ===========================
 -- Buffer navigation mappings

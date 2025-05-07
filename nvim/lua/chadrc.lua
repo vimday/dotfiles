@@ -1,8 +1,6 @@
 local M = {}
 
--- dracula colors
-local cyan = "#8be9fd"
-local green = "#50fa7b"
+local telescopeInputFg = "pink"
 
 M.base46 = {
   theme = "jabuti",
@@ -11,13 +9,15 @@ M.base46 = {
     DiffAdd = { fg = "green", bg = "#123b1a" },
     DiffDelete = { fg = "red" },
     DiffChange = { fg = "orange" },
-    WildMenu = { fg = "#6ad8eD", bg = "#30385f" },
-    IncSearch = { bg = "#e0af68", fg = "#373640" },
+    Folded = { link = "DiagnosticVirtualTextInfo" },
     ["@keyword"] = { italic = true },
-    ["@keyword.function"] = { italic = true },
-    ["@keyword.return"] = { italic = true },
-    FloatTitle = { bg = cyan, fg = "#000000" },
-    -- FloatBorder = { fg = cyan },
+    ["@keyword.function"] = { link = "@keyword" },
+    ["@keyword.return"] = { link = "@keyword" },
+    ["@keyword.conditional"] = { link = "@keyword" },
+    ["@keyword.repeat"] = { link = "@keyword" },
+    TelescopePromptTitle = { bg = telescopeInputFg, fg = "#000000" },
+    TelescopePromptPrefix = { fg = telescopeInputFg },
+    NvDashFooter = { fg = "blue" },
   },
   theme_toggle = { "jabuti", "chadracula", "one_light" },
 }
@@ -28,16 +28,31 @@ M.ui = {
     lazyload = true,
   },
   cmp = {
-    style = "atom_colored",
+    style = "atom_colored", -- default/flat_light/flat_dark/atom/atom_colored
+  },
+  statusline = {
+    modules = {
+      lsp_msg = function()
+        local clients = vim.lsp.get_clients { bufnr = 0 }
+        for _, client in ipairs(clients) do
+          if client.name == "copilot" then
+            return "  Take it lazy 󰒲 "
+          end
+        end
+        return "  Take it easy !"
+      end,
+    },
   },
 }
 
 M.nvdash = {
   load_on_startup = true,
   buttons = {
-    { txt = "  Find File", keys = "ff", cmd = "Telescope find_files" },
-    { txt = "  Recent Files", keys = "fo", cmd = "Telescope oldfiles" },
-    { txt = "󰈭  Find Word", keys = "fw", cmd = "Telescope live_grep" },
+    { txt = "  AI Chat", keys = "a", cmd = "lua vim.cmd'CodeCompanionChat Toggle'; vim.cmd'wincmd p | q'" },
+    { txt = "  New File", keys = "n", cmd = "enew" },
+    { txt = "  Find File", keys = "f", cmd = "lua Snacks.picker.files()" },
+    { txt = "󰈭  Find Word", keys = "w", cmd = "lua Snacks.picker.grep()" },
+    -- { txt = "  Recent Files", keys = "r", cmd = "lua Snacks.picker.recent()" },
     -- { txt = "󱥚  Themes", keys = "th", cmd = ":lua require('nvchad.themes').open()" },
     -- { txt = "  Mappings", keys = "ch", cmd = "NvCheatsheet" },
     { txt = "󰒲  lazy", keys = "L", cmd = "Lazy" },
@@ -63,28 +78,63 @@ M.nvdash = {
   },
 }
 
+M.term = {
+  float = {
+    row = 0.01,
+    col = 0,
+    width = 1,
+    height = 0.9,
+    border = "rounded",
+  },
+}
+
 M.mason = {
   cmd = true,
   pkgs = {
+    -- LSP servers
     "bash-language-server",
-    "codelldb",
     "css-lsp",
+    "eslint-lsp",
+    "gopls",
+    "helm-ls",
+    "html-lsp",
     "json-lsp",
     "lua-language-server",
+    "nil",
     "prosemd-lsp",
     "pyright",
+    "rnix-lsp",
+    "rust-analyzer",
+    "tailwindcss-language-server",
+    "typescript-language-server",
+    "vim-language-server",
+    "vue-language-server",
+    "vtsls",
     "yaml-language-server",
     "zk",
-    "vim-language-server",
-    "rust_analyzer",
-    -- formatter
-    "gofumpt",
+
+    -- DAP
+    "codelldb",
+
+    -- Formatters
     "black",
+    "gofumpt",
+    "goimports",
+    "golines",
+    "isort",
     "prettier",
+    "prettierd",
     "shfmt",
+    "sqlfluff",
     "stylua",
-    -- lint
+    "taplo",
+
+    -- Linters
+    "ast-grep",
     "codespell",
+    "golangci-lint",
+    "golangci-lint-langserver",
+    "ruff",
   },
 }
 
