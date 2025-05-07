@@ -1,8 +1,8 @@
 -- ======================= CONSTANTS =======================
 -- If you are using mason.nvim, you can get the ts_plugin_path like this
 local mason_registry = require "mason-registry"
-local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
-  .. "/node_modules/@vue/language-server"
+-- local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
+  -- .. "/node_modules/@vue/language-server"
 
 -- ======================= LSP CONFIGURATION =======================
 local servers = {
@@ -14,18 +14,18 @@ local servers = {
   -- pylyzer = {},
   gopls = {},
   ts_ls = {
-    config = {
-      init_options = {
-        plugins = {
-          {
-            name = "@vue/typescript-plugin",
-            location = vue_language_server_path,
-            languages = { "vue" },
-          },
-        },
-      },
-      filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-    },
+    -- config = {
+    --   init_options = {
+    --     plugins = {
+    --       {
+    --         name = "@vue/typescript-plugin",
+    --         location = vue_language_server_path,
+    --         languages = { "vue" },
+    --       },
+    --     },
+    --   },
+    --   filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+    -- },
   },
   jsonls = {},
   yamlls = {},
@@ -37,19 +37,21 @@ local servers = {
   rnix = {},
   volar = { disable_default = true },
   helm_ls = {},
+  golangci_lint_ls = {},
 }
 
 -- ======================= LSP HANDLER =======================
 
 local map = vim.keymap.set
 local navic = require "nvim-navic"
+local hover_func = require("custom.lsputil").hover
 
 local on_attach = function(client, bufnr)
   local function opts(desc)
     return { buffer = bufnr, desc = "LSP " .. desc }
   end
 
-  map("n", "K", vim.lsp.buf.hover, opts "Lsp hover information")
+  map("n", "K", hover_func, opts "Lsp hover information")
   map("n", "gd", vim.lsp.buf.definition, opts "Lsp Go to definition")
   map("n", "gI", vim.lsp.buf.implementation, opts "Lsp Go to implementation")
   map("n", "gr", vim.lsp.buf.references, opts "Lsp Show references")
@@ -106,7 +108,7 @@ lspconfig.lua_ls.setup {
   settings = {
     Lua = {
       diagnostics = {
-        globals = { "vim" },
+        globals = { "vim", "Snacks" },
       },
       workspace = {
         library = {
@@ -114,6 +116,7 @@ lspconfig.lua_ls.setup {
           [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
           [vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
           [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+          [vim.fn.stdpath "data" .. "/lazy/snacks.nvim/lua/snacks"] = true,
         },
         maxPreload = 100000,
         preloadFileSize = 10000,

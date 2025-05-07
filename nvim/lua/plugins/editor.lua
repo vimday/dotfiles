@@ -11,7 +11,14 @@ end
 
 ---@type LazySpec
 return {
-  -- {{ breadcrumbs
+  {
+    "folke/trouble.nvim",
+    cmd = "Trouble",
+    opts = {},
+    keys = {
+      { "<leader>P", "<cmd>Trouble diagnostics toggle<cr>", desc = "Problems (Diagnostics)" },
+    },
+  },
   {
     "SmiteshP/nvim-navic",
     dependencies = "neovim/nvim-lspconfig",
@@ -41,7 +48,6 @@ return {
     end,
     event = "VeryLazy",
   },
-  -- }}
   {
     "folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",
@@ -63,7 +69,7 @@ return {
   },
   {
     "ggandor/leap.nvim",
-    event = "BufRead",
+    event = "VeryLazy",
     config = function()
       -- require("leap").add_default_mappings()
       -- vim.cmd [[nnoremap gs <Plug>(leap-from-window)]]
@@ -74,7 +80,7 @@ return {
   },
   {
     "ggandor/flit.nvim",
-    event = "BufRead",
+    event = "VeryLazy",
     config = function()
       require("flit").setup()
     end,
@@ -86,19 +92,6 @@ return {
     config = function()
       require("nvim-surround").setup {
         -- Configuration here, or leave empty to use defaults
-      }
-    end,
-  },
-  {
-    "stevearc/dressing.nvim",
-    opts = {},
-    event = "VeryLazy",
-    config = function()
-      require("dressing").setup {
-        input = {
-          border = "single",
-          title_pos = "center",
-        },
       }
     end,
   },
@@ -206,11 +199,11 @@ return {
     opts = {
       open_mapping = [[<c-\>]],
       -- start_in_insert = false,
+      -- shade_terminals = true,
       size = 20,
-      shade_terminals = true,
       auto_scroll = false,
       float_opts = {
-        border = "single",
+        border = "curved",
       },
       winbar = {
         -- enabled = true,
@@ -335,6 +328,50 @@ return {
     },
     config = function()
       require("telescope").load_extension "zoxide"
+    end,
+  },
+  {
+    "voxelprismatic/rabbit.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("rabbit").setup {
+        default_keys = {
+          open = { "B" },
+        },
+      }
+    end,
+  },
+  {
+    "petertriho/nvim-scrollbar",
+    event = "VeryLazy",
+    config = function()
+      require("scrollbar").setup {
+        hide_if_all_visible = true,
+        marks = {
+          Cursor = { text = "🐭" },
+        },
+      }
+    end,
+  },
+  {
+    "chrisgrieser/nvim-origami",
+    event = "VeryLazy",
+    opts = {
+      foldtextWithLineCount = {
+        template = "    •••••••  %s lines  •••••••  ",
+        hlgroupForCount = "Folded",
+      },
+    }, -- needed even when using default config
+  },
+  -- 自定义插件
+  {
+    dir = "~/.config/nvim/lua/custom/betternoti",
+    dependencies = { "rcarriga/nvim-notify" },
+    event = "VeryLazy",
+    config = function()
+      local bt = require "custom.betternoti"
+      bt.setup { blacklist = { "textDocument/" } }
+      vim.notify = bt.notify
     end,
   },
 }

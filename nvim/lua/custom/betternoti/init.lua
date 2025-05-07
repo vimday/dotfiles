@@ -11,14 +11,14 @@ local hist_msgs = {}
 local msg_cnt = 0
 
 M.notify = function(msg, level, opts)
-  -- if M.blacklist ~= nil then
-  --   for _, v in ipairs(M.blacklist) do
-  --     if msg:find(v) then
-  --       builtin_notify("[Blocked] " .. msg, vim.log.levels.INFO)
-  --       return
-  --     end
-  --   end
-  -- end
+  if M.blacklist ~= nil then
+    for _, v in ipairs(M.blacklist) do
+      if msg:find(v) then
+        builtin_notify("[notify] " .. msg, vim.log.levels.WARN, { title = "Notify" })
+        return
+      end
+    end
+  end
 
   if opts and opts.replace then
     noti(msg, level, opts)

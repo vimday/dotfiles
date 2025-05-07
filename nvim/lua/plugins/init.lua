@@ -30,6 +30,44 @@ local M = {
       },
     },
   },
+  {
+    "hrsh7th/cmp-cmdline",
+    dependencies = { "hrsh7th/nvim-cmp", "hrsh7th/cmp-buffer" },
+    event = "CmdlineEnter",
+    config = function()
+      local cmp = require "cmp"
+      local mapping = cmp.mapping.preset.cmdline {}
+      cmp.setup.cmdline("/", {
+        mapping = mapping,
+        sources = {
+          { name = "buffer" },
+        },
+      })
+      cmp.setup.cmdline("?", {
+        mapping = mapping,
+        sources = {
+          { name = "buffer" },
+        },
+      })
+      cmp.setup.cmdline(":", {
+        mapping = mapping,
+        sources = cmp.config.sources({
+          { name = "path" },
+        }, {
+          {
+            name = "cmdline",
+            option = {
+              ignore_cmds = { "Man", "!" },
+            },
+          },
+        }),
+      })
+    end,
+  },
+  {
+    "rafamadriz/friendly-snippets",
+    enabled = false,
+  },
 }
 
 for _, g in ipairs(plugin_groups) do
