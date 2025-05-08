@@ -145,6 +145,7 @@ in
     WEBKIT_DISABLE_DMABUF_RENDERER = "1"; # fix: https://github.com/tauri-apps/tauri/issues/7910
     UV_DEFAULT_INDEX = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple";
     ZK_NOTEBOOK_DIR = "$HOME/notes";
+    GOEXPERIMENT="aliastypeparams";
   };
 
   programs = {

@@ -11,6 +11,49 @@ end
 
 ---@type LazySpec
 return {
+  -- {{{ cmp
+  {
+    import = "nvchad.blink.lazyspec",
+  },
+  {
+    "saghen/blink.cmp",
+    dependencies = {
+      "Kaiser-Yang/blink-cmp-avante",
+    },
+    opts = function(_, opts)
+      table.insert(opts.sources.default, "avante")
+      if not opts.sources.providers then
+        opts.sources.providers = {}
+      end
+      opts.sources.providers.avante = {
+        module = "blink-cmp-avante",
+        name = "Avante",
+      }
+      return opts
+    end,
+  },
+  --- }}}
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      require "configs.lspconfig"
+    end,
+  }, -- format & linting
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = {
+      git = { enable = true },
+      notify = { threshold = vim.log.levels.WARN },
+      renderer = {
+        highlight_git = true,
+        icons = {
+          show = {
+            git = true,
+          },
+        },
+      },
+    },
+  },
   {
     "folke/trouble.nvim",
     cmd = "Trouble",
