@@ -376,12 +376,11 @@ return {
   {
     "voxelprismatic/rabbit.nvim",
     event = "VeryLazy",
+    keys = {
+      { "B", "<cmd>Rabbit trail<cr>", mode = "n", desc = "Buffers" },
+    },
     config = function()
-      require("rabbit").setup {
-        default_keys = {
-          open = { "B" },
-        },
-      }
+      require("rabbit").setup {}
     end,
   },
   {
