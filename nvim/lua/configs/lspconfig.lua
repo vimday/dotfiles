@@ -1,3 +1,7 @@
+local mason_path = vim.fs.joinpath(vim.fn.stdpath "data", "mason")
+local vue_language_server_path =
+  vim.fs.joinpath(mason_path, "packages/vue-language-server/node_modules/@vue/language-server")
+
 -- ======================= LSP CONFIGURATION =======================
 local servers = {
   vimls = {},
@@ -13,7 +17,7 @@ local servers = {
         plugins = {
           {
             name = "@vue/typescript-plugin",
-            location = vim.fn.exepath "vue-language-server",
+            location = vue_language_server_path,
             languages = { "vue" },
           },
         },
