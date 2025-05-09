@@ -24,7 +24,9 @@ mkln() {
   if [ ! -e "$dst" ]; then
     ln -s "$src" "$dst"
     info "$name -> $dst"
-    [ -n "$desc" ] && echo "$desc"
+    if [ -n "$desc" ]; then
+      echo "  $desc"
+    fi
   else
     warn "$name already exists"
   fi
@@ -49,5 +51,6 @@ fi
 
 # Link configuration directories
 mkln "./home-manager" "" "Run 'home-manager init' to initialize home-manager. Then follow home-manager/README.md to modify the home.nix."
-mkln "./awesome"
-mkln "./nvim"
+mkln "awesome"
+mkln "nvim"
+mkln "niri"
