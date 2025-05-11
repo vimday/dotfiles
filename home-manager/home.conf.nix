@@ -10,8 +10,8 @@ in
 
   home.packages = with pkgs; [
     # Languages
-    nodejs
-    uv # venv manager for python
+    # nodejs
+    # uv # venv manager for python
 
     # Terminal Utilities
     zsh
