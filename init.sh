@@ -54,3 +54,4 @@ mkln "./home-manager" "" "Run 'home-manager init' to initialize home-manager. Th
 mkln "awesome"
 mkln "nvim"
 mkln "niri"
+mkln "waybar"
