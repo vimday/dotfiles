@@ -51,8 +51,9 @@ in
     ripgrep
     fd # A simple, fast and user-friendly alternative to 'find'
     tmux
-    yazi
-    television
+    yazi # A command-line tool for managing and navigating your filesystem
+    television # like fzf but for your terminal
+    clipse # A command-line tool for managing clipboard history
 
     # System Monitoring
     duf # Disk Usage/Free Utility

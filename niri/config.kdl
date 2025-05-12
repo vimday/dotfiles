@@ -251,6 +251,7 @@ layout {
 spawn-at-startup "waybar"
 spawn-at-startup "swaybg" "-i" "/home/hrli/Pictures/jinx.jpg"
 spawn-at-startup "xwayland-satellite"
+spawn-at-startup "clipse" "-listen"
 // Or, if you built it by hand:
 // spawn-at-startup "~/path/to/code/target/release/xwayland-satellite"
 
@@ -304,8 +305,13 @@ window-rule {
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-    match app-id="copyq"
     open-floating true
+}
+
+// clipse is a clipboard manager that uses a window to show the clipboard history.
+window-rule {
+    match app-id="clipse"
+    default-column-width { proportion 0.25; }
 }
 
 // Example: block out two password managers from screen capture.
@@ -346,7 +352,7 @@ binds {
     Mod+Return { spawn "kitty"; }
     Mod+Space { spawn "fuzzel"; }
     Super+Alt+L { spawn "swaylock"; }
-    Super+V { spawn "copyq" "toggle"; }
+    Super+V { spawn "kitty" "--class" "clipse" "-e" "clipse"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
