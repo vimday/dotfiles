@@ -24,3 +24,11 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "gitrebase",
   callback = register_git_rabase_squash,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "jsonc",
+  callback = function()
+    -- add commentstring
+    vim.bo.commentstring = "// %s"
+  end,
+})

@@ -257,6 +257,7 @@ spawn-at-startup "clipse" "-listen"
 
 environment {
     DISPLAY ":0"
+    TERMINAL "kitty"
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
