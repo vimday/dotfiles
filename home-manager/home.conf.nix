@@ -9,10 +9,6 @@ in
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
-    # Languages
-    # nodejs
-    # uv # venv manager for python
-
     # Terminal Utilities
     zsh
     curl
@@ -43,7 +39,6 @@ in
     delta # A syntax-highlighter for git and diff output
     git-open
     gh # GitHub CLI
-    gitmux
 
     # Search & Navigation
     fzf
@@ -88,7 +83,7 @@ in
     rustup
     # GUI Applications
     # copyq # Clipboard manager with advanced features
-    flameshot # Powerful yet simple to use screenshot software
+    # flameshot # Powerful yet simple to use screenshot software
   ] else [ ]);
 
 
@@ -122,7 +117,6 @@ in
       ".cargo/config.toml".source = d + "/cargo.toml";
       ".pip/pip.conf".source = d + "/pip.conf";
       ".config/alacritty/alacritty.toml".source = d + "/alacritty.toml";
-      ".gitmux.conf".source = d + "/.gitmux.conf";
     } // (if isLinux then {
       ".config/picom.conf".source = d + "/picom.conf";
       ".config/rofi".source = d + "/rofi";
