@@ -103,7 +103,7 @@ end
 
 -- GUI
 if g.neovide then
-  vim.o.guifont = "JetBrainsMono Nerd Font:h13"
+  vim.o.guifont = "FiraCode Nerd Font:h17"
   vim.o.linespace = 6
 
   g.neovide_remember_window_size = true

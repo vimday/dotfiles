@@ -37,10 +37,10 @@ M.ui = {
         local clients = vim.lsp.get_clients { bufnr = 0 }
         for _, client in ipairs(clients) do
           if client.name == "copilot" then
-            return "  Take it lazy 󰒲 "
+            return "💎🙌 ₿ Ξ It's time to build!"
           end
         end
-        return "  Take it easy !"
+        return "💎🙌 ₿ Ξ It's time to build!"
       end,
     },
   },
