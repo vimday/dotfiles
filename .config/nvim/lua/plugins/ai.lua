@@ -19,7 +19,7 @@ return {
     "yetone/avante.nvim",
     event = "VeryLazy",
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
-    enabled = false,
+    enabled = true,
     opts = {
       provider = "copilot",
       providers = {
@@ -57,9 +57,9 @@ return {
           enabled = true,
           auto_trigger = true,
           keymap = {
-            accept = "<M-p>",
-            accept_line = "<M-o>",
-            accept_word = "<M-w>",
+            accept = "<C-p>",
+            accept_line = "<C-o>",
+            accept_word = "<C-w>",
           },
         },
         filetypes = {

@@ -60,7 +60,7 @@ return {
     },
     footer = {
       "",
-      " 💎🙌 ₿ Ξ It's time to build!",
+      "🐱 Take it easy! 💎🙌 ₿ Ξ It's time to build!",
     },
   },
 }

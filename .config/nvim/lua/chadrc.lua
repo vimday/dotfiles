@@ -37,10 +37,10 @@ M.ui = {
         local clients = vim.lsp.get_clients { bufnr = 0 }
         for _, client in ipairs(clients) do
           if client.name == "copilot" then
-            return "  Take it lazy 󰒲 "
+            return "💎🙌 ₿ Ξ It's time to build!"
           end
         end
-        return "  Take it easy !"
+        return "💎🙌 ₿ Ξ It's time to build!"
       end,
     },
   },
@@ -49,11 +49,11 @@ M.ui = {
 M.term = {
   base46_colors = false,
   float = {
-    row = 0.075,
-    col = 0.1,
-    width = 0.8,
-    height = 0.8,
-    border = "rounded",
+    row = 0.04,
+    col = 0.04,
+    width = 0.9,
+    height = 0.9,
+    border = "shadow", -- none/shadow/rounded
   },
 }
 
@@ -167,7 +167,7 @@ M.mason = {
     "vim-language-server", -- Language server for Vim script
     "vue-language-server", -- Language server for Vue.js
     "yaml-language-server", -- Language server for YAML
-    "zk", -- Plain text note-taking assistant
+    -- "zk", -- Plain text note-taking assistant, nixos not work
   },
 }
 
