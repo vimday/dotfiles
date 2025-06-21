@@ -389,13 +389,19 @@ return {
   },
   {
     "chrisgrieser/nvim-origami",
-    event = "VeryLazy",
+    event = "BufRead",
     opts = {
-      foldtextWithLineCount = {
-        template = "    •••••••  %s lines  •••••••  ",
-        hlgroupForCount = "Folded",
+      foldtext = {
+        lineCount = {
+          template = "    •••••••  %s lines  •••••••  ",
+          hlgroup = "Folded",
+        },
       },
     }, -- needed even when using default config
+    config = function(_, opts)
+      require("custom.lsputil").diagnostic_config()
+      require("origami").setup(opts)
+    end,
   },
   { "nvzone/volt", lazy = true },
   { "nvzone/menu", lazy = true },
