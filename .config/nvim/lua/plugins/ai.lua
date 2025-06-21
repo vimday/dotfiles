@@ -57,9 +57,9 @@ return {
           enabled = true,
           auto_trigger = true,
           keymap = {
-            accept = "<M-p>",
-            accept_line = "<M-o>",
-            accept_word = "<M-w>",
+            accept = "<C-p>",
+            accept_line = "<C-o>",
+            accept_word = "<C-w>",
           },
         },
         filetypes = {
