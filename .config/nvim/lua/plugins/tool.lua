@@ -189,4 +189,12 @@ return {
       vim.api.nvim_set_hl(0, "SnacksInputBorder", { link = "TelescopeBorder" })
     end,
   },
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "make",
+    event = "VeryLazy",
+    config = function()
+      require("telescope").load_extension "fzf"
+    end,
+  },
 }

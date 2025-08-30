@@ -69,6 +69,7 @@ return {
   },
   {
     "b0o/incline.nvim",
+    enabled = false,
     config = function()
       local helpers = require "incline.helpers"
       local devicons = require "nvim-web-devicons"
@@ -91,6 +92,23 @@ return {
       }
     end,
     event = "VeryLazy",
+  },
+  {
+    "Bekaboo/dropbar.nvim",
+    event = "BufRead",
+    -- optional, but required for fuzzy finder support
+    dependencies = {
+      "nvim-telescope/telescope-fzf-native.nvim",
+    },
+    opts = {
+      icons = {
+        kinds = {
+          dir_icon = function()
+            return ""
+          end,
+        },
+      },
+    },
   },
   {
     "folke/todo-comments.nvim",
@@ -450,6 +468,26 @@ return {
           end
         end,
       })
+    end,
+  },
+  {
+    "ibhagwan/fzf-lua",
+    config = function()
+      require("fzf-lua").setup {
+        winopts = {
+          border = "rounded",
+          preview = {
+            border = "rounded",
+            scrollbar = false,
+          },
+        },
+        hls = {
+          border = "TelescopeBorder", -- or "FloatBorder"
+          preview_border = "TelescopeBorder",
+          title = "TelescopePromptTitle",
+          preview_title = "TelescopePreviewTitle",
+        },
+      }
     end,
   },
 
