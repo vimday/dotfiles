@@ -1,9 +1,39 @@
 local mason_path = vim.fs.joinpath(vim.fn.stdpath "data", "mason")
-local vue_language_server_path =
-  vim.fs.joinpath(mason_path, "packages/vue-language-server/node_modules/@vue/language-server")
+vim.lsp.set_log_level("WARN")
 
 -- ======================= LSP CONFIGURATION =======================
-local servers = {
+local vue_language_server_path =
+  vim.fs.joinpath(mason_path, "packages/vue-language-server/node_modules/@vue/language-server")
+local svelte_plugin_path =
+  vim.fs.joinpath(mason_path, "packages/svelte-language-server/node_modules/node_modules/typescript-svelte-plugin")
+
+local vue_plugin = {
+  name = "@vue/typescript-plugin",
+  location = vue_language_server_path,
+  languages = { "vue" },
+  configNamespace = "typescript",
+}
+local svelte_plugin = {
+  name = "typescript-svelte-plugin",
+  location = svelte_plugin_path,
+}
+
+local tsserver_filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "svelte" }
+local vtsls_config = {
+  settings = {
+    vtsls = {
+      tsserver = {
+        globalPlugins = {
+          vue_plugin,
+          svelte_plugin,
+        },
+      },
+    },
+  },
+  filetypes = tsserver_filetypes,
+}
+
+local server_settings = {
   vimls = {},
   html = {},
   cssls = {},
@@ -11,18 +41,10 @@ local servers = {
   pyright = {},
   -- pylyzer = {},
   gopls = {},
-  ts_ls = {
-    init_options = {
-      plugins = {
-        {
-          name = "@vue/typescript-plugin",
-          location = vue_language_server_path,
-          languages = { "vue" },
-        },
-      },
-    },
-    filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-  },
+  -- ts_ls = ts_ls_config,
+  svelte = {},
+  vue_ls = {},
+  vtsls = vtsls_config,
   yamlls = {},
   taplo = {},
   -- prosemd_lsp = {},
@@ -30,9 +52,8 @@ local servers = {
   -- rust_analyzer = {},
   tailwindcss = {},
   rnix = {},
-  helm_ls = {},
+  helm_ls = {}, -- use helm-ls.nvim
   golangci_lint_ls = {},
-  svelte = {},
   buf_ls = {},
   jsonls = {
     settings = {
@@ -42,85 +63,39 @@ local servers = {
       },
     },
   },
+  glsl_analyzer = {}, -- glsl language server
+  zls = {}, -- zig language server
 }
 
 -- ======================= LSP HANDLER =======================
 
-local util = require "custom.lsputil"
+local nvchad_configs = require "nvchad.configs.lspconfig"
+local prev_nvchad_on_attach = nvchad_configs.on_attach
 local map = vim.keymap.set
-local navic = require "nvim-navic"
-local hover_func = util.hover
-util.diagnostic_config()
+local util = require "custom.lsputil"
 
-local on_attach = function(client, bufnr)
+nvchad_configs.on_attach = function(client, bufnr)
+  prev_nvchad_on_attach(client, bufnr)
+  -- your custom on_attach function
   local function opts(desc)
-    return { buffer = bufnr, desc = "LSP " .. desc }
+    return { buffer = bufnr, desc = desc }
   end
 
-  map("n", "K", hover_func, opts "Lsp hover information")
-  map("n", "gd", vim.lsp.buf.definition, opts "Lsp Go to definition")
-  map("n", "gI", vim.lsp.buf.implementation, opts "Lsp Go to implementation")
-  map("n", "gr", vim.lsp.buf.references, opts "Lsp Show references")
-  map("n", "gD", vim.lsp.buf.type_definition, opts "Lsp Go to type definition")
-  -- map("n", "gD", vim.lsp.buf.declaration, opts "Lsp Go to declaration")
+  map("n", "K", util.hover, opts "Hover information")
+  map("n", "gd", vim.lsp.buf.definition, opts "Go to definition")
+  map("n", "gI", vim.lsp.buf.implementation, opts "Go to implementation")
+  map("n", "gr", vim.lsp.buf.references, opts "Go to references")
+  map("n", "gD", vim.lsp.buf.type_definition, opts "Go to type definition")
+end
 
-  -- setup signature popup
-  if client.server_capabilities.signatureHelpProvider then
-    require("nvchad.lsp.signature").setup(client, bufnr)
-    map("n", "<leader>lh", vim.lsp.buf.signature_help, opts "Lsp Signature help")
+nvchad_configs.defaults() -- setup default configs
+
+for lsp, settings in pairs(server_settings) do
+  -- if settings is not empty, then set it
+  if next(settings) ~= nil then
+    vim.lsp.config(lsp, settings)
   end
-
-  -- if client.server_capabilities.documentSymbolProvider then
-  --   navic.attach(client, bufnr)
-  -- end
-
-  client.server_capabilities.semanticTokensProvider = nil
-
-  require("nvchad.lsp").diagnostic_config()
+  vim.lsp.enable(lsp)
 end
 
-local configs = require "nvchad.configs.lspconfig"
-local on_init = configs.on_init
-local capabilities = configs.capabilities
-
-local default_config = {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  on_init = on_init,
-}
-
-local lspconfig = require "lspconfig"
-
-for lsp, setting in pairs(servers) do
-  local custom_config = setting or {}
-  custom_config = vim.tbl_extend("force", default_config, custom_config)
-  lspconfig[lsp].setup(custom_config)
-end
-
--- Lua with vim
-lspconfig.lua_ls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  on_init = on_init,
-
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { "vim", "Snacks" },
-      },
-      workspace = {
-        library = {
-          [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-          [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/snacks.nvim/lua/snacks"] = true,
-        },
-        maxPreload = 100000,
-        preloadFileSize = 10000,
-      },
-    },
-  },
-}
-
-return { on_attach = on_attach }
+return { on_attach = nvchad_configs.on_attach }

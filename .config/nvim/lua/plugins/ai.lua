@@ -3,48 +3,21 @@
 vim.opt.laststatus = 3
 
 local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub" }
-local pure_prompt = [[你是一个无所不能的天才. 你的人设如下,
-Language: Chinese
-Tone: concise,unfriendly,like mocking others
-Format: markdown]]
 
--- gpt-3.5-turbo gpt-4o-mini gpt-4 gpt-4o o1 o3-mini o3-mini-paygo
--- claude-3.5-sonnet claude-3.7-sonnet claude-3.7-sonnet-thought claude-sonnet-4
--- gemini-2.5-pro o4-mini gpt-4.1
-local copilot_model = "gpt-4.1" -- Set your preferred model here
+local copilot_model = "gpt-5-mini" -- Set your preferred model here
 
 ---@type LazySpec
 return {
   {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
-    opts = {
-      provider = "copilot",
-      providers = {
-        copilot = { model = copilot_model },
-      },
-      disabled_tools = { "python", "web_search" },
-    },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = "make",
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      --- The below dependencies are optional,
-      "echasnovski/mini.pick", -- for file_selector provider mini.pick
-      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-      "ibhagwan/fzf-lua", -- for file_selector provider fzf
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      "zbirenbaum/copilot.lua", -- for providers='copilot'
-    },
-  },
-  {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
+    dependencies = {
+      -- "copilotlsp-nvim/copilot-lsp", -- (optional) for NES functionality
+      -- init = function()
+      --   vim.g.copilot_nes_debounce = 500
+      -- end,
+    },
     config = function()
       require("copilot").setup {
         suggestion = {
@@ -66,7 +39,7 @@ return {
           ["grug-far-history"] = false,
           ["grug-far-help"] = false,
         },
-        copilot_model = "gpt-4o-copilot",
+        -- copilot_model = "gpt-4o-copilot",
       }
       -- set highlight group for copilot
       local comment_hl = vim.api.nvim_get_hl(0, { name = "Comment" })
@@ -75,48 +48,39 @@ return {
   },
   {
     "olimorris/codecompanion.nvim",
-    event = "VeryLazy",
     config = function()
       require("codecompanion").setup {
         opts = {
           language = "Chinese",
-          -- system_prompt = function(opts)
-          --   return codecompanion_system_prompt
-          -- end,
-        },
-        prompt_library = {
-          ["Tiancai Prompt"] = {
-            strategy = "chat",
-            description = "天才",
-            opts = {
-              ignore_system_prompt = true,
-              short_name = "tiancai",
-            },
-            prompts = {
-              { role = "system", content = pure_prompt },
-              { role = "user", content = "" },
-            },
-          },
         },
         strategies = {
           chat = {
             adapter = "copilot",
             roles = {
-              llm = function(adapter)
-                return "  CodeCompanion (" .. adapter.model.name .. ")"
-              end,
-              user = "  Me",
+              -- llm = function(adapter)
+              --   return "  CodeCompanion (" .. adapter.model.name .. ")"
+              -- end,
+              user = "🙀 Me",
             },
           },
           inline = { adapter = "copilot" },
           cmd = { adapter = "copilot" },
         },
         adapters = {
-          copilot = function()
-            return require("codecompanion.adapters").extend("copilot", {
-              schema = { model = { default = copilot_model } },
-            })
-          end,
+          acp = {
+            claude_code = function()
+              return require("codecompanion.adapters").extend("claude_code", {
+                env = {},
+              })
+            end,
+          },
+          http = {
+            copilot = function()
+              return require("codecompanion.adapters").extend("copilot", {
+                schema = { model = { default = copilot_model } },
+              })
+            end,
+          },
         },
         extensions = {
           mcphub = {
@@ -129,58 +93,40 @@ return {
           },
           history = {
             enabled = true,
-          },
-        },
-        keymaps = {
-          send = {
-            callback = function(chat)
-              vim.cmd "stopinsert"
-              chat:add_buf_message { role = "llm", content = "" }
-              chat:submit()
-            end,
-            index = 1,
-            description = "Send",
+            opts = {
+              auto_generate_title = true,
+            },
           },
         },
       }
     end,
     keys = {
-      { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanion" },
+      { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanion Toggle" },
+      { "<leader>aa", "<cmd>CodeCompanionActions<cr>", mode = "n", desc = "CodeCompanion Action" },
       { "<leader>ai", "<cmd>CodeCompanionChat<cr>", mode = "x", desc = "CodeCompanion" },
+      {
+        "<leader>ak",
+        function()
+          vim.ui.input({ prompt = "What kind of command to run? " }, function(input)
+            if input then
+              vim.cmd("CodeCompanionCmd " .. input)
+            end
+          end)
+        end,
+        mode = "n",
+        desc = "CodeCompanionCmd",
+      },
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "ravitemer/codecompanion-history.nvim",
+      "ravitemer/mcphub.nvim",
     },
     init = function()
       require("configs.codecompanion_progress").init {}
       require("configs.codecompanion_spinner"):init()
-
-      -- cmdline abbr for CodeCompanion
-      vim.cmd [[cab ai CodeCompanion]]
-
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "codecompanion" },
-        callback = function()
-          local opts = { buffer = true, noremap = true }
-
-          -- add prompts template keymaps
-          vim.keymap.set("n", "<LocalLeader>c", function()
-            local prompt = {
-              "#buffer",
-              "@editor",
-              "@files",
-              "> INSTRUCTION: If need change file content, just make change in-place.",
-            }
-            vim.api.nvim_put(prompt, "l", false, true)
-          end, vim.tbl_deep_extend("force", opts, { desc = "Cursor" }))
-
-          vim.keymap.set("n", "<LocalLeader>t", function()
-            require("codecompanion").prompt "tiancai"
-          end, vim.tbl_deep_extend("force", opts, { desc = "Tiancai Prompt" }))
-        end,
-      })
+      vim.g.codecompanion_yolo_mode = true -- enable YOLO mode, be careful!
     end,
   },
   {
@@ -188,7 +134,6 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim", -- Required for Job and HTTP requests
     },
-    event = "VeryLazy",
     -- comment the following line to ensure hub will be ready at the earliest
     cmd = "MCPHub", -- lazy load by default
     -- build = "npm install -g mcp-hub@latest", -- Installs required mcp-hub npm module
@@ -216,5 +161,8 @@ return {
       file_types = render_md_ft,
     },
     ft = render_md_ft,
+    config = function()
+      vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { fg = "#50FA7B", bold = true, underline = true })
+    end,
   },
 }

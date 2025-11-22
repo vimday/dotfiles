@@ -1,11 +1,6 @@
 ---@type LazySpec
 return {
   {
-    "ellisonleao/glow.nvim",
-    ft = "markdown",
-    config = true,
-  },
-  {
     "MagicDuck/grug-far.nvim",
     cmd = "GrugFar",
     config = function()
@@ -19,8 +14,8 @@ return {
   {
     "kristijanhusak/vim-dadbod-ui",
     dependencies = {
-      { "tpope/vim-dadbod", lazy = true },
-      { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true }, -- Optional
+      { "tpope/vim-dadbod", cmd = { "DB" } },
+      { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" } }, -- Optional
     },
     cmd = {
       "DBUI",
@@ -175,18 +170,19 @@ return {
           Snacks.toggle.inlay_hints():map "<leader>uh"
           Snacks.toggle.indent():map "<leader>ug"
           Snacks.toggle.dim():map "<leader>uD"
+
+          -- Set some highlights
+          vim.api.nvim_set_hl(0, "FloatTitle", { link = "TelescopePromptTitle" })
+          vim.api.nvim_set_hl(0, "SnacksPickerTitle", { link = "TelescopePromptTitle" })
+          vim.api.nvim_set_hl(0, "SnacksPickerPreviewTitle", { link = "TelescopePreviewTitle" })
+          vim.api.nvim_set_hl(0, "SnacksPickerPrompt", { link = "TelescopePromptPrefix" })
+          vim.api.nvim_set_hl(0, "SnacksPickerInput", { link = "TelescopePromptNormal" })
+
+          -- vim.api.nvim_set_hl(0, "SnacksPickerBorder", { link = "TelescopeBorder" })
+          vim.api.nvim_set_hl(0, "SnacksInputTitle", { link = "TelescopePromptTitle" })
+          vim.api.nvim_set_hl(0, "SnacksInputBorder", { link = "TelescopeBorder" })
         end,
       })
-
-      -- Set some highlights
-      vim.api.nvim_set_hl(0, "SnacksPickerTitle", { link = "TelescopePromptTitle" })
-      vim.api.nvim_set_hl(0, "SnacksPickerPreviewTitle", { link = "TelescopePreviewTitle" })
-      vim.api.nvim_set_hl(0, "SnacksPickerPrompt", { link = "TelescopePromptPrefix" })
-      vim.api.nvim_set_hl(0, "SnacksPickerInput", { link = "TelescopePromptNormal" })
-
-      -- vim.api.nvim_set_hl(0, "SnacksPickerBorder", { link = "TelescopeBorder" })
-      vim.api.nvim_set_hl(0, "SnacksInputTitle", { link = "TelescopePromptTitle" })
-      vim.api.nvim_set_hl(0, "SnacksInputBorder", { link = "TelescopeBorder" })
     end,
   },
   {
@@ -195,6 +191,13 @@ return {
     event = "VeryLazy",
     config = function()
       require("telescope").load_extension "fzf"
+    end,
+  },
+  {
+    "skywind3000/asyncrun.vim",
+    cmd = "AsyncRun",
+    config = function()
+      vim.g.asyncrun_open = 10
     end,
   },
 }

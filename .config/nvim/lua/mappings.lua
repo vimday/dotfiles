@@ -31,6 +31,9 @@ del("n", "grr")
 map({ "n", "x" }, ";", ":", { desc = "CMD enter command mode" })
 map("n", "P", '"0p', { desc = "paste from yank register" })
 map("t", "<Esc><Esc>", [[<C-\><C-n>]]) -- jk to escape in terminal mode
+map("v", "<Tab>", ">gv", { noremap = true, silent = true })
+map("v", "<S-Tab>", "<gv", { noremap = true, silent = true })
+map("c", "<C-a>", "<Home>")
 
 -- search in range
 map("x", "/", function()
@@ -70,7 +73,6 @@ map("n", "<leader>Q", "<cmd>qall<CR>", { desc = "quit all" })
 map("n", "<leader>w", "<cmd>update<CR>", { desc = "save" })
 map("n", "<leader>.", ":@:<CR>", { noremap = true, silent = true, desc = "repeat last command" })
 
-map("n", "<leader>tp", "<cmd>Trouble diagnostics toggle<CR>", { desc = "Problems" }) -- show only errors
 map("n", "<leader>b", "<cmd>b#<CR>", { desc = "last buffer" })
 map("n", "<Esc>", "<cmd>nohl<CR>", { desc = "nohl" })
 
@@ -83,14 +85,19 @@ map(
 )
 
 -- ===========================
--- Neotest mappings
+-- Test mappings
 -- ===========================
-map("n", "<leader>tf", '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', { desc = "Test File" })
-map("n", "<leader>tn", '<cmd>lua require("neotest").run.run()<CR>', { desc = "Test Nearest" })
-map("n", "<leader>to", '<cmd>lua require("neotest").output.open({ enter = true })<CR>', { desc = "Show Test Output" })
-map("n", "<leader>ta", '<cmd>lua require("neotest").run.attach()<CR>', { desc = "Attach Test" })
-map("n", "<leader>ts", '<cmd>lua require("neotest").run.stop()<CR>', { desc = "Stop Test" })
-map("n", "<leader>tt", '<cmd>lua require("neotest").summary.toggle()<CR>', { desc = "Toggle Test Outline" })
+-- map("n", "<leader>tf", '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', { desc = "Test File" })
+-- map("n", "<leader>tn", '<cmd>lua require("neotest").run.run()<CR>', { desc = "Test Nearest" })
+-- map("n", "<leader>to", '<cmd>lua require("neotest").output.open({ enter = true })<CR>', { desc = "Show Test Output" })
+-- map("n", "<leader>ta", '<cmd>lua require("neotest").run.attach()<CR>', { desc = "Attach Test" })
+-- map("n", "<leader>ts", '<cmd>lua require("neotest").run.stop()<CR>', { desc = "Stop Test" })
+-- map("n", "<leader>tt", '<cmd>lua require("neotest").summary.toggle()<CR>', { desc = "Toggle Test Outline" })
+map("n", "<leader>tf", '<cmd>TestFile<CR>', { desc = "Test File" })
+map("n", "<leader>tn", '<cmd>TestNearest<CR>', { desc = "Test Nearest" })
+map("n", "<leader>ts", '<cmd>TestSuite<CR>', { desc = "Test Suite" })
+map("n", "<leader>tv", '<cmd>TestVisit<CR>', { desc = "Test Visit" })
+map("n", "<leader>tl", '<cmd>TestLast<CR>', { desc = "Test Last" })
 
 -- ===========================
 -- DAP (Debug Adapter Protocol) mappings
@@ -130,9 +137,7 @@ end, { desc = "next diagnostic" })
 -- LSP (Language Server Protocol) mappings
 -- ===========================
 map("n", "gI", vim.lsp.buf.implementation, { desc = "lsp implementation" })
-
 map("n", "<leader>la", vim.lsp.buf.code_action, { desc = "Code Action" })
-
 map("n", "<leader>lA", lsputil.action.source, { desc = "Src action" })
 
 -- map("n", "<leader>ld", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Buffer Diagnostics" })

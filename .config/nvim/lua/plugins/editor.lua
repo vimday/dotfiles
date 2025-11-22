@@ -18,24 +18,23 @@ return {
   {
     "saghen/blink.cmp",
     version = "*",
-    dependencies = {
-      "Kaiser-Yang/blink-cmp-avante",
+    opts = {
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+        per_filetype = {
+          sql = { "snippets", "dadbod", "buffer" },
+        },
+        -- add vim-dadbod-completion to your completion providers
+        providers = {
+          dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+        },
+      },
     },
-    opts = function(_, opts)
-      table.insert(opts.sources.default, "avante")
-      if not opts.sources.providers then
-        opts.sources.providers = {}
-      end
-      opts.sources.providers.avante = {
-        module = "blink-cmp-avante",
-        name = "Avante",
-      }
-      return opts
-    end,
   },
   --- }}}
   {
     "neovim/nvim-lspconfig",
+    lazy = false,
     config = function()
       require "configs.lspconfig"
     end,
@@ -130,22 +129,28 @@ return {
     end,
   },
   {
-    "ggandor/leap.nvim",
+    "folke/flash.nvim",
     event = "VeryLazy",
-    config = function()
-      -- require("leap").add_default_mappings()
-      -- vim.cmd [[nnoremap gs <Plug>(leap-from-window)]]
-      vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" }) -- or some grey
-      vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
-      vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
-    end,
-  },
-  {
-    "ggandor/flit.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("flit").setup()
-    end,
+    ---@type Flash.Config
+    opts = {},
+    keys = {
+      {
+        "s",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").jump()
+        end,
+        desc = "Flash",
+      },
+      {
+        "r",
+        mode = "o",
+        function()
+          require("flash").remote()
+        end,
+        desc = "Remote Flash",
+      },
+    },
   },
   {
     "kylechui/nvim-surround",
@@ -162,8 +167,6 @@ return {
     ft = "qf",
     config = function()
       require("bqf").setup {
-        auto_enabled = true,
-        auto_resize_height = true, -- highly recommended enable
         preview = {
           should_preview_cb = function(bufnr, qwinid)
             local ret = true
@@ -291,12 +294,6 @@ return {
   { "AndrewRadev/bufferize.vim", cmd = "Bufferize" },
   { "tpope/vim-repeat", event = "BufRead" },
   {
-    "danymat/neogen",
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    event = "BufRead",
-    config = true,
-  },
-  {
     "gbprod/yanky.nvim",
     event = "BufRead",
     config = function()
@@ -304,49 +301,6 @@ return {
         highlight = { on_put = false, on_yank = false },
       }
       require("telescope").load_extension "yank_history"
-    end,
-  },
-  {
-    "ThePrimeagen/refactoring.nvim",
-    cmd = "Refactor",
-    event = "BufRead",
-    keys = {
-      {
-        "<leader>rr",
-        function()
-          require("refactoring").select_refactor()
-        end,
-        mode = "n",
-        desc = "Refactor",
-      },
-      {
-        "<leader>rp",
-        function()
-          require("refactoring").debug.printf { below = true }
-        end,
-        mode = "n",
-        desc = "Refactor print",
-      },
-      {
-        "<leader>rv",
-        function()
-          require("refactoring").debug.print_var()
-        end,
-        mode = "n",
-        desc = "Refactor print var",
-      },
-      {
-        "<leader>rc",
-        function()
-          require("refactoring").debug.cleanup {}
-        end,
-        mode = "n",
-        desc = "Refactor cleanup",
-      },
-    },
-    dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
-    config = function()
-      require("refactoring").setup()
     end,
   },
   {
@@ -363,12 +317,6 @@ return {
       }
       require("telescope").load_extension "persisted"
     end,
-  },
-  {
-    "sphamba/smear-cursor.nvim", -- cursor like neovide
-    opts = {},
-    enabled = false and not vim.g.neovide, -- kitty have this feature
-    event = "VeryLazy",
   },
   {
     "j-hui/fidget.nvim", -- lsp progress at bottom right
@@ -415,10 +363,13 @@ return {
           hlgroup = "Folded",
         },
       },
-    }, -- needed even when using default config
-    config = function(_, opts)
-      require("custom.lsputil").diagnostic_config()
-      require("origami").setup(opts)
+      autoFold = {
+        enabled = false,
+      },
+    },
+    init = function()
+      vim.opt.foldlevel = 99
+      vim.opt.foldlevelstart = 99
     end,
   },
   { "nvzone/volt", lazy = true },
@@ -487,6 +438,24 @@ return {
           title = "TelescopePromptTitle",
           preview_title = "TelescopePreviewTitle",
         },
+      }
+    end,
+  },
+  {
+    "Wansmer/treesj",
+    keys = {
+      {
+        "<leader>j",
+        function()
+          require("treesj").toggle()
+        end,
+        desc = "Toggle Split/Join",
+      },
+    },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("treesj").setup {
+        use_default_keymaps = false,
       }
     end,
   },

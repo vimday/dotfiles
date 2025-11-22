@@ -27,8 +27,10 @@ return {
         typescript = frontend_formatter,
         javascriptreact = frontend_formatter,
         typescriptreact = frontend_formatter,
+        svelte = frontend_formatter,
+        vue = frontend_formatter,
         go = { "goimports", "gofmt" },
-        sql = { "sql_formatter", "sqlfmt", "sqlfluff", stop_after_first = true },
+        sql = { "pg_format", "sql_formatter", "sqlfluff", stop_after_first = true },
         json = frontend_formatter,
         proto = { "buf" },
       },
@@ -55,6 +57,7 @@ return {
     config = function()
       require("treesitter-context").setup {
         separator = "·",
+        max_lines = "10%",
       }
     end,
   },
@@ -63,7 +66,7 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     event = "BufRead",
     config = function()
-      require("nvim-treesitter.configs").setup {
+      local conf = {
         textobjects = {
           select = {
             enable = true,
@@ -73,6 +76,21 @@ return {
               ["if"] = "@function.inner",
               ["ac"] = "@class.outer",
               ["ic"] = "@class.inner",
+              -- ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
+            },
+            selection_modes = {
+              ["@parameter.outer"] = "v", -- charwise
+              ["@function.outer"] = "V", -- linewise
+              ["@class.outer"] = "<c-v>", -- blockwise
+            },
+          },
+          swap = {
+            enable = true,
+            swap_next = {
+              ["]p"] = "@parameter.inner",
+            },
+            swap_previous = {
+              ["[p"] = "@parameter.inner",
             },
           },
           move = {
@@ -106,29 +124,8 @@ return {
           },
         },
       }
-    end,
-  },
-  {
-    "nvimtools/none-ls.nvim",
-    dependencies = "neovim/nvim-lspconfig",
-    event = "BufRead",
-    config = function()
-      local null_ls = require "null-ls"
-      local b = null_ls.builtins
 
-      local sources = {
-        -- b.diagnostics.codespell.with {
-        --   diagnostics_postprocess = function(diagnostic)
-        --     diagnostic.severity = vim.diagnostic.severity.HINT
-        --   end,
-        --   disabled_filetypes = { "NvimTree", "csv" },
-        --   args = { "-L", "crate,ans,ratatui,enew", "-" },
-        -- },
-      }
-      null_ls.setup {
-        -- debug = true,
-        sources = sources,
-      }
+      require("nvim-treesitter.configs").setup(conf)
     end,
   },
   {
@@ -145,19 +142,6 @@ return {
       require("symbols-outline").setup()
     end,
   },
-  {
-    "ray-x/go.nvim",
-    dependencies = { -- optional packages
-      "ray-x/guihua.lua",
-      "neovim/nvim-lspconfig",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-      require("go").setup()
-    end,
-    ft = { "go", "gomod" },
-  },
-
   {
     "mechatroner/rainbow_csv",
     ft = "csv",
@@ -205,7 +189,7 @@ return {
   { "NoahTheDuke/vim-just", ft = "just" },
   {
     "mrcjkb/rustaceanvim",
-    version = "^5", -- Recommended
+    version = "*", -- Recommended
     ft = "rust",
     config = function()
       local lspconfig = require "configs.lspconfig"
@@ -217,7 +201,14 @@ return {
           on_attach = lspconfig.on_attach,
           default_settings = {
             -- rust-analyzer language server configuration
-            ["rust-analyzer"] = {},
+            ["rust-analyzer"] = {
+              -- cargo = { loadOutDirsFromCheck = true },
+              -- check = { command = "clippy" },
+              -- procMacro = { enable = false },
+              -- diagnostics = { enable = true },
+              -- completion = { postfix = { enable = false } },
+              -- buildScripts = { enable = false }, -- 重点：关闭 build.rs 分析，加速
+            },
           },
         },
         -- DAP configuration
@@ -227,35 +218,75 @@ return {
   },
   {
     "nvim-neotest/neotest",
-    event = "BufRead",
+    cmd = "Neotest",
     dependencies = {
       "nvim-neotest/nvim-nio",
+      "lawrence-laz/neotest-zig",
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "nvim-neotest/neotest-plenary",
-      "nvim-neotest/neotest-vim-test",
       "nvim-neotest/neotest-go",
-      -- "rouge8/neotest-rust",
-      {
-        "vim-test/vim-test",
-        config = function()
-          vim.g["test#strategy"] = "toggleterm"
-        end,
-      },
+      -- "nvim-neotest/neotest-vim-test",
     },
     config = function()
       require("neotest").setup {
         adapters = {
-          -- require "neotest-rust",
           require "neotest-go",
           require "neotest-plenary",
-          -- require "rustaceanvim.neotest",
-          require "neotest-vim-test",
+          require "neotest-zig" { dap = { adapter = "lldb" } },
+          require "rustaceanvim.neotest",
+          -- require "neotest-vim-test",
         },
       }
     end,
   },
   {
     "b0o/schemastore.nvim",
+  },
+  {
+    "qvalentin/helm-ls.nvim",
+    ft = "helm",
+    opts = {
+      -- leave empty or see below
+    },
+  },
+  {
+    "vim-test/vim-test",
+    event = "BufRead",
+    config = function()
+      vim.g["test#strategy"] = "asyncrun"
+    end,
+  },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    cmd = "LazyDev",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        { path = "snacks.nvim", words = { "Snacks" } },
+      },
+    },
+  },
+  {
+    "mfussenegger/nvim-lint",
+    event = "BufRead",
+    config = function()
+      require("lint").linters_by_ft = {
+        zig = { "zlint" },
+        proto = { "buf_lint" },
+      }
+      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+        callback = function()
+          -- try_lint without arguments runs the linters defined in `linters_by_ft`
+          -- for the current filetype
+          require("lint").try_lint()
+
+          -- You can call `try_lint` with a linter name or a list of names to always
+          -- run specific linters, independent of the `linters_by_ft` configuration
+          -- require("lint").try_lint "cspell"
+        end,
+      })
+    end,
   },
 }
