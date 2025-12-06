@@ -48,6 +48,7 @@ return {
   },
   {
     "olimorris/codecompanion.nvim",
+    -- lazy = false,
     config = function()
       require("codecompanion").setup {
         opts = {
@@ -100,6 +101,7 @@ return {
         },
       }
     end,
+    cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd" },
     keys = {
       { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanion Toggle" },
       { "<leader>aa", "<cmd>CodeCompanionActions<cr>", mode = "n", desc = "CodeCompanion Action" },
