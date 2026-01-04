@@ -25,9 +25,9 @@ return {
           enabled = true,
           auto_trigger = true,
           keymap = {
-            accept = "<M-p>",
-            accept_line = "<M-o>",
-            accept_word = "<M-w>",
+            accept = "<C-p>",
+            accept_line = "<C-o>",
+            accept_word = "<C-w>",
           },
         },
         filetypes = {
@@ -49,7 +49,7 @@ return {
   },
   {
     "olimorris/codecompanion.nvim",
-    cmd = { "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd" },
+    -- lazy = false,
     config = function()
       require("codecompanion").setup {
         opts = {
@@ -107,6 +107,7 @@ return {
         },
       }
     end,
+    cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd" },
     keys = {
       { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanion Toggle" },
       { "<leader>ai", "<cmd>CodeCompanionChat<cr>", mode = "x", desc = "CodeCompanion" },
