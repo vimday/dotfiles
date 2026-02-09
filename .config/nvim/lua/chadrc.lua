@@ -40,11 +40,13 @@ M.ui = {
     order = { "mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "copilot", "cwd", "cursor" },
     modules = {
       lsp_msg = function()
-        return "  Take it easy !"
-      end,
-      copilot = function()
-        local msg = util.get_copilot_status()
-        return "%#St_Lsp#" .. msg .. " %*"
+        local clients = vim.lsp.get_clients { bufnr = 0 }
+        for _, client in ipairs(clients) do
+          if client.name == "copilot" then
+            return "💎🙌 ₿ Ξ It's time to build!"
+          end
+        end
+        return "💎🙌 ₿ Ξ It's time to build!"
       end,
     },
   },
