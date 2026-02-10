@@ -67,49 +67,6 @@ return {
     dependencies = "neovim/nvim-lspconfig",
   },
   {
-    "b0o/incline.nvim",
-    enabled = false,
-    config = function()
-      local helpers = require "incline.helpers"
-      local devicons = require "nvim-web-devicons"
-      require("incline").setup {
-        render = function(props)
-          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-          if filename == "" then
-            filename = "[No Name]"
-          end
-          local ft_icon, ft_color = devicons.get_icon_color(filename)
-          local modified = vim.bo[props.buf].modified
-          return {
-            ft_icon and { " ", ft_icon, " ", guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or "",
-            " ",
-            { filename, gui = modified and "bold,italic" or "bold" },
-            " ",
-            guibg = "#44406e",
-          }
-        end,
-      }
-    end,
-    event = "VeryLazy",
-  },
-  {
-    "Bekaboo/dropbar.nvim",
-    event = "BufRead",
-    -- optional, but required for fuzzy finder support
-    dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-    },
-    opts = {
-      icons = {
-        kinds = {
-          dir_icon = function()
-            return ""
-          end,
-        },
-      },
-    },
-  },
-  {
     "folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",
     event = "BufRead",
@@ -423,6 +380,7 @@ return {
   },
   {
     "ibhagwan/fzf-lua",
+    cmd = "FzfLua",
     config = function()
       require("fzf-lua").setup {
         winopts = {
@@ -458,6 +416,34 @@ return {
         use_default_keymaps = false,
       }
     end,
+  },
+  {
+    "b0o/incline.nvim",
+    config = function()
+      require("incline").setup {
+        hide = {
+          cursorline = true,
+        },
+        render = function(props)
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':.')
+          -- filename = util.shorten_path(filename)
+          local modified = vim.bo[props.buf].modified
+          local devicons = require "nvim-web-devicons"
+          local icon, icon_hl = devicons.get_icon_color(filename, nil, { default = true })
+          return {
+            " ",
+            { icon, guifg = icon_hl },
+            " ",
+            filename,
+            modified and "+" or "",
+            " ",
+            guibg = "#111122",
+            guifg = "#eeeeee",
+          }
+        end,
+      }
+    end,
+    event = "BufRead",
   },
 
   -- 自定义插件

@@ -2,7 +2,7 @@
 -- views can only be fully collapsed with the global statusline
 vim.opt.laststatus = 3
 
-local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub" }
+local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub", "AgenticChat" }
 
 local copilot_model = "gpt-5-mini" -- Set your preferred model here
 local copilot_mini_model = "gpt-5-mini" -- Set your preferred model here
@@ -54,7 +54,7 @@ return {
       require("codecompanion").setup {
         opts = {
           language = "Chinese",
-          log_level = "DEBUG",
+          -- log_level = "DEBUG",
         },
         interactions = {
           chat = {
@@ -90,18 +90,10 @@ return {
           },
         },
         extensions = {
-          mcphub = {
-            callback = "mcphub.extensions.codecompanion",
-            opts = {
-              show_result_in_chat = true, -- Show mcp tool results in chat
-              make_vars = true, -- Convert resources to #variables
-              make_slash_commands = true, -- Add prompts as /slash commands
-            },
-          },
           history = {
             enabled = true,
             opts = {
-              auto_generate_title = true,
+              auto_generate_title = false,
             },
           },
         },
@@ -109,8 +101,12 @@ return {
     end,
     cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd" },
     keys = {
-      { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanion Toggle" },
-      { "<leader>ai", "<cmd>CodeCompanionChat<cr>", mode = "x", desc = "CodeCompanion" },
+      {
+        "<leader>ai",
+        "<cmd>CodeCompanionChat Toggle adapter=claude_code command=yolo<cr>",
+        mode = "n",
+        desc = "CodeCompanion Toggle",
+      },
       {
         "<leader>ak",
         function()
@@ -128,7 +124,6 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "ravitemer/codecompanion-history.nvim",
-      "ravitemer/mcphub.nvim",
     },
     init = function()
       require("configs.codecompanion_progress").init {}
@@ -170,5 +165,87 @@ return {
     config = function()
       vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { fg = "#50FA7B", bold = true, underline = true })
     end,
+  },
+  {
+    "folke/sidekick.nvim",
+    opts = {
+      -- add any options here
+      jump = {
+        jumplist = false, -- add an entry to the jumplist
+      },
+      nes = {
+        enabled = false,
+      },
+      cli = {
+        mux = {
+          enabled = false,
+        },
+        tools = {
+          claude = { cmd = { "claude", "--dangerously-skip-permissions" } },
+          crush = { cmd = { "crush", "-y" } },
+          gemini = { cmd = { "gemini", "-y" } },
+          goose = { cmd = { "goose" } },
+          kimi = { cmd = { "ikimi", "-y" } },
+        },
+        win = {
+          keys = {
+            prompt = false,
+          },
+        },
+      },
+    },
+    keys = {
+      {
+        "<tab>",
+        function()
+          -- if there is a next edit, jump to it, otherwise apply it if any
+          if not require("sidekick").nes_jump_or_apply() then
+            return "<Tab>" -- fallback to normal tab
+          end
+        end,
+        expr = true,
+        desc = "Goto/Apply Next Edit Suggestion",
+      },
+      {
+        "<M-.>",
+        function()
+          require("sidekick.cli").toggle()
+        end,
+        desc = "Sidekick Toggle",
+        mode = { "n", "t", "i", "x" },
+      },
+
+      {
+        "<leader>at",
+        function()
+          require("sidekick.cli").send { msg = "{this}" }
+        end,
+        mode = { "x", "n" },
+        desc = "Send This",
+      },
+      {
+        "<leader>af",
+        function()
+          require("sidekick.cli").send { msg = "{file}" }
+        end,
+        desc = "Send File",
+      },
+      {
+        "<leader>av",
+        function()
+          require("sidekick.cli").send { msg = "{selection}" }
+        end,
+        mode = { "x" },
+        desc = "Send Visual Selection",
+      },
+      {
+        "<leader>ap",
+        function()
+          require("sidekick.cli").prompt()
+        end,
+        mode = { "n", "x" },
+        desc = "Sidekick Select Prompt",
+      },
+    },
   },
 }

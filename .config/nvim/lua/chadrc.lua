@@ -1,3 +1,4 @@
+local util = require "custom.lib.util"
 local M = {}
 
 local telescopeInputFg = "pink"
@@ -11,6 +12,7 @@ M.base46 = {
     DiffDelete = { fg = "red" },
     DiffChange = { fg = "orange" },
     Folded = { link = "DiagnosticVirtualTextInfo" },
+    Error = { link = "DiagnosticError" },
     ["@keyword"] = { italic = true },
     ["@keyword.function"] = { link = "@keyword" },
     ["@keyword.return"] = { link = "@keyword" },
@@ -19,6 +21,8 @@ M.base46 = {
     TelescopePromptTitle = { bg = telescopeInputFg, fg = "#000000" },
     TelescopePromptPrefix = { fg = telescopeInputFg },
     NvDashFooter = { fg = "blue" },
+    FloatTitle = { link = "TelescopePromptTitle" },
+    FloatFooter = { link = "TelescopePreviewTitle" },
   },
   theme_toggle = { "chadracula", "one_light" },
 }
@@ -32,6 +36,8 @@ M.ui = {
     style = "atom_colored", -- default/flat_light/flat_dark/atom/atom_colored
   },
   statusline = {
+    theme = "default", -- default/vscode/vscode_colored/minimal
+    order = { "mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "copilot", "cwd", "cursor" },
     modules = {
       lsp_msg = function()
         local clients = vim.lsp.get_clients { bufnr = 0 }
