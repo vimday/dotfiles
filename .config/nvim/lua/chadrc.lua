@@ -40,7 +40,8 @@ M.ui = {
     order = { "mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "cursor" },
     modules = {
       lsp_msg = function()
-        local clients = vim.lsp.get_clients { bufnr = 0 }
+        -- Use vim.lsp.get_clients() with proper buffer parameter
+        local clients = vim.lsp.get_clients({ bufnr = 0 })
         for _, client in ipairs(clients) do
           if client.name == "copilot" then
             return "💎🙌 ₿ Ξ It's time to build!"
