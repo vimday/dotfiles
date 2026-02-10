@@ -127,10 +127,19 @@ return {
     end,
   },
   {
-    "simrat39/symbols-outline.nvim",
+    "hedyhli/outline.nvim",
     event = "BufRead",
     config = function()
-      require("symbols-outline").setup()
+      require("outline").setup({
+        outline_window = {
+          position = "right",
+          width = 25,
+          relative_width = true,
+        },
+        outline_items = {
+          show_symbol_details = true,
+        },
+      })
     end,
   },
   {

@@ -157,7 +157,7 @@ end, { desc = "Quickfix Workspace" })
 map("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename" })
 -- map("n", "<leader>ls", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "Document Symbols" })
 -- map("n", "<leader>lS", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", { desc = "Workspace Symbols" })
-map("n", "<leader>lO", "<cmd>SymbolsOutline<CR>", { desc = "Symbol Outline" })
+map("n", "<leader>lO", "<cmd>Outline<CR>", { desc = "Symbol Outline" })
 
 map("n", "<leader>lwa", vim.lsp.buf.add_workspace_folder, { desc = "add workspace folder" })
 map("n", "<leader>lwr", vim.lsp.buf.remove_workspace_folder, { desc = "remove workspace folder" })
