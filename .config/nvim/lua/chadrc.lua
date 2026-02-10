@@ -37,7 +37,7 @@ M.ui = {
   },
   statusline = {
     theme = "default", -- default/vscode/vscode_colored/minimal
-    order = { "mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "copilot", "cwd", "cursor" },
+    order = { "mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "cursor" },
     modules = {
       lsp_msg = function()
         local clients = vim.lsp.get_clients { bufnr = 0 }
