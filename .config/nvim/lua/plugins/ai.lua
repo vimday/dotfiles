@@ -147,7 +147,7 @@ return {
     build = "bundled_build.lua", -- Use this and set use_bundled_binary = true in opts  (see Advanced configuration)
     config = function()
       require("mcphub").setup {
-        use_bundled_binary = true, -- Set to true if you want to use the bundled mcp-hub binary
+        use_bundled_binary = false, -- Set to true if you want to use the bundled mcp-hub binary
         auto_approve = true,
         extensions = {
           codecompanion = {

@@ -1,6 +1,89 @@
 {
+  "model": "opus[1m]",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/opt/homebrew/bin/node \"/Users/oasis/.confirmo/hooks/confirmo-hook.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/opt/homebrew/bin/node \"/Users/oasis/.confirmo/hooks/confirmo-hook.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/opt/homebrew/bin/node \"/Users/oasis/.confirmo/hooks/confirmo-hook.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/opt/homebrew/bin/node \"/Users/oasis/.confirmo/hooks/confirmo-hook.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/opt/homebrew/bin/node \"/Users/oasis/.confirmo/hooks/confirmo-hook.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/opt/homebrew/bin/node \"/Users/oasis/.confirmo/hooks/confirmo-hook.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "pyright-lsp@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "example-skills@anthropic-agent-skills": true,
+    "document-skills@anthropic-agent-skills": true
   }
 }

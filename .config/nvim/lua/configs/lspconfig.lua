@@ -78,7 +78,7 @@ nvchad_configs.on_attach = function(client, bufnr)
   prev_nvchad_on_attach(client, bufnr)
   -- your custom on_attach function
   local function opts(desc)
-    return { buffer = bufnr, desc = desc }
+    return { buffer = bufnr, desc = desc, noremap = true, silent = true }
   end
 
   map("n", "K", util.hover, opts "Hover information")
