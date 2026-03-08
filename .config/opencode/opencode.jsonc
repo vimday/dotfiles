@@ -7,16 +7,5 @@
       }
     }
   },
-  "model": "moonshotai-cn/kimi-k2.5",
-  "plugin": [
-    "oh-my-opencode-slim"
-  ],
-  "agent": {
-    "explore": {
-      "disable": true
-    },
-    "general": {
-      "disable": true
-    }
-  }
+  "model": "moonshotai-cn/kimi-k2.5"
 }
