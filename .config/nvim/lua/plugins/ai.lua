@@ -185,7 +185,7 @@ return {
           crush = { cmd = { "crush", "-y" } },
           gemini = { cmd = { "gemini", "-y" } },
           goose = { cmd = { "goose" } },
-          kimi = { cmd = { "ikimi", "-y" } },
+          kimi = { cmd = { "kimi", "-y" } },
         },
         win = {
           keys = {
