@@ -40,7 +40,12 @@ SHORT_DIR=$(echo "$CWD" | awk -F/ '{if(NF>=2) print $(NF-1)"/"$NF; else print $N
 BRANCH=$(git -C "$CWD" rev-parse --abbrev-ref HEAD 2>/dev/null)
 GIT_STATUS=""
 if [ -n "$BRANCH" ]; then
-  UNCOMMITTED=$(git -C "$CWD" status --porcelain 2>/dev/null | wc -l)
+  # Trim branch name if too long - show last 20 chars
+  if [ "${#BRANCH}" -gt 20 ]; then
+    BRANCH="…${BRANCH: -20}"
+  fi
+
+  UNCOMMITTED=$(git -C "$CWD" status --porcelain 2>/dev/null | wc -l | tr -d ' ')
   if [ "$UNCOMMITTED" -gt 0 ]; then
     GIT_STATUS=" ${DIM}(${UNCOMMITTED})${RST}"
   fi
@@ -155,7 +160,7 @@ printf "${CYAN}⬡${RST} ${MAGENTA}${BOLD}root${RST}${DIM}@${RST}${PURPLE}${BOLD
 printf " ${SEP} "
 printf "${BLUE}▸ %s${RST}" "$SHORT_DIR"
 if [ -n "$BRANCH" ]; then
-  printf "${DIM}:${RST}${PINK}%s${RST}%s" "$BRANCH" "$GIT_STATUS"
+  printf "${DIM}:${RST}${PINK}%s${RST}%b" "$BRANCH" "$GIT_STATUS"
 fi
 
 # Code changes
