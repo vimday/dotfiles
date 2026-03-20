@@ -8,19 +8,19 @@ null2zero() {
 }
 
 # ── Modern Cyberpunk palette ──────────────────────────────────
-CYAN="\033[38;5;87m"        # Soft cyan
-MAGENTA="\033[38;5;176m"    # Muted magenta
-LIME="\033[38;5;120m"       # Soft lime
-ORANGE="\033[38;5;180m"     # Warm orange
-PURPLE="\033[38;5;147m"     # Soft purple
-PINK="\033[38;5;182m"       # Muted pink
-YELLOW="\033[38;5;186m"     # Soft yellow
-RED="\033[38;5;174m"        # Soft red
-BLUE="\033[38;5;111m"       # Muted blue
-GRAY="\033[38;5;246m"       # Light gray
-DIM="\033[38;5;240m"        # Dark gray
-BOLD="\033[1m"
-RST="\033[0m"
+CYAN=$'\033[38;5;87m'        # Soft cyan
+MAGENTA=$'\033[38;5;176m'    # Muted magenta
+LIME=$'\033[38;5;120m'       # Soft lime
+ORANGE=$'\033[38;5;180m'     # Warm orange
+PURPLE=$'\033[38;5;147m'     # Soft purple
+PINK=$'\033[38;5;182m'       # Muted pink
+YELLOW=$'\033[38;5;186m'     # Soft yellow
+RED=$'\033[38;5;174m'        # Soft red
+BLUE=$'\033[38;5;111m'       # Muted blue
+GRAY=$'\033[38;5;246m'       # Light gray
+DIM=$'\033[38;5;240m'        # Dark gray
+BOLD=$'\033[1m'
+RST=$'\033[0m'
 
 # ── Extract ───────────────────────────────────────────────────
 MDL=$(echo "$input" | jq -r '.model.id // "?"')
